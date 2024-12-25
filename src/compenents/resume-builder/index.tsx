@@ -1,5 +1,3 @@
-// src/components/resume-builder/index.tsx
-
 import React from 'react';
 import { RefreshCw } from 'lucide-react';
 import { StepType, useResume } from '../../context/ResumeContext';
@@ -24,39 +22,44 @@ const steps = [
 const ResumeBuilder = () => {
   const { currentStep, setCurrentStep, resetForm } = useResume();
   return (
-    <div className="w-max m-auto p-6">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">Resume Builder</h1>
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold text-center sm:text-left">Resume Builder</h1>
         <button
           onClick={resetForm}
-          className="flex items-center gap-2 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+          className="flex items-center gap-2 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 mt-4 sm:mt-0"
         >
           <RefreshCw className="w-4 h-4" />
           Reset
         </button>
       </div>
 
-      <div className="flex gap-4 mb-8">
-        {steps.map((step) => (
+      {/* Step Navigation */}
+      <div className="flex flex-wrap gap-3 sm:gap-4 mb-8 justify-center sm:justify-start">
+        {steps.map((step, index) => (
           <button
             onClick={() => setCurrentStep(step.id as StepType)}
             key={step.id}
-            className={`px-4 py-2 rounded whitespace-nowrap ${
-              currentStep === step.id ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'
+            className={`relative px-4 py-2 text-sm sm:text-base rounded-full shadow-md font-medium transition-all duration-300 ${
+              currentStep === step.id
+                ? 'bg-blue-600 text-white ring-2 ring-blue-500'
+                : 'bg-gray-100 text-gray-700 hover:bg-blue-100 hover:text-blue-600'
             }`}
           >
-            <span className=" mr-2">
-              {steps.findIndex((s) => s.id === step.id) <
-                steps.findIndex((s) => s.id === currentStep) && (
-                <span className="ml-2 text-green-500">✔</span>
-              )}
-            </span>
-            {step.label}
+            {steps.findIndex((s) => s.id === step.id) <
+              steps.findIndex((s) => s.id === currentStep) && (
+              <span className="absolute -top-2 -right-2 w-4 h-4 bg-green-500 text-white text-xs flex items-center justify-center rounded-full">
+                ✔
+              </span>
+            )}
+            {index + 1}. {step.label}
           </button>
         ))}
       </div>
 
-      <div className="bg-white rounded-lg shadow p-6">
+      {/* Form Section */}
+      <div className="bg-white rounded-lg shadow p-4 sm:p-6">
         {currentStep === 'basics' && <BasicInfoForm />}
         {currentStep === 'skills' && <SkillsForm />}
         {currentStep === 'work' && <WorkExperienceForm />}

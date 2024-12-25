@@ -9,27 +9,42 @@ interface IZoomStore {
   setZoom: (zoom: number) => void;
 }
 
-const handleZoomIn = (get: GetState<IZoomStore>) => () => get().setZoom(get().zoom * 1.1);
+const DEFAULT_ZOOM = 0.9;
+const MAX_ZOOM = 1.5;
+const MIN_ZOOM = 0.9;
+const ZOOM_STEP = 1.1;
 
-const handleZoomOut = (get: GetState<IZoomStore>) => () => get().setZoom(get().zoom / 1.1);
+const handleZoomIn = (get: GetState<IZoomStore>) => () => get().setZoom(get().zoom * ZOOM_STEP);
+
+const handleZoomOut = (get: GetState<IZoomStore>) => () => get().setZoom(get().zoom / ZOOM_STEP);
 
 const handleSetZoom = (set: SetState<IZoomStore>) => (zoom: number) =>
-  set(() => {
-    if (zoom > 1.5) return { zoom: 1.5 };
-    if (zoom < 0.9) return { zoom: 0.9 };
-    return { zoom: +zoom.toFixed(1) };
-  });
+  set(() => ({
+    zoom: Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, +zoom.toFixed(1))),
+  }));
 
-const handleResetZoom = (set: SetState<IZoomStore>) => () => {
-  set(() => {
-    return { zoom: 1 };
-  });
-};
+const handleResetZoom = (set: SetState<IZoomStore>) => () => set(() => ({ zoom: DEFAULT_ZOOM }));
 
-export const useZoom = create<IZoomStore>((set, get) => ({
+interface ZoomState {
+  zoom: number;
+  zoomIn: () => void;
+  zoomOut: () => void;
+  resetZoom: () => void;
+  setInitialZoom: () => void;
+}
+
+export const useZoom = create<ZoomState>((set) => ({
   zoom: 1,
-  setZoom: handleSetZoom(set),
-  zoomIn: handleZoomIn(get),
-  resetZoom: handleResetZoom(set),
-  zoomOut: handleZoomOut(get),
+  zoomIn: () => set((state) => ({ zoom: state.zoom + 0.1 })),
+  zoomOut: () => set((state) => ({ zoom: Math.max(0.1, state.zoom - 0.1) })),
+  resetZoom: () => {
+    const width = window.innerWidth;
+    const initialZoom = width < 768 ? 0.6 : 1;
+    set({ zoom: initialZoom });
+  },
+  setInitialZoom: () => {
+    const width = window.innerWidth;
+    const initialZoom = width < 768 ? 0.4 : 1;
+    set({ zoom: initialZoom });
+  },
 }));

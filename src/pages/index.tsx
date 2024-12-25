@@ -121,7 +121,7 @@ function HomePage() {
           Build your professional resume effortlessly!
         </p>
 
-        <div className="mt-8 w-full flex justify-center items-center">
+        <div className="mt-8 w-8 flex justify-center items-center">
           <SignedIn>
             {isLoading ? (
               <div className="flex justify-center items-center">

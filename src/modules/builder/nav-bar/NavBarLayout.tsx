@@ -1,202 +1,101 @@
-import { ChangeEvent, useCallback, useRef, useState } from 'react';
-import {
-  useDatabases,
-  useFrameworks,
-  useLanguages,
-  useLibraries,
-  usePractices,
-  useTechnologies,
-  useTools,
-} from '@/stores/skills';
-
-import { AVAILABLE_TEMPLATES } from '@/helpers/constants';
-import DEFAULT_RESUME_JSON from '@/helpers/constants/resume-data.json';
-import userDetailsData from '@/functions/userDetails';
+import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-
-import { Toast } from '@/helpers/common/atoms/Toast';
-// import exportFromJSON from 'export-from-json'; // Commented out
-import { useActivity } from '@/stores/activity';
-import { useAwards } from '@/stores/awards';
-import { useBasicDetails } from '@/stores/basic';
-import { useEducations } from '@/stores/education';
-import { useExperiences } from '@/stores/experience';
-import { useVoluteeringStore } from '@/stores/volunteering';
 import { Menu, MenuItem } from '@mui/material';
-import { useRouter } from 'next/router'; // Added to handle navigation
+import { useRouter } from 'next/router';
 import { NavMenuItem } from './components/MenuItem';
 import { PrintResume } from './components/PrintResume';
 import { TemplateSelect } from './components/TemplateSelect';
 import { ThemeSelect } from './components/ThemeSelect';
 import { NavBarActions, NavBarMenu, StyledButton } from './atoms';
+import { AVAILABLE_TEMPLATES } from '@/helpers/constants';
 
 const TOTAL_TEMPLATES_AVAILABLE = Object.keys(AVAILABLE_TEMPLATES).length;
 
 const NavBarLayout = () => {
-  const [openToast, setOpenToast] = useState(false);
   const [menuAnchor, setMenuAnchor] = useState<null | HTMLElement>(null);
-  const fileInputRef = useRef(null);
-  const router = useRouter(); // Initialize the router
+  const router = useRouter();
 
-  const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setMenuAnchor(event.currentTarget);
-  };
-
-  const handleMenuClose = () => {
+  const closeMenu = () => {
     setMenuAnchor(null);
   };
 
-  // exportResumeData functionality commented out
-  // const exportResumeData = useCallback(() => {
-  //   const updatedResumeJson = {
-  //     ...(userDetailsData.resumeData || DEFAULT_RESUME_JSON),
-  //     basics: {
-  //       ...(userDetailsData.resumeData.basics || DEFAULT_RESUME_JSON.basics),
-  //       ...useBasicDetails.getState().values,
-  //     },
-  //     work: useExperiences.getState().experiences,
-  //     education: useEducations.getState().academics,
-  //     awards: useAwards.getState().awards,
-  //     volunteer: useVoluteeringStore.getState().volunteeredExps,
-  //     skills: {
-  //       languages: useLanguages.getState().get(),
-  //       frameworks: useFrameworks.getState().get(),
-  //       technologies: useTechnologies.getState().get(),
-  //       libraries: useLibraries.getState().get(),
-  //       databases: useDatabases.getState().get(),
-  //       practices: usePractices.getState().get(),
-  //       tools: useTools.getState().get(),
-  //     },
-  //     activities: useActivity.getState().activities,
-  //   };
-
-  //   const fileName = updatedResumeJson.basics.name + '_' + new Date().toLocaleString();
-  //   const exportType = exportFromJSON.types.json;
-  //   exportFromJSON({
-  //     data: updatedResumeJson,
-  //     fileName,
-  //     exportType,
-  //   });
-  // }, []);
-
-  // handleFileChange functionality commented out
-  // const handleFileChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-  //   const fileObj = event.target.files && event.target.files[0];
-  //   if (!fileObj) {
-  //     return;
-  //   }
-
-  //   const reader = new FileReader();
-
-  //   reader.readAsText(fileObj);
-
-  //   event.target.value = ''; // To read the same file
-
-  //   reader.onload = (e) => {
-  //     if (typeof e.target?.result === 'string') {
-  //       const uploadedResumeJSON = JSON.parse(e.target?.result);
-  //       const {
-  //         basics = {},
-  //         skills = {},
-  //         work = [],
-  //         education = [],
-  //         activities = {
-  //           involvements: '',
-  //           achievements: '',
-  //         },
-  //         volunteer = [],
-  //         awards = [],
-  //       } = uploadedResumeJSON;
-  //       const {
-  //         languages = [],
-  //         frameworks = [],
-  //         libraries = [],
-  //         databases = [],
-  //         technologies = [],
-  //         practices = [],
-  //         tools = [],
-  //       } = skills;
-  //       useBasicDetails.getState().reset(basics);
-  //       useLanguages.getState().reset(languages);
-  //       useFrameworks.getState().reset(frameworks);
-  //       useLibraries.getState().reset(libraries);
-  //       useDatabases.getState().reset(databases);
-  //       useTechnologies.getState().reset(technologies);
-  //       usePractices.getState().reset(practices);
-  //       useTools.getState().reset(tools);
-  //       useExperiences.getState().reset(work);
-  //       useEducations.getState().reset(education);
-  //       useVoluteeringStore.getState().reset(volunteer);
-  //       useAwards.getState().reset(awards);
-  //       useActivity.getState().reset(activities);
-  //       setOpenToast(true);
-  //     }
-  //   };
-  // }, []);
-
-  const goToResumeReview = () => {
-    router.push('/resumereview'); // Navigate to /resumereview route
-  };
-
   return (
-    <nav className="h-14 w-full bg-teal-600 relative flex py-2.5 pl-2 md:pl-5 pr-1 nd:pr-4 items-center shadow-level-8dp z-20 print:hidden">
-      <Link href="/">
-        <Image src={'/icons/resume-icon.png'} alt="logo" height="36" width="36" />
-      </Link>
-      <div className="flex-auto flex justify-between items-center xs:ml-3 md:ml-5">
-        <NavBarMenu>
+    <nav className="fixed no-print top-0 left-0 right-0 h-16 bg-gradient-to-r from-teal-600 to-teal-500 flex items-center justify-between px-2 sm:px-4 md:px-6 shadow-lg z-50 print:hidden backdrop-blur-sm transition-all duration-300 hover:bg-gradient-to-r hover:from-teal-700 hover:to-teal-600">
+      <div className="flex items-center gap-2 md:gap-4">
+        <Link href="/" className="flex-shrink-0 transition-transform duration-300 hover:scale-110">
+          <Image
+            src="/icons/resume-icon.png"
+            alt="logo"
+            height={36}
+            width={36}
+            className="w-8 h-8 md:w-9 md:h-9 animate-pulse"
+          />
+        </Link>
+
+        <NavBarMenu className="hidden sm:flex animate-fadeIn print:hidden">
           <NavMenuItem
             caption={`Templates (${TOTAL_TEMPLATES_AVAILABLE})`}
             popoverChildren={<TemplateSelect />}
+            className="hover:bg-teal-700/50 print:hidden rounded-lg transition-colors duration-200"
           />
-          <NavMenuItem caption="Colours" popoverChildren={<ThemeSelect />} />
+          <NavMenuItem
+            caption="Colours"
+            popoverChildren={<ThemeSelect />}
+            className="hover:bg-teal-700/50 print:hidden rounded-lg transition-colors duration-200"
+          />
         </NavBarMenu>
-        <div className="hidden md:flex">
-          <NavBarActions>
-            {/* Export and Import buttons commented out */}
-            {/* <StyledButton variant="text" onClick={exportResumeData}>
-              Export
-            </StyledButton>
-            <StyledButton
-              variant="text"
-              onClick={() => {
-                if (fileInputRef.current) {
-                  const fileElement = fileInputRef.current as HTMLInputElement;
-                  fileElement.click();
-                }
-              }}
-            >
-              Import
-              <input
-                type="file"
-                hidden
-                ref={fileInputRef}
-                accept="application/json"
-                onChange={handleFileChange}
-              />
-            </StyledButton> */}
-            <StyledButton variant="text" onClick={() => router.push('/update')}>
-              Update Details
-            </StyledButton>
-            <PrintResume />
-            <StyledButton variant="text" onClick={goToResumeReview}>
-              Resume Tailor
-            </StyledButton>
-          </NavBarActions>
-        </div>
-        <button
-          className="flex md:hidden text-white"
-          onClick={handleMenuOpen}
-          aria-label="Open menu"
-        >
-          <Image src="/icons/more-horizontal.svg" alt="back" width={25} height={25} />
-        </button>
       </div>
+
+      <div className="hidden print:hidden no-print md:flex items-center gap-4 animate-slideInRight">
+        <NavBarActions>
+          <StyledButton
+            variant="text"
+            onClick={() => {
+              closeMenu();
+              router.push('/update');
+            }}
+            className="text-white hover:bg-teal-700/50 rounded-lg transition-all duration-200 hover:scale-105"
+          >
+            Update Details
+          </StyledButton>
+          <PrintResume
+            onClick={() => {
+              closeMenu();
+            }}
+            className="hover:scale-105 transition-transform duration-200"
+          />
+          <StyledButton
+            variant="text"
+            onClick={() => {
+              closeMenu();
+              router.push('/resumereview');
+            }}
+            className="text-white hover:bg-teal-700/50 rounded-lg transition-all duration-200 hover:scale-105"
+          >
+            Resume Tailor
+          </StyledButton>
+        </NavBarActions>
+      </div>
+
+      <button
+        className="flex md:hidden text-white p-2 hover:bg-teal-700/50 rounded-full transition-all duration-200 hover:scale-110 animate-bounce"
+        onClick={(e) => setMenuAnchor(e.currentTarget)}
+        aria-label="Open menu"
+      >
+        <Image
+          src="/icons/more-horizontal.svg"
+          alt="menu"
+          width={24}
+          height={24}
+          className="w-6 h-6"
+        />
+      </button>
+
       <Menu
         anchorEl={menuAnchor}
         open={Boolean(menuAnchor)}
-        onClose={handleMenuClose}
+        onClose={closeMenu}
         anchorOrigin={{
           vertical: 'top',
           horizontal: 'right',
@@ -205,36 +104,32 @@ const NavBarLayout = () => {
           vertical: 'top',
           horizontal: 'right',
         }}
+        className="mt-14 print:hidden no-print"
+        PaperProps={{
+          className: 'bg-white/90 backdrop-blur-md rounded-lg shadow-xl',
+          elevation: 0,
+        }}
       >
-        {/* Export and Import menu items commented out */}
-        {/* <MenuItem onClick={exportResumeData}>Export</MenuItem>
         <MenuItem
           onClick={() => {
-            if (fileInputRef.current) {
-              const fileElement = fileInputRef.current as HTMLInputElement;
-              fileElement.click();
-            }
-            handleMenuClose();
+            closeMenu();
+            router.push('/update');
           }}
+          className="hover:bg-teal-50 transition-colors duration-200"
         >
-          Import
-          <input
-            type="file"
-            hidden
-            ref={fileInputRef}
-            accept="application/json"
-            onChange={handleFileChange}
-          />
-        </MenuItem> */}
-        <PrintResume isMenuButton />
+          Update Details
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            closeMenu();
+            router.push('/resumereview');
+          }}
+          className="hover:bg-teal-50 transition-colors duration-200"
+        >
+          Resume Tailor
+        </MenuItem>
+        <PrintResume isMenuButton onClick={closeMenu} />
       </Menu>
-      <Toast
-        open={openToast}
-        onClose={() => {
-          setOpenToast(false);
-        }}
-        content={'Resume data was successfully imported.'}
-      />
     </nav>
   );
 };

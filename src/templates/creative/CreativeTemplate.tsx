@@ -14,13 +14,12 @@ import { useResume } from '@/context/ResumeContext';
 const CreativeTemplate = () => {
   const { resumeData } = useResume();
 
-
   const achievements = resumeData?.activities?.achievements || [];
   console.log('resume data is creative one ', resumeData);
 
   // Fallback values for basics
   const name = resumeData?.basics?.name || 'Your Name';
-  const headline = resumeData?.basics?.headline || 'Your Headline';
+  // const headline = resumeData?.basics?.headline || 'Your Headline';
   const summary = resumeData?.basics?.summary || 'Professional summary goes here.';
 
   return (
@@ -28,7 +27,7 @@ const CreativeTemplate = () => {
       {/* Header Section */}
       <header className="mb-6 print:mb-4">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">{name}</h1>
-        <div className="text-lg text-gray-700">{headline}</div>
+        {/* <div className="text-lg text-gray-700">{headline}</div> */}
         <div className="mt-2">
           <BasicIntro basics={resumeData?.basics} />
         </div>

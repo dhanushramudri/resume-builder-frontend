@@ -1,163 +1,166 @@
-import React, { useContext } from 'react';
-import { StateContext } from '../../modules/builder/resume/ResumeLayout';
-import { WorkSection } from '../modern/components/Work';
-import { SkillsSection } from '../modern/components/Skills';
-import { SectionValidator } from '../../helpers/common/components/ValidSectionRenderer';
-import { EducationSection } from '../modern/components/Education';
-import Involvement from '../professional/components/Involvement';
+import React from 'react';
 import { useResume } from '@/context/ResumeContext';
+import { Mail, Phone, MapPin, Globe, Linkedin, Github } from 'lucide-react';
 
 export default function TwoColumnTemplate() {
   const { resumeData } = useResume();
-  const basics = resumeData?.basics || {};
-  const skills = resumeData?.skills || {};
-  const involvements = resumeData?.activities?.involvements || [];
+  const { basics, skills, work, education, certifications } = resumeData || {};
 
   return (
-    <div className="w-full max-w-[1000px] mx-auto bg-white p-6 print:p-4">
-      {/* Header Section */}
-      <header className="mb-6 border-b pb-4">
-        <h1 className="text-3xl font-bold text-gray-900 mb-1">{basics.name}</h1>
-        {basics.label && <h2 className="text-xl text-gray-700 mb-2">{basics.label}</h2>}
-        <div className="flex flex-wrap gap-4 text-gray-600">
-          {basics.phone && <span>{basics.phone}</span>}
-          {basics.location?.city && <span>{basics.location.city}</span>}
-          {basics.url && <span>{basics.url}</span>}
+    <div className="max-w-[850px] mx-auto p-6 bg-white print:p-0">
+      <header className="mb-6 pb-4 border-b-2 border-gray-200 print:avoid-breaks">
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">{basics?.name}</h1>
+        {/* {basics?.label && (
+          <h2 className="text-xl font-medium text-gray-700 mb-3">{basics.label}</h2>
+        )} */}
+        <div className="flex flex-wrap gap-4 text-sm text-gray-600">
+          {basics?.email && (
+            <a
+              href={`mailto:${basics.email}`}
+              className="flex items-center gap-2 hover:text-blue-600 transition-colors"
+            >
+              <Mail className="w-4 h-4" />
+              {basics.email}
+            </a>
+          )}
+          {basics?.phone && (
+            <span className="flex items-center gap-2">
+              <Phone className="w-4 h-4" />
+              {basics.phone}
+            </span>
+          )}
+          {basics?.location?.city && (
+            <span className="flex items-center gap-2">
+              <MapPin className="w-4 h-4" />
+              {`${basics.location.city}, ${basics.location.region}`}
+            </span>
+          )}
+          {basics?.profiles?.map((profile) => (
+            <a
+              key={profile.network}
+              href={profile.url}
+              className="flex items-center gap-2 hover:text-blue-600 transition-colors"
+            >
+              {profile.network === 'LinkedIn' && <Linkedin className="w-4 h-4" />}
+              {profile.network === 'GitHub' && <Github className="w-4 h-4" />}
+              {profile.network}
+            </a>
+          ))}
         </div>
       </header>
 
-      {/* Main Content */}
-      <div className="flex flex-row print:flex-row">
-        {/* Left Column - 70% width */}
-        <div className="w-[70%] pr-6 print:w-[70%] print:pr-6">
-          {/* Professional Summary */}
-          <Section title="Professional Summary">
-            <p className="text-gray-700">{basics.summary}</p>
-          </Section>
+      <div className="flex gap-8 print:gap-6">
+        <div className="w-2/3">
+          {basics?.summary && (
+            <section className="mb-6 break-inside-avoid">
+              <h3 className="text-lg font-bold mb-3 text-gray-900 border-b border-gray-200 pb-1">
+                Professional Summary
+              </h3>
+              <p className="text-sm leading-relaxed text-gray-700">{basics.summary}</p>
+            </section>
+          )}
 
-          {/* Work Experience */}
-          <SectionValidator value={resumeData?.work}>
-            <WorkSection work={resumeData?.work} />
-          </SectionValidator>
-
-          {/* Key Projects */}
-          <Section title="Key Projects">
-            <Involvement data={involvements} />
-          </Section>
-        </div>
-
-        {/* Right Column - 30% width */}
-        <div className="w-[30%] print:w-[30%] border-l pl-6">
-          {/* Education - Moved to top of right column */}
-          <Section title="Education">
-            <EducationSection education={resumeData?.education || []} />
-          </Section>
-
-          {/* Technical Skills */}
-          <Section title="Technical Skills">
-            {skills.languages?.length > 0 && (
-              <SkillGroup
-                title="Programming Languages"
-                skills={skills.languages.filter(
-                  (s: { name: string }) => !['English', 'Telugu'].includes(s.name)
-                )}
-              />
-            )}
-
-            {skills.frameworks?.length > 0 && (
-              <SkillGroup title="Frameworks" skills={skills.frameworks} />
-            )}
-
-            {skills.technologies?.length > 0 && (
-              <SkillGroup title="Technologies" skills={skills.technologies} />
-            )}
-
-            {skills.databases?.length > 0 && (
-              <SkillGroup title="Databases" skills={skills.databases} />
-            )}
-
-            {skills.tools?.length > 0 && <SkillGroup title="Tools" skills={skills.tools} />}
-          </Section>
-
-          {/* Languages */}
-          <Section title="Languages">
-            <div className="space-y-1">
-              {skills.languages
-                ?.filter((lang: { name: string }) => ['English', 'Telugu'].includes(lang.name))
-                .map((lang: { name: string }) => (
-                  <div key={lang.name} className="text-gray-700">
-                    {lang.name}
+          {work?.length > 0 && (
+            <section className="mb-6 break-inside-avoid">
+              <h3 className="text-lg font-bold mb-4 text-gray-900 border-b border-gray-200 pb-1">
+                Work Experience
+              </h3>
+              {work.map((job) => (
+                <div key={job.id} className="mb-4 last:mb-0">
+                  <div className="flex justify-between items-baseline mb-1">
+                    <h4 className="font-semibold text-gray-900">{job.position}</h4>
+                    <span className="text-sm text-gray-600">
+                      {job.startDate} - {job.isWorkingHere ? 'Present' : job.endDate}
+                    </span>
                   </div>
-                ))}
-            </div>
-          </Section>
+                  <h5 className="text-sm text-gray-700 mb-2">{job.name}</h5>
+                  <p className="text-sm leading-relaxed text-gray-600">{job.summary}</p>
+                </div>
+              ))}
+            </section>
+          )}
+
+          {certifications?.length > 0 && (
+            <section className="mb-6 break-inside-avoid">
+              <h3 className="text-lg font-bold mb-4 text-gray-900 border-b border-gray-200 pb-1">
+                Certifications
+              </h3>
+              {certifications.map((cert) => (
+                <div key={cert.id} className="mb-3 last:mb-0">
+                  <div className="flex justify-between items-baseline mb-1">
+                    <h4 className="font-semibold text-gray-900">{cert.title}</h4>
+                    <span className="text-sm text-gray-600">{cert.date}</span>
+                  </div>
+                  <div className="text-sm text-gray-700 mb-1">{cert.authority}</div>
+                  <p className="text-sm leading-relaxed text-gray-600">{cert.summary}</p>
+                </div>
+              ))}
+            </section>
+          )}
         </div>
-      </div>
 
-      {/* Print-specific styles */}
-      <style jsx global>{`
-        @media print {
-          @page {
-            margin: 0.5in;
-            size: letter portrait;
-          }
+        <div className="w-1/3">
+          <section className="mb-6 break-inside-avoid">
+            <h3 className="text-lg font-bold mb-3 text-gray-900 border-b border-gray-200 pb-1">
+              Technical Skills
+            </h3>
+            {Object.entries(skills || {}).map(
+              ([category, items]) =>
+                items?.length > 0 &&
+                category !== 'languages' && (
+                  <div key={category} className="mb-4 last:mb-0">
+                    <h4 className="text-sm font-semibold mb-2 text-gray-800">{category}</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {items.map((skill) => (
+                        <span
+                          key={skill.name}
+                          className="text-xs bg-gray-100 px-2 py-1 rounded-md text-gray-700 hover:bg-gray-200 transition-colors"
+                        >
+                          {skill.name}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )
+            )}
+          </section>
 
-          body {
-            -webkit-print-color-adjust: exact !important;
-            print-color-adjust: exact !important;
-          }
+          {education?.length > 0 && (
+            <section className="mb-6 break-inside-avoid">
+              <h3 className="text-lg font-bold mb-3 text-gray-900 border-b border-gray-200 pb-1">
+                Education
+              </h3>
+              {education.map((edu) => (
+                <div key={edu.id} className="mb-3 last:mb-0">
+                  <h4 className="font-semibold text-gray-900 mb-1">{edu.studyType}</h4>
+                  <div className="text-sm text-gray-700">{edu.institution}</div>
+                  <div className="text-sm text-gray-600">
+                    {edu.startDate} - {edu.endDate}
+                  </div>
+                  {edu.score && <div className="text-sm text-gray-600">Score: {edu.score}</div>}
+                </div>
+              ))}
+            </section>
+          )}
 
-          /* Force two-column layout in print */
-          .print\\:flex-row {
-            display: flex !important;
-            flex-direction: row !important;
-          }
-
-          .print\\:w-\\[70\\%\\] {
-            width: 70% !important;
-          }
-
-          .print\\:w-\\[30\\%\\] {
-            width: 30% !important;
-          }
-
-          .print\\:pr-6 {
-            padding-right: 1.5rem !important;
-          }
-        }
-      `}</style>
-    </div>
-  );
-}
-
-// Section component
-function Section({ title, children }: { title: string; children: React.ReactNode }) {
-  return (
-    <div className="mb-6 break-inside-avoid">
-      <h3 className="text-lg font-bold text-gray-800 mb-3 uppercase">{title}</h3>
-      <div>{children}</div>
-    </div>
-  );
-}
-
-// SkillGroup component
-interface SkillGroupProps {
-  title: string;
-  skills: { name: string }[];
-}
-
-function SkillGroup({ title, skills }: SkillGroupProps) {
-  if (!skills?.length) return null;
-
-  return (
-    <div className="mb-4">
-      <h4 className="text-sm font-semibold text-gray-700 mb-2">{title}</h4>
-      <div className="flex flex-wrap gap-2">
-        {skills.map((skill: { name: string }) => (
-          <span key={skill.name} className="text-sm text-gray-600 bg-gray-100 px-2 py-1 rounded">
-            {skill.name}
-          </span>
-        ))}
+          {skills?.languages?.length > 0 && (
+            <section className="mb-6 break-inside-avoid">
+              <h3 className="text-lg font-bold mb-3 text-gray-900 border-b border-gray-200 pb-1">
+                Languages
+              </h3>
+              <div className="flex flex-wrap gap-2">
+                {skills.languages.map((lang) => (
+                  <span
+                    key={lang.name}
+                    className="text-sm bg-gray-100 px-2 py-1 rounded-md text-gray-700"
+                  >
+                    {lang.name}
+                  </span>
+                ))}
+              </div>
+            </section>
+          )}
+        </div>
       </div>
     </div>
   );
