@@ -23,6 +23,30 @@ const config: Config = {
           grey100: '#E5E5E5',
         },
       },
+      screens: {
+        xs: '475px',
+        sm: '640px',
+        md: '768px',
+        lg: '1024px',
+        xl: '1280px',
+        '2xl': '1536px',
+        // Max-width breakpoints
+        'max-2xl': { max: '1535px' },
+        'max-xl': { max: '1279px' },
+        'max-lg': { max: '1023px' },
+        'max-md': { max: '767px' },
+        'max-sm': { max: '639px' },
+        'max-xs': { max: '474px' },
+        // Range breakpoints
+        'sm-only': { min: '640px', max: '767px' },
+        'md-only': { min: '768px', max: '1023px' },
+        'lg-only': { min: '1024px', max: '1279px' },
+        'xl-only': { min: '1280px', max: '1535px' },
+        // Custom breakpoints for specific use cases
+        tablet: { min: '640px', max: '1023px' },
+        desktop: { min: '1024px' },
+        mobile: { max: '639px' },
+      },
       borderRadius: {
         md: '4px',
       },
@@ -34,9 +58,6 @@ const config: Config = {
           '0px 4px 5px rgba(0, 0, 0, 0.14), 0px 1px 10px rgba(0, 0, 0, 0.12), 0px 2px 4px rgba(0, 0, 0, 0.2)',
         'level-hard': 'rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px',
         glass: '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
-      },
-      screens: {
-        'max-md': { max: '767px' },
       },
       keyframes: {
         fadeIn: {

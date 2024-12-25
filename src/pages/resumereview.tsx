@@ -1,4 +1,5 @@
 'use client';
+import NavBarLayout from '@/modules/builder/nav-bar/NavBarLayout';
 import React, { useState } from 'react';
 
 const Resumereview = () => {
@@ -32,6 +33,20 @@ const Resumereview = () => {
     setDesc(e.target.value);
   };
 
+  const convertPdfToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const base64String = reader.result as string;
+        // Remove data URL prefix
+        const base64Content = base64String.split(',')[1];
+        resolve(base64Content);
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  };
+
   const generateHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setLoading(true);
@@ -42,28 +57,27 @@ const Resumereview = () => {
       return;
     }
 
-    const formData = new FormData();
-    formData.append('pdf', file);
-
     try {
-      await fetch('https://review-backend-ruddy.vercel.app/upload', {
-        method: 'POST',
-        body: formData,
-      });
+      // Convert PDF to base64
+      const base64PDF = await convertPdfToBase64(file);
 
-      const tailoredResponse = await fetch(`https://review-backend-ruddy.vercel.app/${file.name}`, {
+      // Send directly to analysis endpoint
+      const response = await fetch('https://review-backend-ruddy.vercel.app/analyze', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ desc }),
+        body: JSON.stringify({
+          pdfBase64: base64PDF,
+          desc: desc,
+        }),
       });
 
-      if (!tailoredResponse.ok) {
+      if (!response.ok) {
         throw new Error('Failed to analyze resume');
       }
 
-      const data = await tailoredResponse.json();
+      const data = await response.json();
       if (data && data.sections) {
         setSections(data.sections);
       } else {
@@ -78,106 +92,117 @@ const Resumereview = () => {
   };
 
   return (
-    <div className="w-full flex items-center">
-      <div className="w-full md:flex md:items-center md:justify-evenly p-5 lg:p-8">
-        <div className="w-full md:w-[90%] gap-[20px] flex flex-col md:flex-row">
-          <div
-            className={`flex flex-col lg:flex-row gap-6 w-full lg:w-[90%] mx-auto ${sections.length > 0 ? 'active' : ''}`}
-          >
-            <div className="w-full h-fit lg:w-[100%] bg-teal-50 rounded-lg shadow-md p-6">
-              <div className="space-y-6">
-                <div>
-                  <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-2">
-                    ATS Resume Optimizer 👇
-                  </h2>
-                  <p className="text-gray-600 mb-4">
-                    Get expert recommendations to pass ATS screening
-                  </p>
-                </div>
+    <div className="min-h-screen flex flex-col">
+      <NavBarLayout />
+      <main className="flex-1 py-12">
+        {' '}
+        {/* Added padding-top and padding-bottom */}
+        <div className="w-full flex items-center">
+          <div className="w-full md:flex md:items-center md:justify-evenly p-5 lg:p-8">
+            <div className="w-full md:w-[90%] gap-[20px] flex flex-col md:flex-row">
+              <div
+                className={`flex flex-col lg:flex-row gap-6 w-full lg:w-[90%] mx-auto ${sections.length > 0 ? 'active' : ''}`}
+              >
+                <div className="w-full h-fit lg:w-[100%] bg-teal-50 rounded-lg shadow-md p-6">
+                  <div className="space-y-6">
+                    <div>
+                      <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-2">
+                        ATS Resume Optimizer 👇
+                      </h2>
+                      <p className="text-gray-600 mb-4">
+                        Get expert recommendations to pass ATS screening
+                      </p>
+                    </div>
 
-                <div>
-                  <label className="block text-gray-700 font-medium mb-2">
-                    Upload Resume (PDF)
-                  </label>
-                  <input
-                    type="file"
-                    className="w-full text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-teal-500 file:text-white hover:file:bg-teal-600"
-                    onChange={selectFileHandler}
-                    accept=".pdf"
-                  />
-                </div>
+                    <div>
+                      <label className="block text-gray-700 font-medium mb-2">
+                        Upload Resume (PDF)
+                      </label>
+                      <input
+                        type="file"
+                        className="w-full text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-teal-500 file:text-white hover:file:bg-teal-600"
+                        onChange={selectFileHandler}
+                        accept=".pdf"
+                      />
+                    </div>
 
-                <div>
-                  <label className="block text-gray-700 font-medium mb-2">
-                    Paste Job Description
-                  </label>
-                  <textarea
-                    className="w-full min-h-[150px] p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
-                    value={desc}
-                    onChange={changeTextHandler}
-                    placeholder="Paste the complete job description here..."
-                  />
-                </div>
+                    <div>
+                      <label className="block text-gray-700 font-medium mb-2">
+                        Paste Job Description
+                      </label>
+                      <textarea
+                        className="w-full min-h-[150px] p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                        value={desc}
+                        onChange={changeTextHandler}
+                        placeholder="Paste the complete job description here..."
+                      />
+                    </div>
 
-                <button
-                  className={`w-full py-3 rounded-lg font-semibold text-white ${
-                    loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-teal-500 hover:bg-teal-600'
-                  }`}
-                  onClick={generateHandler}
-                  disabled={loading}
-                >
-                  {loading ? 'Analyzing...' : 'Analyze Resume'}
-                </button>
+                    <button
+                      className={`w-full py-3 rounded-lg font-semibold text-white ${
+                        loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-teal-500 hover:bg-teal-600'
+                      }`}
+                      onClick={generateHandler}
+                      disabled={loading}
+                    >
+                      {loading ? 'Analyzing...' : 'Analyze Resume'}
+                    </button>
+                  </div>
+                </div>
               </div>
+
+              {/* Rest of your component remains the same */}
+              {sections.length === 0 ? (
+                <div className="bg-teal-50 md:w-[50%] rounded-lg shadow-md p-4 md:p-6 mb-8">
+                  <div className="text-lg font-semibold text-gray-700 mb-2">HOW IT WORKS:</div>
+                  <div className="text-gray-600 space-y-2">
+                    <p>🎯 Get an ATS match score for your resume</p>
+                    <p>🔑 Identify missing important keywords</p>
+                    <p>💡 Receive specific modification suggestions</p>
+                    <p>📝 Learn which skills to add</p>
+                    <p>⚠ Find formatting issues that affect ATS</p>
+                    <p>✨ Enhance your achievements</p>
+                  </div>
+                </div>
+              ) : (
+                <div className="w-full bg-teal-50 lg:w-[45%] bg-white rounded-lg shadow-md p-4 md:p-6">
+                  <div className="flex justify-between items-center mb-6">
+                    <h3 className="text-xl font-semibold text-gray-800">
+                      ATS Optimization Results
+                    </h3>
+                    <button
+                      className="px-4 py-2 bg-green-500 text-[13px] hover:bg-green-600 text-white rounded-lg"
+                      onClick={handleCopy}
+                    >
+                      Copy All
+                    </button>
+                  </div>
+
+                  <div className="space-y-6 h-auto md:max-h-[70vh] md:overflow-y-auto border-b border-gray-200 md:border-b-0">
+                    {sections.map((section, index) => (
+                      <div
+                        key={index}
+                        className="bg-gray-50 rounded-lg p-4 hover:shadow-md transition-all"
+                      >
+                        <h4 className="text-lg font-semibold text-gray-700 mb-2 pb-2 border-b border-gray-200">
+                          {section.title}
+                        </h4>
+                        <div className="text-gray-600">
+                          {section.content.split('\n').map((line, i) => (
+                            <p key={i} className="mb-2">
+                              {line}
+                            </p>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
-          {sections.length === 0 ? (
-            <div className="bg-teal-50 md:w-[50%] rounded-lg shadow-md  p-4 md:p-6 mb-8">
-              <div className="text-lg font-semibold text-gray-700 mb-2">HOW IT WORKS:</div>
-              <div className="text-gray-600 space-y-2">
-                <p>🎯 Get an ATS match score for your resume</p>
-                <p>🔑 Identify missing important keywords</p>
-                <p>💡 Receive specific modification suggestions</p>
-                <p>📝 Learn which skills to add</p>
-                <p>⚠ Find formatting issues that affect ATS</p>
-                <p>✨ Enhance your achievements</p>
-              </div>
-            </div>
-          ) : (
-            <div className="w-full bg-teal-50 lg:w-[45%] bg-white rounded-lg shadow-md p-4 md:p-6">
-              <div className="flex justify-between items-center mb-6">
-                <h3 className="text-xl font-semibold text-gray-800">ATS Optimization Results</h3>
-                <button
-                  className="px-4 py-2 bg-green-500 text-[13px] hover:bg-green-600 text-white rounded-lg"
-                  onClick={handleCopy}
-                >
-                  Copy All
-                </button>
-              </div>
-
-              <div className="space-y-6 h-auto md:max-h-[70vh] md:overflow-y-auto border-b border-gray-200 md:border-b-0">
-                {sections.map((section, index) => (
-                  <div
-                    key={index}
-                    className="bg-gray-50 rounded-lg p-4 hover:shadow-md transition-all"
-                  >
-                    <h4 className="text-lg font-semibold text-gray-700 mb-2 pb-2 border-b border-gray-200">
-                      {section.title}
-                    </h4>
-                    <div className="text-gray-600">
-                      {section.content.split('\n').map((line, i) => (
-                        <p key={i} className="mb-2">
-                          {line}
-                        </p>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
         </div>
-      </div>
+      </main>
     </div>
   );
 };

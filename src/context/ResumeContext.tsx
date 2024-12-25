@@ -122,12 +122,15 @@ export const ResumeProvider: React.FC<{ children: React.ReactNode; userId: strin
       if (!userId) return;
 
       try {
-        const response = await fetch(`https://resume-builder-backend-gamma.vercel.app/${userId}`, {
-          method: 'GET', // Changed to GET since it's a get request
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
+        const response = await fetch(
+          `https://resume-builder-backend-gamma.vercel.app/user-details/${userId}`,
+          {
+            method: 'GET', // Changed to GET since it's a get request
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+        );
 
         if (!response.ok) {
           return;

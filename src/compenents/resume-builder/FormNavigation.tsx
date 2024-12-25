@@ -156,7 +156,7 @@ const FormNavigation = () => {
 
       // New addition: Fetch the saved user details
       const fetchUserDetailsResponse = await fetch(
-        `https://resume-builder-backend-gamma.vercel.app/${user.id}`,
+        `https://resume-builder-backend-gamma.vercel.app/user-details/${user.id}`,
         {
           method: 'GET',
           headers: {

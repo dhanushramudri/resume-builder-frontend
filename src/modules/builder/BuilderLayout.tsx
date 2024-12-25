@@ -13,7 +13,7 @@ const BuilderLayout = () => {
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
+      setIsMobile(window.innerWidth < 950);
     };
     handleResize();
     window.addEventListener('resize', handleResize);
@@ -72,7 +72,7 @@ const BuilderLayout = () => {
         </div>
       </main>
 
-      <footer className="print:hidden">
+      {/* <footer className="print:hidden">
         <Tooltip title="Share feedback">
           <a
             href="https://forms.gle/YmpXEZLk6LYdnqet7"
@@ -89,7 +89,7 @@ const BuilderLayout = () => {
             />
           </a>
         </Tooltip>
-      </footer>
+      </footer> */}
     </div>
   );
 };
