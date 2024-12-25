@@ -47,12 +47,12 @@ const ResumeTailor = () => {
     formData.append('pdf', file);
 
     try {
-      await fetch('http://localhost:8001/upload', {
+      await fetch('https://review-backend-ruddy.vercel.app/upload', {
         method: 'POST',
         body: formData,
       });
 
-      const tailoredResponse = await fetch(`http://localhost:8001/${file.name}`, {
+      const tailoredResponse = await fetch(`https://review-backend-ruddy.vercel.app/${file.name}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
