@@ -21,7 +21,7 @@ interface ResumeContextType {
   setErrors: React.Dispatch<React.SetStateAction<FormErrors>>;
   validateAndNavigate: (nextStep: string | null) => boolean;
   isSubmitting: boolean;
-  setIsSubmitting:(value:boolean)=>void;
+  setIsSubmitting: (value: boolean) => void;
   submitForm: () => void;
   setResumeData: (data: ResumeData) => void;
 }
@@ -122,7 +122,7 @@ export const ResumeProvider: React.FC<{ children: React.ReactNode; userId: strin
       if (!userId) return;
 
       try {
-        const response = await fetch(`http://localhost:5001/user-details/${userId}`, {
+        const response = await fetch(`https://resume-builder-backend-gamma.vercel.app/${userId}`, {
           method: 'GET', // Changed to GET since it's a get request
           headers: {
             'Content-Type': 'application/json',

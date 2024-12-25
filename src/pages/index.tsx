@@ -41,20 +41,26 @@ function HomePage() {
 
         try {
           // Fetch user data
-          const userResponse = await fetch(`http://localhost:5001/user/${user.id}`, {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          });
+          const userResponse = await fetch(
+            `https://resume-builder-backend-gamma.vercel.app/user/${user.id}`,
+            {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            }
+          );
 
           // Fetch user details data
-          const userDetailsResponse = await fetch(`http://localhost:5001/user-details/${user.id}`, {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          });
+          const userDetailsResponse = await fetch(
+            `https://resume-builder-backend-gamma.vercel.app/user-details/${user.id}`,
+            {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            }
+          );
 
           if (userResponse.ok) {
             const userData = await userResponse.json();

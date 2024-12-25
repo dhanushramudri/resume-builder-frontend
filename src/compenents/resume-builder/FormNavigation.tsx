@@ -116,7 +116,7 @@ const FormNavigation = () => {
 
     try {
       // First request: Update user form status
-      const userResponse = await fetch('http://localhost:5001/user', {
+      const userResponse = await fetch('https://resume-builder-backend-gamma.vercel.app/user', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -132,16 +132,19 @@ const FormNavigation = () => {
       }
 
       // Second request: Save user details
-      const userDetailsResponse = await fetch('http://localhost:5001/user-details', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userId: user.id,
-          resumeData, // Assuming resumeData is defined and holds the resume content
-        }),
-      });
+      const userDetailsResponse = await fetch(
+        'https://resume-builder-backend-gamma.vercel.app/user-details',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            userId: user.id,
+            resumeData, // Assuming resumeData is defined and holds the resume content
+          }),
+        }
+      );
 
       if (!userDetailsResponse.ok) {
         throw new Error('Failed to save user details');
@@ -153,7 +156,7 @@ const FormNavigation = () => {
 
       // New addition: Fetch the saved user details
       const fetchUserDetailsResponse = await fetch(
-        `http://localhost:5001/user-details/${user.id}`,
+        `https://resume-builder-backend-gamma.vercel.app/${user.id}`,
         {
           method: 'GET',
           headers: {

@@ -93,7 +93,7 @@ const ResumeForm = () => {
       try {
         console.log('now the updatePublicMetadata runs');
         console.log('user id is ', user.id);
-        const response = await fetch('http://localhost:5001/user', {
+        const response = await fetch('https://resume-builder-backend-gamma.vercel.app/user', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

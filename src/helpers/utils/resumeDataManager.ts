@@ -9,7 +9,9 @@ export const getUserData = async (userId: string) => {
     }
 
     // If not in localStorage, fetch from backend
-    const response = await fetch(`http://localhost:5001/user-details/${userId}`);
+    const response = await fetch(
+      `https://resume-builder-backend-gamma.vercel.app/user-details/${userId}`
+    );
     if (!response.ok) {
       throw new Error('Failed to fetch user data');
     }

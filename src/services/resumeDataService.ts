@@ -85,7 +85,9 @@ export interface ResumeData {
 
 export async function fetchUserResumeData(userId: string): Promise<ResumeData | null> {
   try {
-    const response = await fetch(`http://localhost:5001/user-details/${userId}`);
+    const response = await fetch(
+      `https://resume-builder-backend-gamma.vercel.app/user-details/${userId}`
+    );
 
     if (!response.ok) {
       throw new Error('Failed to fetch user resume data');
@@ -101,7 +103,7 @@ export async function fetchUserResumeData(userId: string): Promise<ResumeData | 
 
 export async function saveUserResumeData(userId: string, resumeData: ResumeData): Promise<boolean> {
   try {
-    const response = await fetch('http://localhost:5001/user-details', {
+    const response = await fetch('https://resume-builder-backend-gamma.vercel.app/user-details', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
