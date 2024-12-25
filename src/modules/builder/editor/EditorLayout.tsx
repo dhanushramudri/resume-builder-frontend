@@ -32,7 +32,7 @@ const EditorLayout = () => {
           <div className="editor-actions mt-8 flex justify-center sm:justify-end">
             <OutlinedButton
               onClick={resetResumeStore}
-              className="w-full sm:w-auto px-6 py-3 text-blue-600 border border-blue-600 hover:bg-blue-600 hover:text-white transition rounded-lg font-medium"
+              className="w-full sm:w-auto px-6 py-3 text-teal-600 border border-teal-600 hover:bg-teal-600 hover:text-white transition rounded-lg font-medium"
             >
               Reset All Edits
             </OutlinedButton>

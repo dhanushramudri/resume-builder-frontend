@@ -9,7 +9,7 @@ import ResumeBuilder from '@/compenents/resume-builder';
 
 function Header() {
   return (
-    <header className="w-full py-4 bg-blue-600 text-white flex justify-between items-center px-8 sticky top-0 z-10 shadow-md">
+    <header className="w-full py-4 bg-teal-600 text-white flex justify-between items-center px-8 sticky top-0 z-10 shadow-md">
       <div className="text-2xl font-bold">E-Resume</div>
       <div className="flex items-center space-x-4 sm:space-x-2">
         <SignedIn>
@@ -17,7 +17,7 @@ function Header() {
         </SignedIn>
         <SignedOut>
           <SignInButton mode="modal">
-            <button className="px-6 py-2 font-semibold text-white bg-blue-600 rounded-md hover:bg-blue-700">
+            <button className="px-6 py-2 font-semibold text-white bg-teal-600 rounded-md hover:bg-teal-700">
               Sign In
             </button>
           </SignInButton>
@@ -108,7 +108,7 @@ function HomePage() {
       <Head>
         <title>E-Resume: Home</title>
         <meta name="description" content="Single Page Resume Builder" />
-        <link rel="icon" type="image/png" href="/icons/resume-icon.png" />
+        <link rel="icon" type="image/png" href="/icons/resume1-icon.png" />
       </Head>
 
       <Header />
@@ -125,7 +125,7 @@ function HomePage() {
           <SignedIn>
             {isLoading ? (
               <div className="flex justify-center items-center">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-teal-600"></div>
               </div>
             ) : (
               <ResumeBuilder />
@@ -134,7 +134,7 @@ function HomePage() {
           <SignedOut>
             <div className="flex justify-center items-center w-full h-full">
               <SignInButton mode="modal">
-                <button className="px-6 py-2 font-semibold text-white bg-blue-600 rounded-md hover:bg-blue-700 w-full sm:w-auto">
+                <button className="px-6 py-2 font-semibold text-white bg-teal-600 rounded-md hover:bg-teal-700 w-full sm:w-auto">
                   Sign In to Get Started
                 </button>
               </SignInButton>

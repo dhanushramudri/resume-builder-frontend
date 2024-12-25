@@ -22,7 +22,7 @@ import { useExperiences } from '../../stores/experience';
 import { useVoluteeringStore } from '../../stores/volunteering';
 
 export const updateResumeData = (newData: any) => {
-  if(!newData) return false;
+  if (!newData) return false;
   // Update basics
   if (newData.basics && Object.keys(newData.basics).length > 0) {
     const reset = useBasicDetails.getState().reset;
@@ -98,7 +98,8 @@ const FormNavigation = () => {
   const router = useRouter();
   const { setResumeData } = useResume();
 
-  const { currentStep, validateAndNavigate,setIsSubmitting, isSubmitting, resumeData, errors } = useResume();
+  const { currentStep, validateAndNavigate, setIsSubmitting, isSubmitting, resumeData, errors } =
+    useResume();
   const { isLoaded, user } = useUser();
 
   const currentIndex = steps.indexOf(currentStep as StepType);
@@ -169,11 +170,8 @@ const FormNavigation = () => {
       if (fetchedData) {
         setResumeData(fetchedData.resumeData); // Note: The data structure includes resumeData field
 
-          router.push('/builder');
-          setIsSubmitting(false);
-          
-
-      
+        router.push('/builder');
+        setIsSubmitting(false);
       }
 
       // Handle successful submission (e.g., show success message, redirect, etc.)
@@ -206,7 +204,7 @@ const FormNavigation = () => {
         <button
           type="button"
           onClick={handleNext}
-          className="px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+          className="px-6 py-2 bg-teal-500 text-white rounded hover:bg-teal-600 transition-colors"
         >
           Next: {nextStep ? nextStep.charAt(0).toUpperCase() + nextStep.slice(1) : ''}
         </button>

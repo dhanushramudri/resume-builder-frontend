@@ -43,8 +43,8 @@ const ResumeBuilder = () => {
             key={step.id}
             className={`relative px-4 py-2 text-sm sm:text-base rounded-full shadow-md font-medium transition-all duration-300 ${
               currentStep === step.id
-                ? 'bg-blue-600 text-white ring-2 ring-blue-500'
-                : 'bg-gray-100 text-gray-700 hover:bg-blue-100 hover:text-blue-600'
+                ? 'bg-teal-600 text-white ring-2 ring-teal-500'
+                : 'bg-gray-100 text-gray-700 hover:bg-teal-100 hover:text-teal-600'
             }`}
           >
             {steps.findIndex((s) => s.id === step.id) <

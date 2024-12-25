@@ -6,6 +6,7 @@ import { GLOBAL_MUI_THEME } from '../styles/global.theme';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { ClerkProvider, useUser } from '@clerk/nextjs';
 import { ResumeProvider } from '@/context/ResumeContext';
+import HomePage from '.';
 
 function AppContent(props: AppProps) {
   const { user, isLoaded } = useUser();
@@ -16,7 +17,7 @@ function AppContent(props: AppProps) {
   }
 
   if (!user) {
-    return <div>Please sign in to continue</div>;
+    return <HomePage />;
   }
 
   return (

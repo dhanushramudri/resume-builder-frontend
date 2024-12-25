@@ -101,7 +101,7 @@ const Resumereview = () => {
                   </label>
                   <input
                     type="file"
-                    className="w-full text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-blue-500 file:text-white hover:file:bg-blue-600"
+                    className="w-full text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-teal-500 file:text-white hover:file:bg-teal-600"
                     onChange={selectFileHandler}
                     accept=".pdf"
                   />
@@ -112,7 +112,7 @@ const Resumereview = () => {
                     Paste Job Description
                   </label>
                   <textarea
-                    className="w-full min-h-[150px] p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full min-h-[150px] p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
                     value={desc}
                     onChange={changeTextHandler}
                     placeholder="Paste the complete job description here..."
@@ -121,7 +121,7 @@ const Resumereview = () => {
 
                 <button
                   className={`w-full py-3 rounded-lg font-semibold text-white ${
-                    loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600'
+                    loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-teal-500 hover:bg-teal-600'
                   }`}
                   onClick={generateHandler}
                   disabled={loading}

@@ -27,7 +27,7 @@ const BuilderLayout = () => {
       </div>
 
       <button
-        className="fixed z-50 bottom-10 right-4 md:hidden print:hidden bg-blue-600 p-3 rounded-full text-white shadow-lg hover:bg-blue-700 transition-colors"
+        className="fixed z-50 bottom-10 right-4 md:hidden print:hidden bg-teal-600 p-3 rounded-full text-white shadow-lg hover:bg-teal-700 transition-colors"
         onClick={() => setIsEditorOpen(!isEditorOpen)}
       >
         {isEditorOpen ? <X size={24} /> : <Menu size={24} />}
@@ -57,7 +57,7 @@ const BuilderLayout = () => {
           />
         )}
 
-        <div className="flex-1 bg-custom-grey100 print:bg-white overflow-auto">
+        <div className="flex-1 bg-custom-grey100 print:bg-white overflow-auto  ">
           <header className="w-full md:w-[210mm] mt-3 md:mt-5 mb-3 mx-auto print:hidden px-3 md:px-0">
             <ResumeHeader />
           </header>
