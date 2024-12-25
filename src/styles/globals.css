@@ -1,0 +1,145 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+@media print {
+  body *,
+  *::before,
+  *::after {
+    -webkit-print-color-adjust: exact !important; /* Chrome, Safari, Edge */
+    print-color-adjust: exact !important; /*Firefox*/
+  }
+}
+
+@page {
+  size: A4 !important;
+  margin: 0 !important;
+}
+@media print {
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  .resume-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    page-break-inside: avoid; /* Prevent breaking inside an element */
+  }
+
+  .resume-section {
+    page-break-after: always; /* Ensure each section starts on a new page */
+  }
+
+  .no-print {
+    display: none; /* Hide elements like buttons during printing */
+  }
+}
+
+@page {
+  size: auto; /* Auto-adjust page size based on content */
+  margin: 1in; /* Set margins for printing */
+}
+
+/* new code  */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Base Font and Scrollbar Settings */
+html,
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge, and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+/* Printing Styles */
+@media print {
+  /* Ensure exact color rendering during print */
+  body *,
+  *::before,
+  *::after {
+    -webkit-print-color-adjust: exact !important; /* Chrome, Safari, Edge */
+    print-color-adjust: exact !important; /* Firefox */
+  }
+
+  /* Ensure layout consistency across pages */
+  body {
+    margin: 0;
+    padding: 0;
+    font-size: 12px;
+  }
+
+  /* Page Content Container */
+  .print-container {
+    width: 100%;
+    max-width: 800px;
+    margin: auto;
+    padding: 1rem;
+    page-break-inside: avoid; /* Avoid breaking inside this element */
+  }
+
+  /* Section Handling */
+  .print-section {
+    page-break-after: always; /* Add a page break after each section */
+    padding: 1rem;
+  }
+
+  .no-print {
+    display: none !important; /* Hide buttons, links, or any non-printable elements */
+  }
+}
+
+/* Force A4 Size for Pages */
+@page {
+  size: A4 !important;
+  margin: 30px !important;
+}
+
+/* Additional Utility Classes */
+.break-inside-avoid {
+  page-break-inside: avoid;
+}
+
+.break-after-always {
+  page-break-after: always;
+}
+
+.print\:overflow-visible {
+  overflow: visible !important;
+}
+
+.page {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.print\:avoid-breaks {
+  break-inside: avoid !important;
+  page-break-inside: avoid !important;
+}
