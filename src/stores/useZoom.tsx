@@ -39,12 +39,12 @@ export const useZoom = create<ZoomState>((set) => ({
   zoomOut: () => set((state) => ({ zoom: Math.max(0.1, state.zoom - 0.1) })),
   resetZoom: () => {
     const width = window.innerWidth;
-    const initialZoom = width < 768 ? 0.6 : 1;
+    const initialZoom = width < 768 ? 0.6 : 0.6;
     set({ zoom: initialZoom });
   },
   setInitialZoom: () => {
     const width = window.innerWidth;
-    const initialZoom = width < 768 ? 0.4 : 1;
+    const initialZoom = width < 768 ? 0.4 : 0.6;
     set({ zoom: initialZoom });
   },
 }));
