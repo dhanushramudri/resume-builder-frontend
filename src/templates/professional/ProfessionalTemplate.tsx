@@ -73,7 +73,7 @@ export default function ProfessionalTemplate() {
           <BasicIntro basics={basics} />
         </Section>
         <SectionValidator value={resumeData?.work}>
-          <Section title="Work Experience">
+          <Section title="Work Experience | Projects">
             <Work work={resumeData?.work || []} />
           </Section>
         </SectionValidator>
@@ -85,10 +85,14 @@ export default function ProfessionalTemplate() {
         </SectionValidator>
 
         <SectionValidator value={resumeData?.awards}>
-          <AwardSection awardsReceived={resumeData?.awards} />
+          <Section title="Awards">
+            <AwardSection awardsReceived={resumeData?.awards} />
+          </Section>
         </SectionValidator>
         <SectionValidator value={resumeData?.certifications}>
-          <CertificationSection certifications={resumeData?.certifications} />
+          <Section title="Certifications">
+            <CertificationSection certifications={resumeData?.certifications} />
+          </Section>
         </SectionValidator>
       </LeftSection>
 
