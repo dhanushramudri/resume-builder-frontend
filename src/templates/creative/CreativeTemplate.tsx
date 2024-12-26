@@ -108,7 +108,7 @@ const CreativeTemplate = () => {
       </SectionValidator>
 
       {/* Achievements */}
-      <SectionValidator value={achievements.length > 0}>
+      <SectionValidator value={achievements}>
         <section className="mb-6 print:mb-4 page-break-inside-avoid">
           <h2 className="text-xl font-semibold text-gray-800 mb-2 uppercase tracking-wider">
             Key Achievements

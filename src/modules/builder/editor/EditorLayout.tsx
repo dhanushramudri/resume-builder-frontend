@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import DataHeaders from './components/EditHeaders';
 import EditSection from './components/EditSection';
 import ErrorBoundary from '@/helpers/common/components/ErrorBoundary';
-import { OutlinedButton } from '@/helpers/common/atoms/Buttons';
+import OutlinedButton from './OutlinedButton';
 import { headers } from '@/helpers/constants/editor-data';
 import { resetResumeStore } from '@/stores/useResumeStore';
 

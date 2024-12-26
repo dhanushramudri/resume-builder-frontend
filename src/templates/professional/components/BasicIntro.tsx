@@ -1,13 +1,17 @@
-import { IBasics } from '@/stores/index.interface';
+import { IBasics } from '@/types/basics';
 import styled from '@emotion/styled';
 import Color from 'color';
 import Image from 'next/image';
+
+interface BasicIntroProps {
+  basics?: Partial<IBasics>;
+}
 
 const Role = styled.span`
   color: ${(props) => Color(props.theme.titleColor).alpha(0.85).toString()};
 `;
 
-export default function BasicIntro({ basics }: { basics: IBasics }) {
+export default function BasicIntro({ basics }: BasicIntroProps) {
   // console.log('BasicIntro -> basics', basics.basicIntro);
   return (
     <div className="flex justify-between">
@@ -38,10 +42,10 @@ export default function BasicIntro({ basics }: { basics: IBasics }) {
             {basics?.email}
           </a>
         </div>
-        {basics?.location.city && (
+        {basics?.location?.city && (
           <div className="flex gap-2">
             <Image src={'/icons/location.svg'} alt="Location" width={12} height={12} />
-            <span className="text-xs">{basics?.location.city}</span>
+            <span className="text-xs">{basics.location.city}</span>
           </div>
         )}
       </div>

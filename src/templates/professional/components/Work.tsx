@@ -8,22 +8,20 @@ import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot from '@mui/lab/TimelineDot';
 import { SectionHeading } from '@/templates/modern/atoms/SectionHeading';
 
-interface IWorkItem {
-  id: string;
-  name: string;
-  position: string;
-  url: string;
-  startDate: string;
-  endDate: string;
-  isWorkingHere: boolean;
-  summary: string;
-  highlights: string[];
-  years: string;
-  type: string;
-}
-
 interface WorkProps {
-  work?: IWorkItem[];
+  work?: {
+    id: string;
+    name: string;
+    position: string;
+    url?: string;
+    startDate: string;
+    endDate: string;
+    isWorkingHere: boolean;
+    summary: string;
+    highlights: string[];
+    years: string;
+    type: string;
+  }[];
 }
 
 const Work: React.FC<WorkProps> = ({ work = [] }) => {

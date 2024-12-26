@@ -1,20 +1,24 @@
 import { Fragment, ReactNode, useMemo } from 'react';
 import { IWorkItem } from '@/stores/experience.interface';
-import { IEducationItem } from '@/stores/education.interface';
+import { IEducation } from '@/stores/education.interface';
 import { IAwardItem } from '@/stores/awards.interface';
 import { IVolunteeringItem } from '@/stores/volunteering.interface';
 import { ISkillItem } from '@/stores/skill.interface';
 import { IVolunteer } from '@/stores/index.interface';
+import { ICertificationItem } from '@/stores/certifications';
 
 // Define a single type for all valid section values
 export type ValidSectionValue =
   | string
+  | string[]
+  | boolean
   | IWorkItem[]
-  | IEducationItem[]
+  | IEducation[]
   | IAwardItem[]
   | IVolunteeringItem[]
   | IVolunteer[]
-  | ISkillItem[];
+  | ISkillItem[]
+  | ICertificationItem[];
 
 // Single definition of SectionValidatorProps
 interface SectionValidatorProps {
@@ -27,7 +31,7 @@ export interface WorkSectionProps {
 }
 // Component props interfaces
 interface EducationSectionProps {
-  education: IEducationItem[];
+  education: IEducation[];
 }
 
 interface VolunteerSectionProps {
@@ -36,7 +40,10 @@ interface VolunteerSectionProps {
 
 export const SectionValidator: React.FC<SectionValidatorProps> = ({ value, children }) => {
   const isValid = useMemo(() => {
-    return (value || '').length > 0;
+    if (Array.isArray(value)) {
+      return value.length > 0;
+    }
+    return Boolean(value);
   }, [value]);
 
   if (!isValid) {

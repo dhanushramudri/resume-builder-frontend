@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { NavMenuPopover } from './NavMenuPopover';
 import { StyledButton } from '../atoms';
 
-export const NavMenuItem = ({ caption, popoverChildren }: INavMenuItemProps) => {
+export const NavMenuItem = ({ caption, popoverChildren, className }: INavMenuItemProps) => {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {

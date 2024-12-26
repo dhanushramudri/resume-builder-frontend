@@ -3,12 +3,12 @@ import TextField from '@mui/material/TextField';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
 import { useEducations } from '@/stores/education';
-import { IEducationItem } from '@/stores/education.interface';
+import { IEducation } from '@/stores/education.interface';
 import { SwitchWidget } from '@/helpers/common/atoms/Switch';
 import { DATE_PICKER_FORMAT } from '@/helpers/constants';
 
 interface IEducationProps {
-  educationInfo: IEducationItem;
+  educationInfo: IEducation;
   currentIndex: number;
 }
 

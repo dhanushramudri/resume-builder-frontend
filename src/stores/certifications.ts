@@ -96,7 +96,7 @@ const updateCertification =
 export const useCertifications = create<ICertificationsStore>()(
   persist(
     (set, get) => ({
-      certifications: userDetailsData?.resumeData?.certifications || resumeData?.certifications,
+      certifications: userDetailsData?.resumeData?.certifications || [],
       add: addCertification(set),
       get: getAllCertifications(get),
       remove: removeCertification(set),

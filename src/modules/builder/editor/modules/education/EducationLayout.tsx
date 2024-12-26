@@ -4,6 +4,7 @@ import AddEducation from './components/AddEducation';
 import Education from './components/Education';
 
 import MoveEditSection from '@/helpers/common/components/MoveEditSectionContainer';
+import { IEducation } from '@/stores/education.interface';
 
 const EducationLayout = () => {
   const allAcademics = useEducations((state) => state.academics);
@@ -24,7 +25,7 @@ const EducationLayout = () => {
 
   return (
     <div className="flex flex-col gap-8 mb-8">
-      {allAcademics.map((education, index) => (
+      {allAcademics.map((education: IEducation, index: number) => (
         <MoveEditSection
           key={education.id}
           title={education.institution || 'Education'}

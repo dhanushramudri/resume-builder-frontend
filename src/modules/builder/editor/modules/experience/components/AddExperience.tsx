@@ -6,9 +6,9 @@ import { IExperienceItem } from '@/stores/experience.interface';
 const NEW_EXPERIENCE: IExperienceItem = {
   name: '',
   position: '',
-  startDate: null,
+  startDate: '',
   isWorkingHere: false,
-  endDate: null,
+  endDate: '',
   summary: '',
   years: '',
   id: '',

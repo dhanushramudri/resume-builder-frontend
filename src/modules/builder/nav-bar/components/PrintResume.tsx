@@ -2,7 +2,13 @@ import { useEffect } from 'react';
 import { MenuItem } from '@mui/material';
 import { StyledButton } from '../atoms';
 
-export const PrintResume: React.FC<{ isMenuButton?: boolean }> = ({ isMenuButton }) => {
+interface PrintResumeProps {
+  isMenuButton?: boolean;
+  onClick?: () => void;
+  className?: string;
+}
+
+export const PrintResume = ({ isMenuButton, onClick, className }: PrintResumeProps) => {
   useEffect(() => {
     globalThis?.addEventListener('beforeprint', () => {
       globalThis.document.title = `Resume_Builder_${Date.now()}`;

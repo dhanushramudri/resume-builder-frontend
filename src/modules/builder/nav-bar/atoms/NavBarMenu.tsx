@@ -1,3 +1,10 @@
-export const NavBarMenu = ({ children }: { children: React.ReactNode }) => {
-  return <div className="flex gap-3">{children}</div>;
+import { ReactNode } from 'react';
+
+interface NavBarMenuProps {
+  children: ReactNode;
+  className?: string;
+}
+
+export const NavBarMenu = ({ children, className }: NavBarMenuProps) => {
+  return <div className={className}>{children}</div>;
 };

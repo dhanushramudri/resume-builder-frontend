@@ -10,7 +10,6 @@ import HomePage from '.';
 
 function AppContent(props: AppProps) {
   const { user, isLoaded } = useUser();
-  console.log('user is ', user);
 
   if (!isLoaded) {
     return <div>Loading...</div>;

@@ -1,3 +1,8 @@
-export const ResumeTitle = ({ title }: { title: string }) => {
-  return <h5 className="text-base sm:text-lg md:text-xl text-resume-800 text-center">{title}</h5>;
+interface ResumeTitleProps {
+  title: string;
+  className?: string;
+}
+
+export const ResumeTitle = ({ title, className }: ResumeTitleProps) => {
+  return <h1 className={className}>{title}</h1>;
 };

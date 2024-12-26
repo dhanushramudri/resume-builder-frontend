@@ -46,7 +46,7 @@ const StyledSection = styled.div`
   }
 `;
 
-const formatDate = (dateString) => {
+const formatDate = (dateString: string) => {
   if (!dateString) return '';
 
   try {
@@ -65,7 +65,17 @@ const formatDate = (dateString) => {
   }
 };
 
-const SocialIcons = ({ profiles, portfolioUrl }) => {
+interface Profile {
+  network: string;
+  url: string;
+}
+
+interface SocialIconsProps {
+  profiles?: Profile[];
+  portfolioUrl?: string;
+}
+
+const SocialIcons = ({ profiles, portfolioUrl }: SocialIconsProps) => {
   if (!profiles?.length && !portfolioUrl) return null;
 
   return (
@@ -98,7 +108,34 @@ const SocialIcons = ({ profiles, portfolioUrl }) => {
   );
 };
 
-const Section = ({ title, children, titleClassname = '', profiles, portfolioUrl }) => {
+interface SectionProps {
+  title: string;
+  children: React.ReactNode;
+  titleClassname?: string;
+  profiles?: Profile[];
+  portfolioUrl?: string;
+}
+
+interface ContactInfoProps {
+  basics?: {
+    email?: string;
+    phone?: string;
+    location?: {
+      city?: string;
+      region?: string;
+    };
+    profiles?: Profile[];
+    url?: string;
+  };
+}
+
+const Section = ({
+  title,
+  children,
+  titleClassname = '',
+  profiles,
+  portfolioUrl,
+}: SectionProps) => {
   return (
     <StyledSection>
       <div className="header flex justify-center items-center gap-1 max-w-[60%]" title={title}>
@@ -114,7 +151,7 @@ const Section = ({ title, children, titleClassname = '', profiles, portfolioUrl 
   );
 };
 
-const ContactInfo = ({ basics }) => {
+const ContactInfo = ({ basics }: ContactInfoProps) => {
   if (!basics) return null;
   const { email, phone, location, profiles, url } = basics;
 

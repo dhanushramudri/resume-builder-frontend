@@ -3,7 +3,8 @@ export interface IWorkItem {
   id: string;
   name: string;
   position: string;
-  url: string;
+  url?: string;
+  website?: string;
   startDate: string;
   endDate: string;
   isWorkingHere: boolean;
@@ -35,3 +36,40 @@ export interface SectionValidatorProps {
   value: IWorkItem[];
   children: React.ReactNode;
 }
+
+export interface IExperienceItem {
+  id: string;
+  name: string;
+  position: string;
+  startDate: string;
+  isWorkingHere: boolean;
+  endDate: string;
+  years: string;
+  summary: string;
+  url?: string;
+  highlights?: string[];
+}
+
+export interface IExperienceStore {
+  experiences: IExperienceItem[];
+  add: (experience: IExperienceItem) => void;
+  get: (index: number) => IExperienceItem;
+  remove: (index: number) => void;
+  reset: (values: IExperienceItem[]) => void;
+  onmoveup: (index: number) => void;
+  onmovedown: (index: number) => void;
+  updateExperience: (index: number, updatedInfo: IExperienceItem) => void;
+}
+
+const NEW_EXPERIENCE: IExperienceItem = {
+  name: '',
+  position: '',
+  startDate: '',
+  isWorkingHere: false,
+  endDate: '',
+  summary: '',
+  years: '',
+  id: '',
+  url: '',
+  highlights: [],
+};

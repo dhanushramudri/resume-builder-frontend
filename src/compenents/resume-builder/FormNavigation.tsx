@@ -150,6 +150,8 @@ const FormNavigation = () => {
         throw new Error('Failed to save user details');
       }
 
+      router.push('/builder');
+
       // Retrieve response data after the successful POST request
       const saveData = await userDetailsResponse.json();
       console.log('Resume data saved successfully:', saveData);

@@ -28,6 +28,14 @@ interface Skill {
   level: number;
 }
 
+interface Work {
+  name: string;
+  position: string;
+  startDate: string;
+  endDate?: string;
+  highlights: string[];
+}
+
 function RatedSkills({ items }: { items: Skill[] }) {
   return (
     <div className="space-y-3">
@@ -216,32 +224,24 @@ export default function ElegantTemplate() {
             <div className="bg-white p-6 rounded-lg shadow-lg border border-gray-200">
               <h2 className="text-lg font-semibold mb-4">Professional Experience</h2>
               <div className="space-y-6">
-                {work.map(
-                  (job: {
-                    company: string;
-                    position: string;
-                    startDate: string;
-                    endDate?: string;
-                    highlights: string[];
-                  }) => (
-                    <div key={job.company} className="text-sm">
-                      <div className="flex justify-between items-start mb-2">
-                        <div>
-                          <h3 className="font-medium text-gray-900">{job.company}</h3>
-                          <p className="text-gray-600">{job.position}</p>
-                        </div>
-                        <p className="text-gray-500 text-xs">
-                          {job.startDate} - {job.endDate || 'present'}
-                        </p>
+                {work.map((job: Work) => (
+                  <div key={job.name} className="text-sm">
+                    <div className="flex justify-between items-start mb-2">
+                      <div>
+                        <h3 className="font-medium text-gray-900">{job.name}</h3>
+                        <p className="text-gray-600">{job.position}</p>
                       </div>
-                      <ul className="list-disc list-outside ml-4 space-y-1 text-gray-700">
-                        {job.highlights.map((highlight: string, index: number) => (
-                          <li key={index}>{highlight}</li>
-                        ))}
-                      </ul>
+                      <p className="text-gray-500 text-xs">
+                        {job.startDate} - {job.endDate || 'present'}
+                      </p>
                     </div>
-                  )
-                )}
+                    <ul className="list-disc list-outside ml-4 space-y-1 text-gray-700">
+                      {job.highlights.map((highlight: string, index: number) => (
+                        <li key={index}>{highlight}</li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
               </div>
             </div>
           </SectionValidator>

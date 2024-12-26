@@ -4,7 +4,18 @@ import { persist } from 'zustand/middleware';
 import { produce } from 'immer';
 import userDetailsData from '@/functions/userDetails';
 import resumeData from '@/helpers/constants/resume-data.json';
-import { IEducationItem, IEducationStore } from './education.interface';
+import { IEducation } from './education.interface';
+
+interface IEducationStore {
+  academics: IEducation[];
+  add: (education: IEducation) => void;
+  get: (index: number) => IEducation;
+  remove: (index: number) => void;
+  reset: (values: IEducation[]) => void;
+  onmoveup: (index: number) => void;
+  onmovedown: (index: number) => void;
+  updateEducation: (index: number, updatedInfo: IEducation) => void;
+}
 
 const addEducation =
   (set: SetState<IEducationStore>) =>
@@ -19,7 +30,7 @@ const addEducation =
     url,
     score,
     courses,
-  }: IEducationItem) =>
+  }: IEducation) =>
     set(
       produce((state: IEducationStore) => {
         state.academics.push({
@@ -42,7 +53,7 @@ const removeEducation = (set: SetState<IEducationStore>) => (index: number) =>
     academics: state.academics.slice(0, index).concat(state.academics.slice(index + 1)),
   }));
 
-const setEducation = (set: SetState<IEducationStore>) => (values: IEducationItem[]) => {
+const setEducation = (set: SetState<IEducationStore>) => (values: IEducation[]) => {
   set({
     academics: values,
   });
@@ -77,7 +88,7 @@ const onMoveDown = (set: SetState<IEducationStore>) => (index: number) => {
 };
 
 const updateEducation =
-  (set: SetState<IEducationStore>) => (index: number, updatedInfo: IEducationItem) => {
+  (set: SetState<IEducationStore>) => (index: number, updatedInfo: IEducation) => {
     set(
       produce((state: IEducationStore) => {
         state.academics[index] = updatedInfo;

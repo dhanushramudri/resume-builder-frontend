@@ -1,6 +1,5 @@
 import { dateParser } from '@/helpers/utils';
 import { HTMLRenderer } from '@/helpers/common/components/HTMLRenderer';
-import { IWorkIntrf } from '@/stores/index.interface';
 import { SectionHeading } from '../atoms/SectionHeading';
 import { SectionList } from '../atoms/SectionList';
 import { SectionSubtitle } from '../atoms/SectionSubtitle';
@@ -8,8 +7,9 @@ import { SectionTitle } from '../atoms/SectionTitle';
 import { useRef } from 'react';
 import { scrollToElement } from '../../../helpers/utils/index';
 import { useExperiences } from '@/stores/experience';
+import { IWorkItem } from '@/stores/experience.interface';
 
-export const WorkSection = ({ work }: { work: IWorkIntrf[] }) => {
+export const WorkSection = ({ work = [] }: { work: IWorkItem[] }) => {
   const workRef = useRef<null | HTMLDivElement>(null);
 
   useExperiences.subscribe(() => {
@@ -20,7 +20,7 @@ export const WorkSection = ({ work }: { work: IWorkIntrf[] }) => {
     <div className="mb-3" ref={workRef}>
       <SectionHeading title="Experience" />
 
-      {work.map((item: IWorkIntrf, index: number) => {
+      {work.map((item, index) => {
         return (
           <div key={index} className="py-2">
             <SectionTitle label={item.name} />

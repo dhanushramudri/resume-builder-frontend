@@ -1,16 +1,14 @@
 import { useMemo } from 'react';
 import { OutlinedButton } from '@/helpers/common/atoms/Buttons';
 import { useEducations } from '@/stores/education';
-import { IEducationItem } from '@/stores/education.interface';
+import { IEducation } from '@/stores/education.interface';
 
-const NEW_EDUCATION: IEducationItem = {
+const NEW_EDUCATION: IEducation = {
   institution: '',
-  url: '',
   studyType: '',
   area: '',
-  startDate: null,
-  isStudyingHere: false,
-  endDate: null,
+  startDate: '',
+  endDate: '',
   score: '',
   courses: [],
   id: '',

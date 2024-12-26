@@ -4,6 +4,7 @@ import AddExperience from './components/AddExperience';
 import Experience from './components/Experience';
 
 import MoveEditSection from '@/helpers/common/components/MoveEditSectionContainer';
+import { IExperienceItem } from '@/stores/experience.interface';
 
 const ExperienceLayout = () => {
   const allWorks = useExperiences((state) => state.experiences);
@@ -24,7 +25,7 @@ const ExperienceLayout = () => {
 
   return (
     <div className="flex flex-col gap-8 mb-8">
-      {allWorks.map((work, index) => (
+      {allWorks.map((work: IExperienceItem, index: number) => (
         <MoveEditSection
           key={work.id}
           title={work.name || 'Experience'}

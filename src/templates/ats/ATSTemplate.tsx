@@ -111,7 +111,7 @@ export default function TwoColumnTemplate() {
                   <div key={category} className="mb-4 last:mb-0">
                     <h4 className="text-sm font-semibold mb-2 text-gray-800">{category}</h4>
                     <div className="flex flex-wrap gap-2">
-                      {items.map((skill) => (
+                      {items.map((skill: any) => (
                         <span
                           key={skill.name}
                           className="text-xs bg-gray-100 px-2 py-1 rounded-md text-gray-700 hover:bg-gray-200 transition-colors"
