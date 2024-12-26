@@ -10,7 +10,42 @@ interface ResumeControllerProps {
 }
 
 const ResumeController = ({ zoomIn, zoomOut, resetZoom, className }: ResumeControllerProps) => {
-  return <div className={className}>...</div>;
+  return (
+    <div className={className}>
+      <div className="flex items-center gap-5">
+        <TooltipRenderer title="Zoom out">
+          <Image
+            src="/icons/zoom-out.svg"
+            className="cursor-pointer"
+            alt="Zoom out"
+            width="24"
+            height="24"
+            onClick={zoomOut}
+          />
+        </TooltipRenderer>
+        <TooltipRenderer title="Zoom in">
+          <Image
+            src="/icons/zoom-in.svg"
+            className="cursor-pointer"
+            alt="Zoom in"
+            width="24"
+            height="24"
+            onClick={zoomIn}
+          />
+        </TooltipRenderer>
+        <TooltipRenderer title="Reset zoom">
+          <Image
+            src="/icons/reset-zoom.svg"
+            className="cursor-pointer"
+            alt="Reset zoom"
+            width="24"
+            height="24"
+            onClick={resetZoom}
+          />
+        </TooltipRenderer>
+      </div>
+    </div>
+  );
 };
 
 export default ResumeController;
