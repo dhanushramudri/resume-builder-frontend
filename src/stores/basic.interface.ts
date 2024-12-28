@@ -1,33 +1,27 @@
-export type IProfiles = {
-  network: string;
-  username: string;
-  url: string;
-};
+import { IBasics } from '@/types/basics';
 
-type ILocation = {
-  address: string;
-  postalCode: string;
-  city: string;
-  countryCode: string;
-  region: string;
-};
-
-export interface IBasicDetailsItem {
-  name: string;
-  label: string;
-  image: string;
-  email: string;
-  phone: string;
-  url: string;
-  summary: string;
-  location: ILocation;
-  relExp: string;
-  totalExp: string;
+export interface IBasicDetailsItem extends IBasics {
+  firstName: string;
+  lastName: string;
+  education: {
+    college: string;
+    specialization: string;
+    course: string;
+    branch: string;
+    passOutYear: string;
+    cgpa: string;
+  };
+  gender: string;
+  genderOther: string;
+  dateOfBirth: string;
+  jobPreferredCountries: string[];
+  jobPreferredStates: string[];
+  jobPreferredCities: string[];
   objective: string;
-  profiles: IProfiles[];
 }
 
 export interface IBasicDetailsStore {
   values: IBasicDetailsItem;
   reset: (values: IBasicDetailsItem) => void;
+  updateValues: (values: IBasicDetailsItem) => void;
 }

@@ -19,7 +19,7 @@ import { useActivity } from '../../stores/activity';
 import { useBasicDetails } from '../../stores/basic';
 import { useEducations } from '../../stores/education';
 import { useExperiences } from '../../stores/experience';
-import { useVoluteeringStore } from '../../stores/volunteering';
+import { useVolunteeringStore } from '../../stores/volunteering';
 
 export const updateResumeData = (newData: any) => {
   if (!newData) return false;
@@ -75,7 +75,7 @@ export const updateResumeData = (newData: any) => {
 
   // Update volunteering
   if (newData.volunteer && newData.volunteer.length > 0) {
-    const reset = useVoluteeringStore.getState().reset;
+    const reset = useVolunteeringStore.getState().reset;
     reset(newData.volunteer); // Reset volunteering section
   }
 

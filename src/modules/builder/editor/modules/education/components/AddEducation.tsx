@@ -3,6 +3,12 @@ import { OutlinedButton } from '@/helpers/common/atoms/Buttons';
 import { useEducations } from '@/stores/education';
 import { IEducation } from '@/stores/education.interface';
 
+interface AddEducationProps {
+  handleChange: (name: string, isExpanded: boolean) => void;
+  isEmpty: boolean;
+  onAdd: (newEducation: IEducation) => void;
+}
+
 const NEW_EDUCATION: IEducation = {
   institution: '',
   studyType: '',
@@ -14,28 +20,22 @@ const NEW_EDUCATION: IEducation = {
   id: '',
 };
 
-const AddEducation = ({
-  handleChange,
-  isEmpty,
-}: {
-  handleChange: (name: string, isExpanded: boolean) => void;
-  isEmpty: boolean;
-}) => {
+const AddEducation: React.FC<AddEducationProps> = ({ handleChange, isEmpty, onAdd }) => {
   const addEducation = useEducations((state) => state.add);
 
   const onCreateEducation = () => {
     const uniqueExpandedId = `${Math.random()}`;
-    NEW_EDUCATION.id = uniqueExpandedId;
-    addEducation(NEW_EDUCATION);
+    const newEducation = {
+      ...NEW_EDUCATION,
+      id: uniqueExpandedId,
+    };
+    addEducation(newEducation);
+    onAdd(newEducation);
     handleChange(uniqueExpandedId, true);
   };
 
   const buttonCaption = useMemo(() => {
-    if (isEmpty) {
-      return '+ Add an education';
-    } else {
-      return '+ Add more';
-    }
+    return isEmpty ? '+ Add an education' : '+ Add more';
   }, [isEmpty]);
 
   return (

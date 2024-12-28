@@ -15,143 +15,79 @@ type SkillKeys =
   | 'practices'
   | 'tools';
 
-// Helper method to handle missing or undefined data
 const getFallbackSkills = (key: SkillKeys) => {
-  const userSkills = userDetailsData?.resumeData?.skills?.[key];
-  return userSkills || resumeData?.skills[key]; // Fallback to resumeData if userSkills is missing
+  return userDetailsData?.resumeData?.skills?.[key] || resumeData?.skills[key];
 };
 
-// Define individual methods
-const addSkill =
-  (set: SetState<ISkillState>) =>
-  ({ name, level }: ISkillItem) =>
+const createMethods = (set: SetState<ISkillState>, get: GetState<ISkillState>) => ({
+  get: () => (get().isEnabled ? get().values : []),
+  add: ({ name, level }: ISkillItem) =>
     set(
       produce((state: ISkillState) => {
         state.values.push({ name, level });
+        updateLocalStorage(state.title.toLowerCase(), state.values);
       })
-    );
-
-const removeSkill = (set: SetState<ISkillState>) => (index: number) =>
-  set(
-    produce((state: ISkillState) => {
-      state.values.splice(index, 1);
-    })
-  );
-
-const editSkill =
-  (set: SetState<ISkillState>) =>
-  ({ name, level, index }: { name: string; level: number; index: number }) =>
+    ),
+  remove: (index: number) =>
     set(
       produce((state: ISkillState) => {
-        state.values[index] = { name, level: level };
+        state.values.splice(index, 1);
+        updateLocalStorage(state.title.toLowerCase(), state.values);
       })
-    );
-
-const setSkills = (set: SetState<ISkillState>) => (values: ISkillItem[]) => set(() => ({ values }));
-
-const getSkills = (get: GetState<ISkillState>) => () => (get().isEnabled ? get().values : []);
-
-const setIsEnabled = (set: SetState<ISkillState>) => (isEnabled: boolean) =>
-  set(() => ({ isEnabled }));
-
-// Helper to generate methods
-const getMethods = (set: SetState<ISkillState>, get: GetState<ISkillState>) => ({
-  get: getSkills(get),
-  add: addSkill(set),
-  remove: removeSkill(set),
-  edit: editSkill(set),
-  reset: setSkills(set),
-  setIsEnabled: setIsEnabled(set),
+    ),
+  edit: ({ name, level, index }: { name: string; level: number; index: number }) =>
+    set(
+      produce((state: ISkillState) => {
+        state.values[index] = { name, level };
+        updateLocalStorage(state.title.toLowerCase(), state.values);
+      })
+    ),
+  reset: (values: ISkillItem[]) =>
+    set(() => {
+      const newState = { values };
+      updateLocalStorage(get().title.toLowerCase(), values);
+      return newState;
+    }),
+  setIsEnabled: (isEnabled: boolean) => set(() => ({ isEnabled })),
 });
 
-// Create stores for different skill categories
-export const useLanguages = create<ISkillState>()(
-  persist(
-    (set, get) => ({
-      title: 'Languages',
-      hasLevel: true,
-      values: getFallbackSkills('languages'),
-      isEnabled: true,
-      ...getMethods(set, get),
-    }),
-    { name: 'languages' }
-  )
-);
+const updateLocalStorage = (skillType: string, values: ISkillItem[]) => {
+  const existingData = localStorage.getItem('userDetailsData');
+  if (existingData) {
+    const parsedData = JSON.parse(existingData);
+    const updatedData = {
+      ...parsedData,
+      resumeData: {
+        ...parsedData.resumeData,
+        skills: {
+          ...parsedData.resumeData.skills,
+          [skillType]: values,
+        },
+      },
+      updatedAt: new Date().toISOString(),
+    };
+    localStorage.setItem('userDetailsData', JSON.stringify(updatedData));
+  }
+};
 
-export const useFrameworks = create<ISkillState>()(
-  persist(
-    (set, get) => ({
-      title: 'Frameworks',
-      hasLevel: true,
-      values: getFallbackSkills('frameworks'),
-      isEnabled: true,
-      ...getMethods(set, get),
-    }),
-    { name: 'frameworks' }
-  )
-);
+const createSkillStore = (title: string, hasLevel: boolean, key: SkillKeys) =>
+  create<ISkillState>()(
+    persist(
+      (set, get) => ({
+        title,
+        hasLevel,
+        values: getFallbackSkills(key),
+        isEnabled: true,
+        ...createMethods(set, get),
+      }),
+      { name: key }
+    )
+  );
 
-export const useTechnologies = create<ISkillState>()(
-  persist(
-    (set, get) => ({
-      title: 'Technologies',
-      hasLevel: false,
-      values: getFallbackSkills('technologies'),
-      isEnabled: true,
-      ...getMethods(set, get),
-    }),
-    { name: 'technologies' }
-  )
-);
-
-export const useLibraries = create<ISkillState>()(
-  persist(
-    (set, get) => ({
-      title: 'Libraries',
-      hasLevel: false,
-      values: getFallbackSkills('libraries'),
-      isEnabled: true,
-      ...getMethods(set, get),
-    }),
-    { name: 'libraries' }
-  )
-);
-
-export const useDatabases = create<ISkillState>()(
-  persist(
-    (set, get) => ({
-      title: 'Databases',
-      hasLevel: false,
-      values: getFallbackSkills('databases'),
-      isEnabled: true,
-      ...getMethods(set, get),
-    }),
-    { name: 'databases' }
-  )
-);
-
-export const usePractices = create<ISkillState>()(
-  persist(
-    (set, get) => ({
-      title: 'Practices',
-      hasLevel: false,
-      values: getFallbackSkills('practices'),
-      isEnabled: true,
-      ...getMethods(set, get),
-    }),
-    { name: 'practices' }
-  )
-);
-
-export const useTools = create<ISkillState>()(
-  persist(
-    (set, get) => ({
-      title: 'Tools',
-      hasLevel: false,
-      values: getFallbackSkills('tools'),
-      isEnabled: true,
-      ...getMethods(set, get),
-    }),
-    { name: 'tools' }
-  )
-);
+export const useLanguages = createSkillStore('Languages', true, 'languages');
+export const useFrameworks = createSkillStore('Frameworks', true, 'frameworks');
+export const useTechnologies = createSkillStore('Technologies', false, 'technologies');
+export const useLibraries = createSkillStore('Libraries', false, 'libraries');
+export const useDatabases = createSkillStore('Databases', false, 'databases');
+export const usePractices = createSkillStore('Practices', false, 'practices');
+export const useTools = createSkillStore('Tools', false, 'tools');

@@ -29,17 +29,28 @@ body {
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
     font-size: 12px;
+    position: relative;
   }
-  @media print {
-    .no-print {
-      display: none !important;
-    }
+
+  body::before {
+    content: 'instacks';
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+    font-size: 100px;
+    color: rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    pointer-events: none;
+  }
+
+  .no-print {
+    display: none !important;
   }
 
   .resume-container {
     width: 210mm;
     min-height: 297mm;
-    /* margin: ; */
     padding: 10%;
     box-sizing: border-box;
   }
@@ -61,10 +72,6 @@ body {
   .main-column {
     width: 70%;
     break-inside: avoid;
-  }
-
-  .no-print {
-    display: none !important;
   }
 }
 

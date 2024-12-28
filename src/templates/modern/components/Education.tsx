@@ -1,9 +1,10 @@
+// Education.tsx
 import { IEducation } from '@/stores/index.interface';
 import { SectionHeading } from '../atoms/SectionHeading';
 import { SectionSubtitle } from '../atoms/SectionSubtitle';
 import { SectionTitle } from '../atoms/SectionTitle';
 import { dateParser } from '@/helpers/utils';
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 import { useEducations } from '../../../stores/education';
 import { scrollToElement } from '../../../helpers/utils/index';
 
@@ -13,10 +14,14 @@ interface EducationSectionProps {
 
 export const EducationSection: React.FC<EducationSectionProps> = ({ education }) => {
   const educationRef = useRef<null | HTMLDivElement>(null);
+  const educationStore = useEducations();
 
-  useEducations.subscribe(() => {
-    scrollToElement(educationRef);
-  });
+  useEffect(() => {
+    const unsubscribe = useEducations.subscribe(() => {
+      scrollToElement(educationRef);
+    });
+    return () => unsubscribe();
+  }, []);
 
   return (
     <div className="mb-3" ref={educationRef}>

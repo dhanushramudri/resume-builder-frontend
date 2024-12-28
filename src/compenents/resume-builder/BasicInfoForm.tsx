@@ -1,17 +1,48 @@
 // src/components/resume-builder/BasicInfoForm.tsx
 
 import React, { useState } from 'react';
-import { Select, MenuItem, Checkbox, ListItemText } from '@mui/material';
+import { Select, MenuItem, Checkbox, ListItemText, FormControl, InputLabel } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material';
 import { useResume } from '../../context/ResumeContext';
 import type { Profile } from '../../types/resume';
 import FormNavigation from './FormNavigation';
 import CourseSelector from './CourseSelector';
+import { specializations } from '../../helpers/constants/specializations';
 
 const BasicInfoForm = () => {
   const { resumeData, updateResumeData, errors } = useResume();
   const { basics } = resumeData;
   const formErrors = errors.basics || {};
+  const countryData = {
+    India: {
+      states: {
+        'Andhra Pradesh': ['Vijayawada', 'Visakhapatnam', 'Guntur'],
+        Telangana: ['Hyderabad', 'Warangal'],
+      },
+    },
+    USA: {
+      states: {
+        California: ['Los Angeles', 'San Francisco'],
+        Texas: ['Dallas', 'Austin'],
+      },
+    },
+  };
+  const [selectedCountry, setSelectedCountry] = useState('');
+  const [selectedState, setSelectedState] = useState('');
+  const [selectedCity, setSelectedCity] = useState('');
+  // Dynamic Options
+
+  // Handlers
+
+  const handleStateChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedState(event.target.value);
+    setSelectedCity(''); // Reset city on state change
+  };
+
+  const handleCityChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedCity(event.target.value);
+  };
+
   // const [education, setEducation] = useState({
   //   level: '',
   //   course: '',
@@ -99,6 +130,87 @@ const BasicInfoForm = () => {
     return formErrors[fieldName] ? (
       <p className="text-red-500 text-sm mt-1">{formErrors[fieldName]}</p>
     ) : null;
+  };
+
+  const currentYear = new Date().getFullYear();
+  const years = Array.from({ length: currentYear + 5 - 1990 + 1 }, (_, i) => 1990 + i);
+  const educationLevels = ['Undergraduate', 'Postgraduate'];
+
+  const courses: Record<'Undergraduate' | 'Postgraduate', Record<string, string[]>> = {
+    Undergraduate: {
+      'Bachelor of Technology (B.Tech)': [
+        'Computer Science and Engineering',
+        'Mechanical Engineering',
+        'Electrical and Electronics Engineering',
+        'Civil Engineering',
+        'Electronics and Communication Engineering',
+        'Information Technology',
+        'Chemical Engineering',
+        'Biotechnology',
+        'Data Science',
+        'Artificial Intelligence and Machine Learning',
+        'Aerospace Engineering',
+      ],
+      'Bachelor of Engineering (B.E.)': [
+        'Computer Science and Engineering',
+        'Mechanical Engineering',
+        'Civil Engineering',
+        'Electrical Engineering',
+        'Electronics Engineering',
+      ],
+    },
+    Postgraduate: {
+      'Master of Technology (M.Tech)': [
+        'Computer Science and Engineering',
+        'Mechanical Engineering',
+        'Electrical and Electronics Engineering',
+        'Civil Engineering',
+        'Electronics and Communication Engineering',
+        'Information Technology',
+        'Chemical Engineering',
+        'Biotechnology',
+        'Data Science',
+        'Artificial Intelligence and Machine Learning',
+        'Aerospace Engineering',
+      ],
+      'Master of Engineering (M.E.)': [
+        'Structural Engineering',
+        'Thermal Engineering',
+        'VLSI Design',
+        'Embedded Systems',
+        'Robotics',
+      ],
+      'Master of Science (M.Sc)': [
+        'Physics',
+        'Mathematics',
+        'Chemistry',
+        'Biotechnology',
+        'Environmental Science',
+      ],
+      'Master of Business Administration (MBA)': [
+        'Finance',
+        'Marketing',
+        'Human Resources',
+        'Operations Management',
+        'Business Analytics',
+      ],
+    },
+  };
+
+  const allCourses = Object.values(courses).flat();
+
+  // Add this handler
+  const handleEducationChange = (field: string, value: string) => {
+    updateResumeData('basics', {
+      ...basics,
+      education: {
+        ...basics.education,
+        [field]: value,
+        // Reset dependent fields when parent field changes
+        ...(field === 'level' && { course: '', specialization: '' }),
+        ...(field === 'course' && { specialization: '' }),
+      },
+    });
   };
 
   return (
@@ -411,15 +523,15 @@ const BasicInfoForm = () => {
               className="w-full border rounded p-0"
             >
               <MenuItem value="us">
-                <Checkbox checked={basics.jobPreferredCountries.includes('us')} />
+                <Checkbox checked={basics.jobPreferredCountries?.includes('us') ?? false} />
                 <ListItemText primary="United States" />
               </MenuItem>
               <MenuItem value="uk">
-                <Checkbox checked={basics.jobPreferredCountries.includes('uk')} />
+                <Checkbox checked={basics.jobPreferredCountries?.includes('uk') ?? false} />
                 <ListItemText primary="United Kingdom" />
               </MenuItem>
               <MenuItem value="ca">
-                <Checkbox checked={basics.jobPreferredCountries.includes('ca')} />
+                <Checkbox checked={basics.jobPreferredCountries?.includes('ca') ?? false} />
                 <ListItemText primary="Canada" />
               </MenuItem>
               {/* Add more countries as needed */}
@@ -447,15 +559,15 @@ const BasicInfoForm = () => {
               className="w-full border rounded p-0"
             >
               <MenuItem value="new_york">
-                <Checkbox checked={basics.jobPreferredStates.includes('new_york')} />
+                <Checkbox checked={basics.jobPreferredStates?.includes('new_york') ?? false} />
                 <ListItemText primary="New York" />
               </MenuItem>
               <MenuItem value="california">
-                <Checkbox checked={basics.jobPreferredStates.includes('california')} />
+                <Checkbox checked={basics.jobPreferredStates?.includes('california') ?? false} />
                 <ListItemText primary="California" />
               </MenuItem>
               <MenuItem value="illinois">
-                <Checkbox checked={basics.jobPreferredStates.includes('illinois')} />
+                <Checkbox checked={basics.jobPreferredStates?.includes('illinois') ?? false} />
                 <ListItemText primary="Illinois" />
               </MenuItem>
               {/* Add more states as needed */}
@@ -483,20 +595,163 @@ const BasicInfoForm = () => {
               className="w-full border rounded p-0"
             >
               <MenuItem value="new_york">
-                <Checkbox checked={basics.jobPreferredCities.includes('new_york')} />
+                <Checkbox checked={basics.jobPreferredCities?.includes('new_york') ?? false} />
                 <ListItemText primary="New York" />
               </MenuItem>
               <MenuItem value="los_angeles">
-                <Checkbox checked={basics.jobPreferredCities.includes('los_angeles')} />
+                <Checkbox checked={basics.jobPreferredCities?.includes('los_angeles') ?? false} />
                 <ListItemText primary="Los Angeles" />
               </MenuItem>
               <MenuItem value="chicago">
-                <Checkbox checked={basics.jobPreferredCities.includes('chicago')} />
+                <Checkbox checked={basics.jobPreferredCities?.includes('chicago') ?? false} />
                 <ListItemText primary="Chicago" />
               </MenuItem>
               {/* Add more cities as needed */}
             </Select>
             {renderFieldError('jobPreferredCities')}
+          </div>
+        </div>
+      </div>
+      {/* Specialization (Drop down)
+  ○ Segmented into Postgraduate and Undergraduate categories
+  ● Course(List of Courses given at the end of the document) (Drop Down with Search enabled)
+  ○ Specializations listed based on the degree (e.g., M.Tech, M.Sc, MBA, etc.) as per selected option from Postgraduate or Undergraduate.
+  ● Branch/Stream (As per selected Course) (Drop down with search enabled, List of Branch/stream as per courses given at the end of the document)
+  ● Pass-out Year (Year picker, Starts from 1990-Current+5 Years) 
+  LIST OF COURSES
+  1. "Master of Technology (M.Tech)",
+  2. "Master of Engineering (M.E.)"
+  Master of Technology (M.Tech)
+  ○ ComputerScience and Engineering
+  ○ Mechanical Engineering
+  ○ Electrical and Electronics Engineering
+  ○ Civil Engineering
+  ○ Electronics and Communication Engineering
+  ○ Information Technology
+  ○ Chemical Engineering
+  ○ Biotechnology
+  ○ DataScience
+  ○ Artificial Intelligence and Machine Learning
+  ○ Aerospace Engineering
+  Master of Engineering (M.E.)
+  ○ ComputerScience and Engineering
+  ○ Mechanical Engineering
+  ○ Electrical and Electronics Engineering
+  ○ Civil Engineering
+  ○ Electronics and Communication Engineering
+  ○ Information Technology
+  ○ Chemical Engineering
+  ○ Biotechnology
+  ○ DataScience
+  ○ Artificial Intelligence an}
+
+{/* Education Section */}
+      {/* Education Section */}
+      <div className="space-y-4">
+        <h3 className="text-lg font-medium">Education</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* College Name */}
+          <div>
+            <label className="block text-sm font-medium mb-1">College</label>
+            <input
+              type="text"
+              value={basics.education?.institution || ''}
+              onChange={(e) => handleEducationChange('college', e.target.value)}
+              className="w-full p-2 border rounded"
+              placeholder="Enter your college name"
+            />
+          </div>
+
+          {/* Level (Undergraduate/Postgraduate) */}
+          <div>
+            <FormControl fullWidth>
+              <InputLabel>Level</InputLabel>
+              <Select
+                value={basics.education?.level || ''}
+                onChange={(e) => handleEducationChange('level', e.target.value)}
+              >
+                <MenuItem value="Undergraduate">Undergraduate</MenuItem>
+                <MenuItem value="Postgraduate">Postgraduate</MenuItem>
+              </Select>
+            </FormControl>
+          </div>
+
+          {/* Course Selection */}
+          <div>
+            {/* <FormControl fullWidth>
+              <InputLabel>Course</InputLabel>
+              <Select
+                value={basics.education?.courses || []}
+                onChange={(e) => handleEducationChange('courses', e.target.value)}
+                disabled={!basics.education?.level}
+                multiple
+              >
+                {basics.education?.level &&
+                  Object.keys(
+                    courses[basics.education.level as 'Undergraduate' | 'Postgraduate'] || {}
+                  ).map((course) => (
+                    <MenuItem key={course} value={course}>
+                      <Checkbox checked={(basics.education?.courses || []).includes(course)} />
+                      <ListItemText primary={course} />
+                    </MenuItem>
+                  ))}
+              </Select>
+            </FormControl> */}
+          </div>
+
+          {/* Specialization Selection */}
+          {/* education: {
+      id: '', // Added required id field
+      institution: '',
+      studyType: '',
+      area: '',
+      startDate: '',
+      endDate: '',
+      score: '',
+      courses: [],
+      isStudyingHere: false,
+      level: 'graduation', // Added required level field with default value
+    }, */}
+          <div>
+            <FormControl fullWidth>
+              <InputLabel>Specialization</InputLabel>
+              <Select
+                value={basics.education?.specialization || ''}
+                onChange={(e) => handleEducationChange('specialization', e.target.value)}
+                disabled={!basics.education?.courses || basics.education.courses.length === 0}
+              >
+                {basics.education?.courses &&
+                  (typeof basics.education.courses === 'string'
+                    ? [basics.education.courses]
+                    : basics.education.courses
+                  ).map((course: string) =>
+                    courses[basics.education.level as 'Undergraduate' | 'Postgraduate']?.[
+                      course
+                    ]?.map((spec: string) => (
+                      <MenuItem key={`${course}-${spec}`} value={spec}>
+                        {spec}
+                      </MenuItem>
+                    ))
+                  )}
+              </Select>
+            </FormControl>
+          </div>
+
+          {/* Pass-out Year */}
+          <div>
+            <FormControl fullWidth>
+              <InputLabel>Pass-out Year</InputLabel>
+              <Select
+                value={basics.education?.passOutYear || ''}
+                onChange={(e) => handleEducationChange('passOutYear', e.target.value)}
+              >
+                {years.map((year) => (
+                  <MenuItem key={year} value={year}>
+                    {year}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           </div>
         </div>
       </div>

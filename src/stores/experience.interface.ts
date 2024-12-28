@@ -1,42 +1,4 @@
-// Base interface for work experience items
-export interface IWorkItem {
-  id: string;
-  name: string;
-  position: string;
-  url?: string;
-  website?: string;
-  startDate: string;
-  endDate: string;
-  isWorkingHere: boolean;
-  summary: string;
-  highlights: string[];
-  years: string;
-  type: string;
-}
-
-// Store interface for work items
-export interface IWorkStore {
-  work: IWorkItem[];
-  add: (newWork: IWorkItem) => void;
-  get: (index: number) => void;
-  remove: (index: number) => void;
-  reset: (values: IWorkItem[]) => void;
-  onmoveup: (index: number) => void;
-  onmovedown: (index: number) => void;
-  updateWork: (index: number, updatedInfo: IWorkItem) => void;
-}
-
-// Props interface for the WorkSection component
-export interface WorkSectionProps {
-  work: IWorkItem[];
-}
-
-// Props interface for the SectionValidator
-export interface SectionValidatorProps {
-  value: IWorkItem[];
-  children: React.ReactNode;
-}
-
+// experience.interface.ts
 export interface IExperienceItem {
   id: string;
   name: string;
@@ -61,7 +23,23 @@ export interface IExperienceStore {
   updateExperience: (index: number, updatedInfo: IExperienceItem) => void;
 }
 
-const NEW_EXPERIENCE: IExperienceItem = {
+export interface IExperienceProps {
+  experience: IExperienceItem;
+  index: number;
+  expanded: boolean;
+  onChange: (id: string, isExpanded: boolean) => void;
+  onMoveUp: () => void;
+  onMoveDown: () => void;
+  onDelete: () => void;
+  onUpdate: (updatedExperience: IExperienceItem) => void;
+}
+
+export interface IAddExperienceProps {
+  onSave: (experience: IExperienceItem) => void;
+}
+
+export const NEW_EXPERIENCE: IExperienceItem = {
+  id: '',
   name: '',
   position: '',
   startDate: '',
@@ -69,7 +47,6 @@ const NEW_EXPERIENCE: IExperienceItem = {
   endDate: '',
   summary: '',
   years: '',
-  id: '',
   url: '',
   highlights: [],
 };

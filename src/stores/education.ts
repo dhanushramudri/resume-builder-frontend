@@ -1,113 +1,87 @@
+// education.store.ts
 import { create } from 'zustand';
-import { GetState, SetState } from './store.interface';
-import { persist } from 'zustand/middleware';
+import { persist, createJSONStorage } from 'zustand/middleware';
 import { produce } from 'immer';
-import userDetailsData from '@/functions/userDetails';
 import resumeData from '@/helpers/constants/resume-data.json';
+import userDetailsData from '@/functions/userDetails';
 import { IEducation } from './education.interface';
 
 interface IEducationStore {
-  academics: IEducation[];
+  educations: IEducation[];
   add: (education: IEducation) => void;
-  get: (index: number) => IEducation;
   remove: (index: number) => void;
+  updateEducation: (index: number, updatedInfo: IEducation) => void;
+  get: (index: number) => IEducation;
   reset: (values: IEducation[]) => void;
   onmoveup: (index: number) => void;
   onmovedown: (index: number) => void;
-  updateEducation: (index: number, updatedInfo: IEducation) => void;
 }
 
-const addEducation =
-  (set: SetState<IEducationStore>) =>
-  ({
-    institution,
-    studyType,
-    area,
-    startDate,
-    isStudyingHere,
-    endDate,
-    id,
-    url,
-    score,
-    courses,
-  }: IEducation) =>
+const createMethods = (set: any, get: any) => ({
+  add: (education: IEducation) =>
     set(
       produce((state: IEducationStore) => {
-        state.academics.push({
-          institution,
-          studyType,
-          area,
-          startDate,
-          isStudyingHere,
-          endDate,
-          id,
-          url,
-          courses,
-          score,
-        });
+        state.educations.push(education);
       })
-    );
+    ),
 
-const removeEducation = (set: SetState<IEducationStore>) => (index: number) =>
-  set((state) => ({
-    academics: state.academics.slice(0, index).concat(state.academics.slice(index + 1)),
-  }));
-
-const setEducation = (set: SetState<IEducationStore>) => (values: IEducation[]) => {
-  set({
-    academics: values,
-  });
-};
-
-const getEducation = (get: GetState<IEducationStore>) => (index: number) => {
-  return get().academics[index];
-};
-
-const onMoveUp = (set: SetState<IEducationStore>) => (index: number) => {
-  set(
-    produce((state: IEducationStore) => {
-      if (index > 0) {
-        const currentExperience = state.academics[index];
-        state.academics[index] = state.academics[index - 1];
-        state.academics[index - 1] = currentExperience;
-      }
-    })
-  );
-};
-const onMoveDown = (set: SetState<IEducationStore>) => (index: number) => {
-  set(
-    produce((state: IEducationStore) => {
-      const totalExp = state.academics.length;
-      if (index < totalExp - 1) {
-        const currentExperience = state.academics[index];
-        state.academics[index] = state.academics[index + 1];
-        state.academics[index + 1] = currentExperience;
-      }
-    })
-  );
-};
-
-const updateEducation =
-  (set: SetState<IEducationStore>) => (index: number, updatedInfo: IEducation) => {
+  remove: (index: number) =>
     set(
       produce((state: IEducationStore) => {
-        state.academics[index] = updatedInfo;
+        state.educations.splice(index, 1);
       })
-    );
-  };
+    ),
+
+  updateEducation: (index: number, updatedInfo: IEducation) =>
+    set(
+      produce((state: IEducationStore) => {
+        state.educations[index] = { ...state.educations[index], ...updatedInfo };
+      })
+    ),
+
+  get: (index: number) => get().educations[index],
+
+  reset: (values: IEducation[]) =>
+    set(
+      produce((state: IEducationStore) => {
+        state.educations = values;
+      })
+    ),
+
+  onmoveup: (index: number) =>
+    set(
+      produce((state: IEducationStore) => {
+        if (index > 0) {
+          [state.educations[index], state.educations[index - 1]] = [
+            state.educations[index - 1],
+            state.educations[index],
+          ];
+        }
+      })
+    ),
+
+  onmovedown: (index: number) =>
+    set(
+      produce((state: IEducationStore) => {
+        if (index < state.educations.length - 1) {
+          [state.educations[index], state.educations[index + 1]] = [
+            state.educations[index + 1],
+            state.educations[index],
+          ];
+        }
+      })
+    ),
+});
 
 export const useEducations = create<IEducationStore>()(
   persist(
     (set, get) => ({
-      academics: userDetailsData?.resumeData?.education || resumeData?.education,
-      add: addEducation(set),
-      get: getEducation(get),
-      remove: removeEducation(set),
-      reset: setEducation(set),
-      onmoveup: onMoveUp(set),
-      onmovedown: onMoveDown(set),
-      updateEducation: updateEducation(set),
+      educations: userDetailsData?.resumeData?.education || resumeData?.education || [],
+      ...createMethods(set, get),
     }),
-    { name: 'education' }
+    {
+      name: 'education',
+      storage: createJSONStorage(() => localStorage),
+    }
   )
 );

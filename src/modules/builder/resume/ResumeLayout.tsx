@@ -5,11 +5,12 @@ import { useResumeStore } from '@/stores/useResumeStore';
 import { useTemplates } from '@/stores/useTemplate';
 import { useThemes } from '@/stores/themes';
 import { useZoom } from '@/stores/useZoom';
+import { useResume } from '@/context/ResumeContext';
 
 export let StateContext: Context<any> = createContext(null);
 
 export const ResumeLayout = () => {
-  const resumeData = useResumeStore();
+  const { resumeData } = useResume();
   const zoom = useZoom((state) => state.zoom);
   const setInitialZoom = useZoom((state) => state.setInitialZoom);
   const templateId = useTemplates((state) => state.activeTemplate.id);

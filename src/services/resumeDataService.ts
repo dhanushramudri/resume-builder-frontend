@@ -3,6 +3,8 @@ import type { User } from '@clerk/nextjs/server';
 
 export interface ResumeData {
   basics: {
+    firstName: string;
+    lastName: string;
     name: string;
     label: string;
     image: string;
@@ -10,6 +12,20 @@ export interface ResumeData {
     phone: string;
     url: string;
     summary: string;
+    education: {
+      college: string;
+      specialization: string;
+      course: string;
+      branch: string;
+      passOutYear: string;
+      cgpa: string;
+    };
+    gender: string;
+    genderOther: string;
+    dateOfBirth: string;
+    jobPreferredCountries: string[];
+    jobPreferredStates: string[];
+    jobPreferredCities: string[];
     location: {
       address: string;
       postalCode: string;

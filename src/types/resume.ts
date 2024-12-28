@@ -12,6 +12,22 @@ export interface Location {
   region?: string;
 }
 
+export interface Education {
+  id: string;
+  institution: string;
+  url?: string;
+  studyType: string;
+  area: string;
+  startDate: string;
+  endDate: string;
+  score: string;
+  specialization: string;
+  passOutYear: string;
+  courses: string | string[];
+
+  isStudyingHere: boolean;
+  level: 'secondary' | 'graduation'; // Added mandatory level field
+}
 export interface Basics {
   firstName: string;
   lastName: string;
@@ -23,6 +39,8 @@ export interface Basics {
   url: string;
   summary: string;
   college: string;
+  education: Education;
+
   specialization: string;
   course: string;
   branch: string;
@@ -68,19 +86,6 @@ export interface Work {
   highlights: string[];
   years: string;
   type: 'work' | 'project';
-}
-export interface Education {
-  id: string;
-  institution: string;
-  url?: string;
-  studyType: string;
-  area: string;
-  startDate: string;
-  endDate: string;
-  score: string;
-  courses: string[];
-  isStudyingHere: boolean;
-  level: 'secondary' | 'graduation'; // Added mandatory level field
 }
 
 export interface Activities {

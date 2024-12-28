@@ -1,103 +1,71 @@
+// experience.ts
 import { create } from 'zustand';
-import { GetState, SetState } from './store.interface';
 import { persist } from 'zustand/middleware';
 import { produce } from 'immer';
 import resumeData from '@/helpers/constants/resume-data.json';
 import userDetailsData from '@/functions/userDetails';
 import { IExperienceItem, IExperienceStore } from './experience.interface';
 
-const addExperience =
-  (set: SetState<IExperienceStore>) =>
-  ({
-    name,
-    position,
-    startDate,
-    isWorkingHere,
-    endDate,
-    years,
-    summary,
-    id,
-    url = '',
-    highlights = [],
-  }: IExperienceItem) =>
+const createMethods = (set: any, get: any) => ({
+  add: (experience: IExperienceItem) =>
     set(
       produce((state: IExperienceStore) => {
-        state.experiences.push({
-          id,
-          name,
-          position,
-          startDate,
-          isWorkingHere,
-          endDate,
-          summary,
-          url,
-          years,
-          highlights,
-        });
+        state.experiences.push(experience);
       })
-    );
+    ),
 
-const removeExperience = (set: SetState<IExperienceStore>) => (index: number) =>
-  set((state) => ({
-    experiences: state.experiences.slice(0, index).concat(state.experiences.slice(index + 1)),
-  }));
+  remove: (index: number) =>
+    set((state: IExperienceStore) => ({
+      experiences: state.experiences.filter((_, i) => i !== index),
+    })),
 
-const setExperience = (set: SetState<IExperienceStore>) => (values: IExperienceItem[]) => {
-  set({
-    experiences: values,
-  });
-};
-
-const updateExperience =
-  (set: SetState<IExperienceStore>) => (index: number, updatedInfo: IExperienceItem) => {
+  updateExperience: (index: number, updatedInfo: IExperienceItem) =>
     set(
       produce((state: IExperienceStore) => {
         state.experiences[index] = updatedInfo;
       })
-    );
-  };
+    ),
 
-const getExperience = (get: GetState<IExperienceStore>) => (index: number) => {
-  return get().experiences[index];
-};
+  get: (index: number) => get().experiences[index],
 
-const onMoveUp = (set: SetState<IExperienceStore>) => (index: number) => {
-  set(
-    produce((state: IExperienceStore) => {
-      if (index > 0) {
-        const currentExperience = state.experiences[index];
-        state.experiences[index] = state.experiences[index - 1];
-        state.experiences[index - 1] = currentExperience;
-      }
-    })
-  );
-};
+  reset: (values: IExperienceItem[]) =>
+    set(() => ({
+      experiences: values,
+    })),
 
-const onMoveDown = (set: SetState<IExperienceStore>) => (index: number) => {
-  set(
-    produce((state: IExperienceStore) => {
-      const totalExp = state.experiences.length;
-      if (index < totalExp - 1) {
-        const currentExperience = state.experiences[index];
-        state.experiences[index] = state.experiences[index + 1];
-        state.experiences[index + 1] = currentExperience;
-      }
-    })
-  );
-};
+  onmoveup: (index: number) =>
+    set(
+      produce((state: IExperienceStore) => {
+        if (index > 0) {
+          [state.experiences[index], state.experiences[index - 1]] = [
+            state.experiences[index - 1],
+            state.experiences[index],
+          ];
+        }
+      })
+    ),
+
+  onmovedown: (index: number) =>
+    set(
+      produce((state: IExperienceStore) => {
+        if (index < state.experiences.length - 1) {
+          [state.experiences[index], state.experiences[index + 1]] = [
+            state.experiences[index + 1],
+            state.experiences[index],
+          ];
+        }
+      })
+    ),
+});
 
 export const useExperiences = create<IExperienceStore>()(
   persist(
     (set, get) => ({
       experiences: userDetailsData?.resumeData?.work || resumeData?.work,
-      add: addExperience(set),
-      get: getExperience(get),
-      remove: removeExperience(set),
-      reset: setExperience(set),
-      onmoveup: onMoveUp(set),
-      onmovedown: onMoveDown(set),
-      updateExperience: updateExperience(set),
+      ...createMethods(set, get),
     }),
-    { name: 'experience' }
+    {
+      name: 'experience',
+    }
   )
 );

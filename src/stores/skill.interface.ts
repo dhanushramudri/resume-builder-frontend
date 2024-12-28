@@ -1,3 +1,4 @@
+// skill.interface.ts
 export interface ISkillItem {
   name: string;
   level: number;
@@ -8,7 +9,6 @@ export interface ISkillState {
   hasLevel: boolean;
   values: ISkillItem[];
   isEnabled: boolean;
-
   add: ({ name, level }: { name: string; level: number }) => void;
   edit: ({ name, level, index }: { name: string; level: number; index: number }) => void;
   remove: (index: number) => void;

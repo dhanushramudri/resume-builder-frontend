@@ -10,11 +10,11 @@ import { DATE_PICKER_FORMAT } from '@/helpers/constants';
 interface IEducationProps {
   educationInfo: IEducation;
   currentIndex: number;
+  onUpdate: (updatedEducation: IEducation) => void;
 }
 
-const Education: React.FC<IEducationProps> = ({ educationInfo, currentIndex }) => {
+const Education: React.FC<IEducationProps> = ({ educationInfo, currentIndex, onUpdate }) => {
   const onChangeHandler = useCallback(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (name: string, value: any) => {
       const currentExpInfo = { ...educationInfo };
       switch (name) {
@@ -43,13 +43,13 @@ const Education: React.FC<IEducationProps> = ({ educationInfo, currentIndex }) =
             currentExpInfo.endDate = value;
           }
           break;
-
         default:
           break;
       }
       useEducations.getState().updateEducation(currentIndex, currentExpInfo);
+      onUpdate(currentExpInfo);
     },
-    [currentIndex, educationInfo]
+    [currentIndex, educationInfo, onUpdate]
   );
 
   return (
@@ -59,8 +59,7 @@ const Education: React.FC<IEducationProps> = ({ educationInfo, currentIndex }) =
         variant="filled"
         value={educationInfo.institution}
         onChange={(e: ChangeEvent<HTMLInputElement>) => {
-          const value = e.target.value;
-          onChangeHandler('academyName', value);
+          onChangeHandler('academyName', e.target.value);
         }}
         autoComplete="off"
         fullWidth

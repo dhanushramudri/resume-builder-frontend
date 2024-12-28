@@ -12,7 +12,7 @@ import AwardsCertificationsForm from './AwardsForm';
 const steps = [
   { id: 'basics', label: 'Basic Info' },
   { id: 'skills', label: 'Skills' },
-  { id: 'work', label: 'Work Experience' },
+  { id: 'work', label: 'Internships' },
   { id: 'education', label: 'Education' },
   { id: 'activities', label: 'Activities' },
   { id: 'volunteer', label: 'Volunteer' },

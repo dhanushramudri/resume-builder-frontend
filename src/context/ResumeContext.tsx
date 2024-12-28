@@ -42,15 +42,29 @@ const initialState: ResumeData = {
   basics: {
     firstName: '',
     lastName: '',
-    name: '',
+    name: '', // Computed from firstName + lastName
     label: '',
     image: '',
     email: '',
     phone: '',
     url: '',
     summary: '',
-    college: '',
-    specialization: '',
+    college: '', // Added missing field
+    education: {
+      id: '', // Added required id field
+      institution: '',
+      studyType: '',
+      area: '',
+      startDate: '',
+      specialization: '',
+      passOutYear: '',
+      endDate: '',
+      score: '',
+      courses: [],
+      isStudyingHere: false,
+      level: 'graduation', // Added required level field with default value
+    },
+    specialization: '', // Added missing field
     course: '',
     branch: '',
     passOutYear: '',
@@ -64,7 +78,7 @@ const initialState: ResumeData = {
     location: {
       address: '',
       postalCode: '',
-      city: '',
+      city: '', // Required field
       countryCode: '',
       region: '',
     },
@@ -73,12 +87,12 @@ const initialState: ResumeData = {
     objective: '',
     profiles: [
       {
-        network: 'linkedin',
+        network: 'LinkedIn', // Corrected capitalization
         username: '',
         url: '',
       },
       {
-        network: 'github',
+        network: 'GitHub', // Corrected capitalization
         username: '',
         url: '',
       },
@@ -93,15 +107,15 @@ const initialState: ResumeData = {
     practices: [],
     tools: [],
   },
-  work: [],
-  education: [],
+  work: [], // Each work item should have { id, name, position, startDate, endDate, isWorkingHere, summary, highlights, years, type }
+  education: [], // Separate from basics.education, contains array of Education objects
   activities: {
     involvements: [],
     achievements: [],
   },
-  volunteer: [],
-  awards: [],
-  certifications: [],
+  volunteer: [], // Each volunteer item should have { id, organization, position, startDate, endDate, summary, highlights?, isVolunteeringNow }
+  awards: [], // Each award should have { id, title, date, awarder, summary }
+  certifications: [], // Each certification should have { id, title, date, authority, summary }
 };
 
 const ResumeContext = createContext<ResumeContextType | undefined>(undefined);
@@ -151,60 +165,82 @@ export const ResumeProvider: React.FC<{ children: React.ReactNode; userId: strin
 
     fetchResumeData();
   }, [userId]);
+
   const validateBasics = () => {
     const newErrors: FormErrors = { basics: {} };
     const { basics } = resumeData;
 
-    if (!basics.firstName.trim()) newErrors.basics.firstName = 'First name is required';
-    if (!basics.lastName.trim()) newErrors.basics.lastName = 'Last name is required';
-    if (!basics.gender.trim()) newErrors.basics.gender = 'Gender is required';
-    if (basics.gender === 'other' && !basics.genderOther.trim()) {
+    // Basic info validations
+    if (!basics?.firstName?.trim()) newErrors.basics.firstName = 'First name is required';
+    if (!basics?.lastName?.trim()) newErrors.basics.lastName = 'Last name is required';
+    if (!basics?.gender?.trim()) newErrors.basics.gender = 'Gender is required';
+    if (basics?.gender === 'other' && !basics?.genderOther?.trim()) {
       newErrors.basics.genderOther = 'Please specify gender';
     }
-    if (!basics.dateOfBirth.trim()) newErrors.basics.dateOfBirth = 'Date of birth is required';
+    if (!basics?.dateOfBirth?.trim()) newErrors.basics.dateOfBirth = 'Date of birth is required';
+
+    // Education validations
+    // if (!basics?.education?.college?.trim()) {
+    //   newErrors.basics.educationCollege = 'College is required';
+    // }
+    // if (!basics?.education?.course?.trim()) {
+    //   newErrors.basics.educationCourse = 'Course is required';
+    // }
+    // if (!basics?.education?.specialization?.trim()) {
+    //   newErrors.basics.educationSpecialization = 'Specialization is required';
+    // }
+    // if (
+    //   !basics?.education?.passOutYear ||
+    //   typeof basics.education.passOutYear !== 'string' ||
+    //   !basics.education.passOutYear.trim()
+    // ) {
+    //   newErrors.basics.educationPassOutYear = 'Pass-out year is required';
+    // }
 
     // Job preferences validation
-    if (!basics.jobPreferredCountries.length) {
+    if (!basics?.jobPreferredCountries?.length) {
       newErrors.basics.jobPreferredCountries = 'Select at least one preferred country';
-    } else if (basics.jobPreferredCountries.length > 3) {
+    } else if (basics?.jobPreferredCountries?.length > 3) {
       newErrors.basics.jobPreferredCountries = 'Maximum 3 countries allowed';
     }
 
-    if (!basics.jobPreferredStates.length) {
+    if (!basics?.jobPreferredStates?.length) {
       newErrors.basics.jobPreferredStates = 'Select at least one preferred state';
-    } else if (basics.jobPreferredStates.length > 3) {
+    } else if (basics?.jobPreferredStates?.length > 3) {
       newErrors.basics.jobPreferredStates = 'Maximum 3 states allowed';
     }
 
-    if (!basics.jobPreferredCities.length) {
+    if (!basics?.jobPreferredCities?.length) {
       newErrors.basics.jobPreferredCities = 'Select at least one preferred city';
-    } else if (basics.jobPreferredCities.length > 6) {
+    } else if (basics?.jobPreferredCities?.length > 6) {
       newErrors.basics.jobPreferredCities = 'Maximum 6 cities allowed';
     }
 
-    // Existing validations
-    if (!basics.label.trim()) newErrors.basics.label = 'Job title is required';
-    if (!basics.email.trim()) {
+    // Other validations remain the same
+    if (!basics?.label?.trim()) newErrors.basics.label = 'Job title is required';
+    if (!basics?.email?.trim()) {
       newErrors.basics.email = 'Email is required';
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(basics.email)) {
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(basics?.email)) {
       newErrors.basics.email = 'Invalid email format';
     }
-    if (!basics.phone.trim()) newErrors.basics.phone = 'Phone is required';
-    if (!basics.summary.trim()) newErrors.basics.summary = 'Summary is required';
-    if (basics.summary.length > 300)
+    if (!basics?.phone?.trim()) newErrors.basics.phone = 'Phone is required';
+    if (!basics?.summary?.trim()) newErrors.basics.summary = 'Summary is required';
+    if (basics?.summary?.length > 300) {
       newErrors.basics.summary = 'Summary cannot exceed 300 characters';
-    if (!basics.objective.trim()) newErrors.basics.objective = 'Objective is required';
-    if (basics.objective.length > 300)
+    }
+    if (!basics?.objective?.trim()) newErrors.basics.objective = 'Objective is required';
+    if (basics?.objective?.length > 300) {
       newErrors.basics.objective = 'Objective cannot exceed 300 characters';
-    if (!basics.location.city.trim()) newErrors.basics.city = 'City is required';
-    if (!basics.relExp.trim()) newErrors.basics.relExp = 'Relevant experience is required';
-    if (!basics.totalExp.trim()) newErrors.basics.totalExp = 'Total experience is required';
+    }
+    if (!basics?.location?.city?.trim()) newErrors.basics.city = 'City is required';
+    if (!basics?.relExp?.trim()) newErrors.basics.relExp = 'Relevant experience is required';
+    if (!basics?.totalExp?.trim()) newErrors.basics.totalExp = 'Total experience is required';
 
     // Profile validation
-    basics.profiles.forEach((profile, index) => {
-      if (!profile.url.trim()) {
+    basics?.profiles?.forEach((profile, index) => {
+      if (!profile?.url?.trim()) {
         newErrors.basics[`${profile.network}_url`] = `${profile.network} profile URL is required`;
-      } else if (!isValidUrl(profile.url)) {
+      } else if (!isValidUrl(profile?.url)) {
         newErrors.basics[`${profile.network}_url`] = `Invalid ${profile.network} URL format`;
       }
     });

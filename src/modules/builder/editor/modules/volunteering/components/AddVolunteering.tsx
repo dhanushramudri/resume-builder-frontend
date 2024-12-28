@@ -1,6 +1,7 @@
+// AddVolunteeringExp.tsx
 import { useMemo } from 'react';
 import { OutlinedButton } from '@/helpers/common/atoms/Buttons';
-import { useVoluteeringStore } from '@/stores/volunteering';
+import { useVolunteeringStore } from '@/stores/volunteering';
 import { IVolunteeringItem } from '@/stores/volunteering.interface';
 
 const NEW_VOLUNTEER_EXP: IVolunteeringItem = {
@@ -15,28 +16,23 @@ const NEW_VOLUNTEER_EXP: IVolunteeringItem = {
   highlights: [],
 };
 
-const AddVolunteeringExp = ({
-  handleChange,
-  isEmpty,
-}: {
-  handleChange: (name: string, isExpanded: boolean) => void;
-  isEmpty: boolean;
-}) => {
-  const addNewVolunteeringExperience = useVoluteeringStore((state) => state.add);
+interface AddVolunteeringExpProps {
+  onSubmit: (newVolunteering: IVolunteeringItem) => void;
+  isEmpty?: boolean;
+}
 
+const AddVolunteeringExp = ({ onSubmit, isEmpty = false }: AddVolunteeringExpProps) => {
   const onCreateVolunteeringExperience = () => {
-    const uniqueExpandedId = `${Math.random()}`;
-    NEW_VOLUNTEER_EXP.id = uniqueExpandedId;
-    addNewVolunteeringExperience(NEW_VOLUNTEER_EXP);
-    handleChange(uniqueExpandedId, true);
+    const uniqueExpandedId = `volunteer-${Math.random()}`;
+    const newVolunteering = {
+      ...NEW_VOLUNTEER_EXP,
+      id: uniqueExpandedId,
+    };
+    onSubmit(newVolunteering);
   };
 
   const buttonCaption = useMemo(() => {
-    if (isEmpty) {
-      return '+ Add a volunteering experience';
-    } else {
-      return '+ Add more';
-    }
+    return isEmpty ? '+ Add a volunteering experience' : '+ Add more';
   }, [isEmpty]);
 
   return (

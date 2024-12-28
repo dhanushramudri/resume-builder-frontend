@@ -1,9 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { ChangeEvent, Fragment, useCallback } from 'react';
 import TextField from '@mui/material/TextField';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-
-import { useVoluteeringStore } from '@/stores/volunteering';
 import { IVolunteeringItem } from '@/stores/volunteering.interface';
 import { SwitchWidget } from '@/helpers/common/atoms/Switch';
 import { RichtextEditor } from '@/helpers/common/components/richtext';
@@ -12,14 +9,14 @@ import dayjs from 'dayjs';
 
 interface IVolunteerProps {
   volunteeringInfo: IVolunteeringItem;
-  currentIndex: number;
+  onUpdate: (updatedVolunteering: IVolunteeringItem) => void;
 }
 
-const Volunteer: React.FC<IVolunteerProps> = ({ volunteeringInfo, currentIndex }) => {
+const Volunteer: React.FC<IVolunteerProps> = ({ volunteeringInfo, onUpdate }) => {
   const onChangeHandler = useCallback(
     (name: string, value: any) => {
       const currentExpInfo = { ...volunteeringInfo };
-      const updatedVolunteeringExp = useVoluteeringStore.getState().updatedVolunteeringExp;
+
       switch (name) {
         case 'organisation':
           currentExpInfo.organization = value;
@@ -34,6 +31,9 @@ const Volunteer: React.FC<IVolunteerProps> = ({ volunteeringInfo, currentIndex }
           break;
         case 'isVolunteeringNow':
           currentExpInfo.isVolunteeringNow = value;
+          if (value) {
+            currentExpInfo.endDate = null;
+          }
           break;
         case 'endDate':
           if (value?.isValid()) {
@@ -46,9 +46,9 @@ const Volunteer: React.FC<IVolunteerProps> = ({ volunteeringInfo, currentIndex }
         default:
           break;
       }
-      updatedVolunteeringExp(currentIndex, currentExpInfo);
+      onUpdate(currentExpInfo);
     },
-    [currentIndex, volunteeringInfo]
+    [volunteeringInfo, onUpdate]
   );
 
   const onSummaryChange = useCallback(
@@ -65,8 +65,7 @@ const Volunteer: React.FC<IVolunteerProps> = ({ volunteeringInfo, currentIndex }
         variant="filled"
         value={volunteeringInfo.organization}
         onChange={(e: ChangeEvent<HTMLInputElement>) => {
-          const value = e.target.value;
-          onChangeHandler('organisation', value);
+          onChangeHandler('organisation', e.target.value);
         }}
         autoComplete="off"
         fullWidth
@@ -79,8 +78,7 @@ const Volunteer: React.FC<IVolunteerProps> = ({ volunteeringInfo, currentIndex }
         variant="filled"
         value={volunteeringInfo.position}
         onChange={(e: ChangeEvent<HTMLInputElement>) => {
-          const value = e.target.value;
-          onChangeHandler('role', value);
+          onChangeHandler('role', e.target.value);
         }}
         autoComplete="off"
         fullWidth
@@ -95,7 +93,13 @@ const Volunteer: React.FC<IVolunteerProps> = ({ volunteeringInfo, currentIndex }
         }}
         format={DATE_PICKER_FORMAT}
         slotProps={{
-          textField: { variant: 'filled', autoComplete: 'off', fullWidth: true, required: true },
+          textField: {
+            variant: 'filled',
+            autoComplete: 'off',
+            fullWidth: true,
+            required: true,
+            sx: { marginBottom: '26px' },
+          },
         }}
       />
       <SwitchWidget
@@ -117,7 +121,7 @@ const Volunteer: React.FC<IVolunteerProps> = ({ volunteeringInfo, currentIndex }
             variant: 'filled',
             autoComplete: 'off',
             fullWidth: true,
-            required: true,
+            required: !volunteeringInfo.isVolunteeringNow,
             sx: { marginBottom: '26px' },
           },
         }}

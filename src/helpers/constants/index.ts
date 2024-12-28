@@ -181,6 +181,14 @@ export const AVAILABLE_TEMPLATES: { [key: string]: ITemplate } = {
       ssr: false,
     }),
   },
+  geometric: {
+    id: 'geometric',
+    name: 'Geometric Resume',
+    thumbnail: '/templates/deedy.png',
+    component: dynamic(() => import('@/templates/geometric/GeometricTemplate'), {
+      ssr: false,
+    }),
+  },
 };
 
 // export const CUSTOM_THEME_COLOR: IThemeColor = {

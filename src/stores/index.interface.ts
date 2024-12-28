@@ -1,7 +1,5 @@
 import dayjs from 'dayjs';
 
-
-
 // interface ILocation {
 //   address: string;
 //   postalCode: string;
@@ -135,7 +133,7 @@ export interface IEducation {
   startDate: string;
   endDate: string;
   score?: string;
-  courses?: string[];
+  courses: string[] | undefined; // Changed to match IEducation
   isStudyingHere: boolean;
 }
 

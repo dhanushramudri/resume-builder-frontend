@@ -1,46 +1,99 @@
 import { useEffect, useState } from 'react';
-import { useVoluteeringStore } from '@/stores/volunteering';
+import { useVolunteeringStore } from '@/stores/volunteering';
 import AddVolunteeringExp from './components/AddVolunteering';
 import Volunteering from './components/Volunteer';
-
 import MoveEditSection from '@/helpers/common/components/MoveEditSectionContainer';
+import { IVolunteeringItem } from '@/stores/volunteering.interface';
+import { useResume } from '@/context/ResumeContext';
 
 const VolunteeringLayout = () => {
-  const allVolunteeringExps = useVoluteeringStore((state) => state.volunteeredExps);
-  const removeExperience = useVoluteeringStore.getState().remove;
-  const onMoveUp = useVoluteeringStore.getState().onmoveup;
-  const onMoveDown = useVoluteeringStore.getState().onmovedown;
+  const volunteeredExps = useVolunteeringStore((state) => state.volunteeredExps);
+  const updateVolunteeringExp = useVolunteeringStore((state) => state.updateVolunteeringExp);
+  const removeVolunteering = useVolunteeringStore((state) => state.remove);
+  const onMoveUp = useVolunteeringStore((state) => state.onmoveup);
+  const onMoveDown = useVolunteeringStore((state) => state.onmovedown);
+  const { updateResumeData } = useResume();
 
   const [expanded, setExpanded] = useState<string | false>(false);
 
   useEffect(() => {
-    setExpanded(allVolunteeringExps[0]?.id);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    if (volunteeredExps.length > 0) {
+      setExpanded(volunteeredExps[0].id);
+    }
+  }, [volunteeredExps]);
 
   const handleChange = (panel: string, isExpanded: boolean) => {
     setExpanded(isExpanded ? panel : false);
   };
 
+  const handleVolunteeringUpdate = (updatedVolunteering: IVolunteeringItem[]) => {
+    // Update resume context
+    updateResumeData('volunteer', updatedVolunteering);
+
+    // Update local storage
+    const existingData = localStorage.getItem('userDetailsData');
+    if (existingData) {
+      const parsedData = JSON.parse(existingData);
+      const updatedData = {
+        ...parsedData,
+        resumeData: {
+          ...parsedData.resumeData,
+          volunteer: updatedVolunteering,
+        },
+        updatedAt: new Date().toISOString(),
+      };
+      localStorage.setItem('userDetailsData', JSON.stringify(updatedData));
+    }
+  };
+
+  const handleSingleVolunteeringUpdate = (
+    index: number,
+    updatedVolunteering: IVolunteeringItem
+  ) => {
+    // Update in Zustand store
+    updateVolunteeringExp(index, updatedVolunteering);
+
+    // Update in resume context and local storage
+    const newVolunteering = [...volunteeredExps];
+    newVolunteering[index] = updatedVolunteering;
+    handleVolunteeringUpdate(newVolunteering);
+  };
+
+  if (volunteeredExps.length === 0) {
+    return (
+      <AddVolunteeringExp
+        onSubmit={(newVolunteering) => {
+          handleVolunteeringUpdate([newVolunteering]);
+        }}
+      />
+    );
+  }
+
   return (
-    <div className="flex flex-col gap-8 mb-8">
-      {allVolunteeringExps.map((volunteeringInfo, index) => (
+    <>
+      {volunteeredExps.map((volunteeringInfo, index) => (
         <MoveEditSection
           key={volunteeringInfo.id}
-          title={volunteeringInfo.organization || 'Experience'}
           expanded={expanded === volunteeringInfo.id}
-          length={allVolunteeringExps.length}
-          index={index}
-          clickHandler={() => handleChange(volunteeringInfo.id, expanded !== volunteeringInfo.id)}
-          onMoveUp={onMoveUp}
-          onMoveDown={onMoveDown}
-          onDelete={removeExperience}
+          onChange={() => handleChange(volunteeringInfo.id, expanded !== volunteeringInfo.id)}
+          onMoveUp={() => onMoveUp(index)}
+          onMoveDown={() => onMoveDown(index)}
+          onDelete={() => removeVolunteering(index)}
         >
-          <Volunteering volunteeringInfo={volunteeringInfo} currentIndex={index} />
+          <Volunteering
+            volunteeringInfo={volunteeringInfo}
+            onUpdate={(updatedVolunteering) => {
+              handleSingleVolunteeringUpdate(index, updatedVolunteering);
+            }}
+          />
         </MoveEditSection>
       ))}
-      <AddVolunteeringExp handleChange={handleChange} isEmpty={allVolunteeringExps.length === 0} />
-    </div>
+      <AddVolunteeringExp
+        onSubmit={(newVolunteering) => {
+          handleVolunteeringUpdate([...volunteeredExps, newVolunteering]);
+        }}
+      />
+    </>
   );
 };
 
