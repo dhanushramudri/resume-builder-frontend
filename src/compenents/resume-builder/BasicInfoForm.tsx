@@ -508,44 +508,43 @@ const BasicInfoForm = () => {
 
       {/* Job Preferences */}
       <div className="space-y-4">
-        <h3 className="text-lg font-medium">Job Preferences</h3>
+        {/* <h3 className="text-lg font-medium">Job Preferences</h3> */}
 
         <div className="grid grid-cols-1 gap-4">
           <div>
-            <label className="block text-sm font-medium mb-1">
+            {/* <label className="block text-sm font-medium mb-1">
               Preferred Countries (Select up to 3)
-            </label>
-            <Select
+            </label> */}
+            {/* <Select
               multiple
-              value={basics.jobPreferredCountries}
+              value={basics.jobPreferredCountries || []} // Provide fallback empty array
               onChange={handleCountryChange}
               renderValue={(selected) => (selected as string[]).join(', ')}
               className="w-full border rounded p-0"
             >
               <MenuItem value="us">
-                <Checkbox checked={basics.jobPreferredCountries?.includes('us') ?? false} />
+                <Checkbox checked={basics.jobPreferredCountries?.includes('us')} />
                 <ListItemText primary="United States" />
               </MenuItem>
               <MenuItem value="uk">
-                <Checkbox checked={basics.jobPreferredCountries?.includes('uk') ?? false} />
+                <Checkbox checked={basics.jobPreferredCountries?.includes('uk')} />
                 <ListItemText primary="United Kingdom" />
               </MenuItem>
               <MenuItem value="ca">
-                <Checkbox checked={basics.jobPreferredCountries?.includes('ca') ?? false} />
+                <Checkbox checked={basics.jobPreferredCountries?.includes('ca')} />
                 <ListItemText primary="Canada" />
               </MenuItem>
-              {/* Add more countries as needed */}
-            </Select>
+            </Select> */}
             {renderFieldError('jobPreferredCountries')}
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1">
+            {/* <label className="block text-sm font-medium mb-1">
               Preferred States (Select up to 6)
-            </label>
-            <Select
+            </label> */}
+            {/* <Select
               multiple
-              value={basics.jobPreferredStates}
+              value={basics.jobPreferredStates || []} // Add fallback empty array
               onChange={(event: SelectChangeEvent<string[]>) => {
                 const values = event.target.value as string[];
                 if (values.length <= 6) {
@@ -559,27 +558,26 @@ const BasicInfoForm = () => {
               className="w-full border rounded p-0"
             >
               <MenuItem value="new_york">
-                <Checkbox checked={basics.jobPreferredStates?.includes('new_york') ?? false} />
+                <Checkbox checked={basics.jobPreferredStates?.includes('new_york')} />
                 <ListItemText primary="New York" />
               </MenuItem>
               <MenuItem value="california">
-                <Checkbox checked={basics.jobPreferredStates?.includes('california') ?? false} />
+                <Checkbox checked={basics.jobPreferredStates?.includes('california')} />
                 <ListItemText primary="California" />
               </MenuItem>
               <MenuItem value="illinois">
-                <Checkbox checked={basics.jobPreferredStates?.includes('illinois') ?? false} />
+                <Checkbox checked={basics.jobPreferredStates?.includes('illinois')} />
                 <ListItemText primary="Illinois" />
               </MenuItem>
-              {/* Add more states as needed */}
-            </Select>
+            </Select> */}
             {renderFieldError('jobPreferredStates')}
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1">
+            {/* <label className="block text-sm font-medium mb-1">
               Preferred Cities (Select up to 6)
-            </label>
-            <Select
+            </label> */}
+            {/* <Select
               multiple
               value={basics.jobPreferredCities}
               onChange={(event: SelectChangeEvent<string[]>) => {
@@ -606,8 +604,7 @@ const BasicInfoForm = () => {
                 <Checkbox checked={basics.jobPreferredCities?.includes('chicago') ?? false} />
                 <ListItemText primary="Chicago" />
               </MenuItem>
-              {/* Add more cities as needed */}
-            </Select>
+            </Select> */}
             {renderFieldError('jobPreferredCities')}
           </div>
         </div>
@@ -647,10 +644,9 @@ const BasicInfoForm = () => {
 
 {/* Education Section */}
       {/* Education Section */}
-      <div className="space-y-4">
+      {/* <div className="space-y-4">
         <h3 className="text-lg font-medium">Education</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* College Name */}
           <div>
             <label className="block text-sm font-medium mb-1">College</label>
             <input
@@ -660,10 +656,10 @@ const BasicInfoForm = () => {
               className="w-full p-2 border rounded"
               placeholder="Enter your college name"
             />
-          </div>
+          </div> */}
 
-          {/* Level (Undergraduate/Postgraduate) */}
-          <div>
+      {/* Level (Undergraduate/Postgraduate) */}
+      {/* <div>
             <FormControl fullWidth>
               <InputLabel>Level</InputLabel>
               <Select
@@ -674,11 +670,11 @@ const BasicInfoForm = () => {
                 <MenuItem value="Postgraduate">Postgraduate</MenuItem>
               </Select>
             </FormControl>
-          </div>
+          </div> */}
 
-          {/* Course Selection */}
-          <div>
-            {/* <FormControl fullWidth>
+      {/* Course Selection */}
+      {/* <div> */}
+      {/* <FormControl fullWidth>
               <InputLabel>Course</InputLabel>
               <Select
                 value={basics.education?.courses || []}
@@ -697,10 +693,10 @@ const BasicInfoForm = () => {
                   ))}
               </Select>
             </FormControl> */}
-          </div>
+      {/* </div> */}
 
-          {/* Specialization Selection */}
-          {/* education: {
+      {/* Specialization Selection */}
+      {/* education: {
       id: '', // Added required id field
       institution: '',
       studyType: '',
@@ -712,7 +708,7 @@ const BasicInfoForm = () => {
       isStudyingHere: false,
       level: 'graduation', // Added required level field with default value
     }, */}
-          <div>
+      {/* <div>
             <FormControl fullWidth>
               <InputLabel>Specialization</InputLabel>
               <Select
@@ -735,10 +731,10 @@ const BasicInfoForm = () => {
                   )}
               </Select>
             </FormControl>
-          </div>
+          </div> */}
 
-          {/* Pass-out Year */}
-          <div>
+      {/* Pass-out Year */}
+      {/* <div>
             <FormControl fullWidth>
               <InputLabel>Pass-out Year</InputLabel>
               <Select
@@ -754,7 +750,7 @@ const BasicInfoForm = () => {
             </FormControl>
           </div>
         </div>
-      </div>
+      </div> */}
 
       {/* Social Profiles */}
       <div className="space-y-4">

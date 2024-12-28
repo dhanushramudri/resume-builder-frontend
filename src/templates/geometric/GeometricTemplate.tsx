@@ -5,65 +5,57 @@ import { Mail, Phone, Globe, MapPin } from 'lucide-react';
 const GeometricTemplate = () => {
   const { resumeData } = useResume();
   const { basics, skills, work, education, certifications, awards, activities } = resumeData || {};
-  console.log('resumedata', resumeData);
 
   return (
-    <div className="max-w-[850px] mx-auto bg-white p-8">
-      {/* Decorative Geometric Header */}
-      <div className="relative mb-8">
-        <div className="absolute top-0 right-0 w-48 h-48 bg-blue-100 opacity-20 transform rotate-45" />
-        <div className="absolute top-4 right-4 w-40 h-40 bg-blue-200 opacity-20 transform rotate-45" />
+    <div className="max-w-[850px] mx-auto   p-6 ">
+      {/* Header Content */}
+      <header className="mb-6">
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">{basics?.name}</h1>
+        <h2 className="text-xl font-medium text-blue-600 mb-4">{basics?.label || 'UX DESIGNER'}</h2>
 
-        {/* Header Content */}
-        <header className="relative z-10">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">{basics?.name}</h1>
-          <h2 className="text-xl font-medium text-blue-600 mb-4">
-            {basics?.label || 'UX DESIGNER'}
-          </h2>
-
-          <div className="flex flex-wrap gap-4 text-sm text-gray-600">
-            {basics?.email && (
-              <a href={`mailto:${basics.email}`} className="flex items-center gap-2">
-                <Mail className="w-4 h-4 text-blue-500" />
-                {basics.email}
-              </a>
-            )}
-            {basics?.phone && (
-              <span className="flex items-center gap-2">
-                <Phone className="w-4 h-4 text-blue-500" />
-                {basics.phone}
-              </span>
-            )}
-            {basics?.url && (
-              <a href={basics.url} className="flex items-center gap-2">
-                <Globe className="w-4 h-4 text-blue-500" />
-                {basics.url}
-              </a>
-            )}
-            {basics?.location?.city && (
-              <span className="flex items-center gap-2">
-                <MapPin className="w-4 h-4 text-blue-500" />
-                {`${basics.location.city}, ${basics.location.region}`}
-              </span>
-            )}
-          </div>
-        </header>
-      </div>
+        <div className="flex flex-wrap gap-4 text-sm text-gray-600">
+          {basics?.email && (
+            <a href={`mailto:${basics.email}`} className="flex items-center gap-2">
+              <Mail className="w-4 h-4 text-blue-500" />
+              {basics.email}
+            </a>
+          )}
+          {basics?.phone && (
+            <span className="flex items-center gap-2">
+              <Phone className="w-4 h-4 text-blue-500" />
+              {basics.phone}
+            </span>
+          )}
+          {basics?.url && (
+            <a href={basics.url} className="flex items-center gap-2">
+              <Globe className="w-4 h-4 text-blue-500" />
+              {basics.url}
+            </a>
+          )}
+          {basics?.location?.city && (
+            <span className="flex items-center gap-2">
+              <MapPin className="w-4 h-4 text-blue-500" />
+              {`${basics.location.city}, ${basics.location.region}`}
+            </span>
+          )}
+        </div>
+      </header>
 
       {/* Summary Section */}
       {basics?.summary && (
         <section className="mb-6">
-          <h3 className="text-lg font-bold text-gray-900 border-b-2 border-t-2 border-blue-500  p-2 mb-3">
+          <h3 className="text-lg font-bold text-blue-500 border-b-2 border-t-2 border-blue-500 p-2 mb-3">
             SUMMARY
           </h3>
           <p className="text-gray-700 leading-relaxed">{basics.summary}</p>
         </section>
       )}
 
+      {/* Rest of the sections remain the same */}
       {/* Technical Skills Section */}
       {skills && (
         <section className="mb-6">
-          <h3 className="text-lg font-bold text-gray-900 border-t-2  border-b-2 p-2 border-blue-500  mb-3">
+          <h3 className="text-lg font-bold text-blue-500 border-t-2 border-b-2 p-2 border-blue-500 mb-3">
             TECHNICAL SKILLS
           </h3>
           <div className="grid grid-cols-2 gap-4">
@@ -92,14 +84,14 @@ const GeometricTemplate = () => {
       {/* Professional Experience */}
       {work?.length > 0 && (
         <section className="mb-6">
-          <h3 className="text-lg font-bold text-gray-900 border-b-2 border-t-2 border-blue-500 p-2  mb-3">
+          <h3 className="text-lg font-bold text-blue-500 border-b-2 border-t-2 border-blue-500 p-2 mb-3">
             PROFESSIONAL EXPERIENCE
           </h3>
           {work.map((job) => (
             <div key={job.name} className="mb-4">
               <div className="flex justify-between items-baseline mb-1">
-                <h4 className="font-semibold text-gray-900">{job.name}</h4>
-                <span className="text-sm text-gray-600">
+                <h4 className=" text-gray-700">{job.name}</h4>
+                <span className="text-sm  text-black-600 font-bold">
                   {job.startDate} - {job.isWorkingHere ? 'Present' : job.endDate}
                 </span>
               </div>
@@ -113,14 +105,14 @@ const GeometricTemplate = () => {
       {/* Education Section */}
       {education?.length > 0 && (
         <section className="mb-6">
-          <h3 className="text-lg font-bold text-gray-900 border-b-2 border-t-2 p-2 border-blue-500  mb-3">
+          <h3 className="text-lg font-bold text-blue-500 border-b-2 border-t-2 p-2 border-blue-500 mb-3">
             EDUCATION
           </h3>
           {education.map((edu) => (
             <div key={edu.institution} className="mb-4">
               <div className="flex justify-between items-baseline mb-1">
                 <h4 className="font-semibold text-gray-900">{edu.studyType}</h4>
-                <span className="text-sm text-gray-600">
+                <span className="text-sm text-black-600 font-bold">
                   {edu.startDate} - {edu.endDate}
                 </span>
               </div>
@@ -133,7 +125,7 @@ const GeometricTemplate = () => {
 
       {/* Additional Information */}
       <section className="mb-6">
-        <h3 className="text-lg font-bold text-gray-900 border-b-2 border-blue-500 border-t-2 p-2  mb-3">
+        <h3 className="text-lg font-bold text-blue-500 border-b-2 border-t-2 p-2 border-blue-500 mb-3">
           ADDITIONAL INFORMATION
         </h3>
         <div className="grid grid-cols-1 gap-4">

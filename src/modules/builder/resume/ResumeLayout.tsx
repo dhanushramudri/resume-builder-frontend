@@ -26,9 +26,9 @@ export const ResumeLayout = () => {
   }, []);
 
   return (
-    <div className="relative w-full overflow-x-auto overflow-y-auto">
-      <div className="flex justify-center px-2 sm:px-4 md:px-6 py-2 sm:py-4">
-        <div className="w-[210mm]  ">
+    <div className="relative w-full overflow-x-auto  overflow-y-auto">
+      <div className="flex justify-center  px-2 sm:px-4 md:px-6 py-0 sm:py-4">
+        <div className="w-[220mm]  bg-gray-50 ">
           <div
             style={{
               transform: `scale(${zoom})`,
@@ -36,7 +36,7 @@ export const ResumeLayout = () => {
             }}
             className=" transition-all duration-300 ease-linear print:!scale-100"
           >
-            <div className="bg-white shadow-md print:shadow-none min-h-[296mm] w-[210mm] overflow-hidden">
+            <div className=" shadow-md print:shadow-none min-h-[296mm]   w-[210mm] overflow-hidden">
               <div className="w-full resume-container print:overflow-visible">
                 <StateContext.Provider value={resumeData}>
                   <ThemeProvider theme={selectedTheme}>

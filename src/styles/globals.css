@@ -19,7 +19,8 @@ body {
 /* Print Styles */
 @page {
   size: A4;
-  margin: 15mm; /* Standard margin for A4 */
+  margin: -40mm 15mm;
+  padding: 50px 0; /* Standard margin for A4 */
 }
 
 @media print {

@@ -73,6 +73,7 @@ const initialState: ResumeData = {
     genderOther: '',
     dateOfBirth: '',
     jobPreferredCountries: [],
+
     jobPreferredStates: [],
     jobPreferredCities: [],
     location: {
@@ -198,23 +199,23 @@ export const ResumeProvider: React.FC<{ children: React.ReactNode; userId: strin
     // }
 
     // Job preferences validation
-    if (!basics?.jobPreferredCountries?.length) {
-      newErrors.basics.jobPreferredCountries = 'Select at least one preferred country';
-    } else if (basics?.jobPreferredCountries?.length > 3) {
-      newErrors.basics.jobPreferredCountries = 'Maximum 3 countries allowed';
-    }
+    // if (!basics?.jobPreferredCountries?.length) {
+    //   newErrors.basics.jobPreferredCountries = 'Select at least one preferred country';
+    // } else if (basics?.jobPreferredCountries?.length > 3) {
+    //   newErrors.basics.jobPreferredCountries = 'Maximum 3 countries allowed';
+    // }
 
-    if (!basics?.jobPreferredStates?.length) {
-      newErrors.basics.jobPreferredStates = 'Select at least one preferred state';
-    } else if (basics?.jobPreferredStates?.length > 3) {
-      newErrors.basics.jobPreferredStates = 'Maximum 3 states allowed';
-    }
+    // if (!basics?.jobPreferredStates?.length) {
+    //   newErrors.basics.jobPreferredStates = 'Select at least one preferred state';
+    // } else if (basics?.jobPreferredStates?.length > 3) {
+    //   newErrors.basics.jobPreferredStates = 'Maximum 3 states allowed';
+    // }
 
-    if (!basics?.jobPreferredCities?.length) {
-      newErrors.basics.jobPreferredCities = 'Select at least one preferred city';
-    } else if (basics?.jobPreferredCities?.length > 6) {
-      newErrors.basics.jobPreferredCities = 'Maximum 6 cities allowed';
-    }
+    // if (!basics?.jobPreferredCities?.length) {
+    //   newErrors.basics.jobPreferredCities = 'Select at least one preferred city';
+    // } else if (basics?.jobPreferredCities?.length > 6) {
+    //   newErrors.basics.jobPreferredCities = 'Maximum 6 cities allowed';
+    // }
 
     // Other validations remain the same
     if (!basics?.label?.trim()) newErrors.basics.label = 'Job title is required';

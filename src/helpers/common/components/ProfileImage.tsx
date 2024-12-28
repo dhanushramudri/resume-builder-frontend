@@ -3,7 +3,8 @@ import { SectionValidator } from './ValidSectionRenderer';
 
 const RoundedImage = styled.img`
   border-radius: 50%;
-  border: 0.5px solid ${(props) => props.theme.fontColor};
+  border: 5px solid white;
+  items-center;
 `;
 
 export const ProfileImage = ({

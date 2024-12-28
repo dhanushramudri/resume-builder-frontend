@@ -189,6 +189,14 @@ export const AVAILABLE_TEMPLATES: { [key: string]: ITemplate } = {
       ssr: false,
     }),
   },
+  blue: {
+    id: 'blue',
+    name: 'Blue Resume',
+    thumbnail: '/templates/deedy.png',
+    component: dynamic(() => import('@/templates/blue/BlueResumeTemplate'), {
+      ssr: false,
+    }),
+  },
 };
 
 // export const CUSTOM_THEME_COLOR: IThemeColor = {
