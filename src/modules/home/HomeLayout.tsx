@@ -44,7 +44,7 @@ const HomeLayout = () => {
               <StyledButton variant="text">About us</StyledButton>
             </Link>
             <a
-              href={'https://github.com/sadanandpai/resume-builder'}
+              href={'https://github.com/sandeep/resume-builder'}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -152,7 +152,7 @@ const HomeLayout = () => {
               </div>
               <div>
                 <a
-                  href="https://github.com/sadanandpai/resume-builder"
+                  href="https://github.com/sandeep/resume-builder"
                   target="_blank"
                   rel="noreferrer"
                 >

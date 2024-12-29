@@ -20,18 +20,6 @@ export const TemplateSelect = () => {
     >
       <TemplateSlider />
       <Divider />
-      <span className="text-resume-800 font-bold text-lg my-[14px]">
-        Want to build your own template?
-      </span>
-      <div>
-        <OutlinedButton
-          onClick={() => {
-            window.open('https://github.com/sadanandpai/resume-builder', '_blank');
-          }}
-        >
-          Contribute on Github
-        </OutlinedButton>
-      </div>
     </div>
   );
 };

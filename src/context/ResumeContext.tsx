@@ -238,13 +238,16 @@ export const ResumeProvider: React.FC<{ children: React.ReactNode; userId: strin
     if (!basics?.totalExp?.trim()) newErrors.basics.totalExp = 'Total experience is required';
 
     // Profile validation
+
     basics?.profiles?.forEach((profile, index) => {
       if (!profile?.url?.trim()) {
-        newErrors.basics[`${profile.network}_url`] = `${profile.network} profile URL is required`;
+        // Change this line to use the same format as your renderFieldError expects
+        newErrors.basics[`${index}_url`] = `${profile.network} profile URL is required`;
       } else if (!isValidUrl(profile?.url)) {
-        newErrors.basics[`${profile.network}_url`] = `Invalid ${profile.network} URL format`;
+        newErrors.basics[`${index}_url`] = `Invalid ${profile.network} URL format`;
       }
     });
+    console.log(Object.keys(newErrors.basics).length === 0 ? null : newErrors);
 
     return Object.keys(newErrors.basics).length === 0 ? null : newErrors;
   };

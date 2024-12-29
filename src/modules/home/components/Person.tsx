@@ -2,32 +2,32 @@ import Image from 'next/image';
 
 const persons = [
   {
-    name: 'Sadanand Pai',
+    name: 'John Doe ',
     role: 'Frontend Engineer',
-    avatar: 'https://avatars.githubusercontent.com/u/12962887?v=4',
-    github: 'https://github.com/sadanandpai',
-    linkedin: 'https://www.linkedin.com/in/sadanandpai/',
+    avatar: 'https://dummyimage.com/150x150/000/fff&text=Avatar',
+    github: 'https://github.com/dummy-user1',
+    linkedin: 'https://www.linkedin.com/in/dummy-user1/',
   },
   {
     name: 'Gopalakrishnan',
     role: 'Frontend Engineer',
-    avatar: 'https://avatars.githubusercontent.com/u/22369081?v=4',
-    github: 'https://github.com/gopal1996',
-    linkedin: 'https://www.linkedin.com/in/gopal1996',
+    avatar: 'https://dummyimage.com/150x150/000/fff&text=Avatar',
+    github: 'https://github.com/dummy-user2',
+    linkedin: 'https://www.linkedin.com/in/dummy-user2/',
   },
   {
     name: 'Vivek G',
     role: 'Product designer, UI developer',
-    avatar: 'https://avatars.githubusercontent.com/u/26523871?v=4',
-    github: 'https://github.com/yakshaG',
-    linkedin: 'https://www.linkedin.com/in/vivek-g-india',
+    avatar: 'https://dummyimage.com/150x150/000/fff&text=Avatar',
+    github: 'https://github.com/dummy-user3',
+    linkedin: 'https://www.linkedin.com/in/dummy-user3/',
   },
   {
     name: 'Siva K',
     role: 'Frontend Engineer',
-    avatar: 'https://avatars.githubusercontent.com/u/60533560?v=4',
-    github: 'https://github.com/siva-kannan3',
-    linkedin: 'https://www.linkedin.com/in/siva-kannan3/',
+    avatar: 'https://dummyimage.com/150x150/000/fff&text=Avatar',
+    github: 'https://github.com/dummy-user4',
+    linkedin: 'https://www.linkedin.com/in/dummy-user4/',
   },
 ];
 

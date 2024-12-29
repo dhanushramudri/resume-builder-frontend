@@ -7,11 +7,11 @@ const GeometricTemplate = () => {
   const { basics, skills, work, education, certifications, awards, activities } = resumeData || {};
 
   return (
-    <div className="max-w-[850px] mx-auto   p-6 ">
+    <div className="max-w-[850px] mx-auto px-6 pt-2">
       {/* Header Content */}
-      <header className="mb-6">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">{basics?.name}</h1>
-        <h2 className="text-xl font-medium text-blue-600 mb-4">{basics?.label || 'UX DESIGNER'}</h2>
+      <header className="mb-4">
+        <h1 className="text-3xl font-bold text-gray-900 mb-1">{basics?.name}</h1>
+        <h2 className="text-xl font-medium text-blue-600 mb-3">{basics?.label || 'UX DESIGNER'}</h2>
 
         <div className="flex flex-wrap gap-4 text-sm text-gray-600">
           {basics?.email && (
@@ -43,59 +43,51 @@ const GeometricTemplate = () => {
 
       {/* Summary Section */}
       {basics?.summary && (
-        <section className="mb-6">
-          <h3 className="text-lg font-bold text-blue-500 border-b-2 border-t-2 border-blue-500 p-2 mb-3">
+        <section className="mb-4">
+          <h3 className="text-lg font-bold text-blue-500 border-b-2 border-t-2 border-blue-500 p-2 mb-2">
             SUMMARY
           </h3>
           <p className="text-gray-700 leading-relaxed">{basics.summary}</p>
         </section>
       )}
 
-      {/* Rest of the sections remain the same */}
       {/* Technical Skills Section */}
       {skills && (
-        <section className="mb-6">
-          <h3 className="text-lg font-bold text-blue-500 border-t-2 border-b-2 p-2 border-blue-500 mb-3">
+        <section className="mb-4">
+          <h3 className="text-lg font-bold text-blue-500 border-t-2 border-b-2 p-2 border-blue-500 mb-2">
             TECHNICAL SKILLS
           </h3>
-          <div className="grid grid-cols-2 gap-4">
-            {Object.entries(skills).map(
-              ([category, items]) =>
-                items?.length > 0 && (
-                  <div key={category} className="mb-4">
-                    <h4 className="font-medium text-gray-800 mb-2">{category}</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {items.map((skill: any) => (
-                        <span
-                          key={skill.name}
-                          className="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-sm"
-                        >
-                          {skill.name}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                )
-            )}
+          <div className="flex flex-wrap gap-2">
+            {Object.entries(skills)
+              .flatMap(([_, items]) => items)
+              .filter(Boolean)
+              .map((skill: any) => (
+                <span
+                  key={skill.name}
+                  className="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-sm"
+                >
+                  {skill.name}
+                </span>
+              ))}
           </div>
         </section>
       )}
 
       {/* Professional Experience */}
       {work?.length > 0 && (
-        <section className="mb-6">
-          <h3 className="text-lg font-bold text-blue-500 border-b-2 border-t-2 border-blue-500 p-2 mb-3">
+        <section className="mb-4">
+          <h3 className="text-lg font-bold text-blue-500 border-b-2 border-t-2 border-blue-500 p-2 mb-2">
             PROFESSIONAL EXPERIENCE
           </h3>
           {work.map((job) => (
-            <div key={job.name} className="mb-4">
+            <div key={job.name} className="mb-3">
               <div className="flex justify-between items-baseline mb-1">
-                <h4 className=" text-gray-700">{job.name}</h4>
-                <span className="text-sm  text-black-600 font-bold">
+                <h4 className="text-gray-700">{job.name}</h4>
+                <span className="text-sm text-black-600 font-bold">
                   {job.startDate} - {job.isWorkingHere ? 'Present' : job.endDate}
                 </span>
               </div>
-              <h5 className="text-blue-600 font-medium mb-2">{job.position}</h5>
+              <h5 className="text-blue-600 font-medium mb-1">{job.position}</h5>
               <p className="text-gray-700">{job.summary}</p>
             </div>
           ))}
@@ -104,12 +96,12 @@ const GeometricTemplate = () => {
 
       {/* Education Section */}
       {education?.length > 0 && (
-        <section className="mb-6">
-          <h3 className="text-lg font-bold text-blue-500 border-b-2 border-t-2 p-2 border-blue-500 mb-3">
+        <section className="mb-4">
+          <h3 className="text-lg font-bold text-blue-500 border-b-2 border-t-2 p-2 border-blue-500 mb-2">
             EDUCATION
           </h3>
           {education.map((edu) => (
-            <div key={edu.institution} className="mb-4">
+            <div key={edu.institution} className="mb-3">
               <div className="flex justify-between items-baseline mb-1">
                 <h4 className="font-semibold text-gray-900">{edu.studyType}</h4>
                 <span className="text-sm text-black-600 font-bold">
@@ -124,27 +116,44 @@ const GeometricTemplate = () => {
       )}
 
       {/* Additional Information */}
-      <section className="mb-6">
-        <h3 className="text-lg font-bold text-blue-500 border-b-2 border-t-2 p-2 border-blue-500 mb-3">
+      <section className="mb-4">
+        {/* <h3 className="text-lg font-bold text-blue-500 border-b-2 border-t-2 p-2 border-blue-500 mb-2">
           ADDITIONAL INFORMATION
-        </h3>
-        <div className="grid grid-cols-1 gap-4">
+        </h3> */}
+        <div className="grid grid-cols-1 gap-2">
           {/* Languages */}
-          {skills?.languages?.length > 0 && (
+          {/* {skills?.languages?.length > 0 && (
             <div className="mb-2">
               <h4 className="font-medium text-gray-800 mb-1">Languages:</h4>
               <p className="text-gray-700">
                 {skills.languages.map((lang: any) => lang.name).join(', ')}
               </p>
             </div>
-          )}
+          )} */}
 
           {/* Certifications */}
           {certifications?.length > 0 && (
-            <div className="mb-2">
-              <h4 className="font-medium text-gray-800 mb-1">Certifications:</h4>
-              <p className="text-gray-700">{certifications.map((cert) => cert.title).join(', ')}</p>
-            </div>
+            <section className="mb-4">
+              <h3 className="text-lg font-bold text-blue-500 border-b-2 border-t-2 p-2 border-blue-500 mb-2">
+                CERTIFICATIONS
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {certifications.map((cert) => (
+                  <div
+                    key={cert.title}
+                    className="flex items-start gap-3 bg-blue-50 p-3 rounded-lg"
+                  >
+                    <div>
+                      <h4 className="font-medium text-gray-900">{cert.title}</h4>
+                      {cert.authority && (
+                        <p className="text-sm text-gray-600">Issued by: {cert.authority}</p>
+                      )}
+                      {cert.date && <p className="text-sm text-gray-500">Obtained: {cert.date}</p>}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
           )}
 
           {/* Awards & Activities */}
@@ -165,7 +174,7 @@ const GeometricTemplate = () => {
       <style jsx global>{`
         @media print {
           @page {
-            margin: 0.5in;
+            margin: -1.5in 0;
             size: letter;
           }
           body {

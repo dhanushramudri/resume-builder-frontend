@@ -137,7 +137,7 @@ const WorkExperienceForm = React.forwardRef((props, ref) => {
                   value={job.startDate}
                   onChange={(e) => updateWorkExperience(index, 'startDate', e.target.value)}
                   className="w-full p-2 border rounded"
-                  placeholder="MM/YYYY"
+                  placeholder="YYYY/MM/DD "
                 />
                 {renderFieldErrorWithIndex(index, 'startDate')}
               </div>
@@ -150,7 +150,7 @@ const WorkExperienceForm = React.forwardRef((props, ref) => {
                   value={job.endDate || ''}
                   onChange={(e) => updateWorkExperience(index, 'endDate', e.target.value)}
                   className="w-full p-2 border rounded"
-                  placeholder="MM/YYYY"
+                  placeholder="YYYY/MM/DD "
                   disabled={job.isWorkingHere}
                 />
                 {renderFieldErrorWithIndex(index, 'endDate')}

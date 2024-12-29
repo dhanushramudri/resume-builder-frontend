@@ -507,15 +507,15 @@ const BasicInfoForm = () => {
       </div>
 
       {/* Job Preferences */}
-      <div className="space-y-4">
-        {/* <h3 className="text-lg font-medium">Job Preferences</h3> */}
+      {/* <div className="space-y-4"> */}
+      {/* <h3 className="text-lg font-medium">Job Preferences</h3> */}
 
-        <div className="grid grid-cols-1 gap-4">
-          <div>
-            {/* <label className="block text-sm font-medium mb-1">
+      {/* <div className="grid grid-cols-1 gap-4"> */}
+      {/* <div> */}
+      {/* <label className="block text-sm font-medium mb-1">
               Preferred Countries (Select up to 3)
             </label> */}
-            {/* <Select
+      {/* <Select
               multiple
               value={basics.jobPreferredCountries || []} // Provide fallback empty array
               onChange={handleCountryChange}
@@ -535,14 +535,14 @@ const BasicInfoForm = () => {
                 <ListItemText primary="Canada" />
               </MenuItem>
             </Select> */}
-            {renderFieldError('jobPreferredCountries')}
-          </div>
+      {/* {renderFieldError('jobPreferredCountries')} */}
+      {/* </div> */}
 
-          <div>
-            {/* <label className="block text-sm font-medium mb-1">
+      {/* <div> */}
+      {/* <label className="block text-sm font-medium mb-1">
               Preferred States (Select up to 6)
             </label> */}
-            {/* <Select
+      {/* <Select
               multiple
               value={basics.jobPreferredStates || []} // Add fallback empty array
               onChange={(event: SelectChangeEvent<string[]>) => {
@@ -570,14 +570,14 @@ const BasicInfoForm = () => {
                 <ListItemText primary="Illinois" />
               </MenuItem>
             </Select> */}
-            {renderFieldError('jobPreferredStates')}
-          </div>
+      {/* {renderFieldError('jobPreferredStates')} */}
+      {/* </div> */}
 
-          <div>
-            {/* <label className="block text-sm font-medium mb-1">
+      {/* <div> */}
+      {/* <label className="block text-sm font-medium mb-1">
               Preferred Cities (Select up to 6)
             </label> */}
-            {/* <Select
+      {/* <Select
               multiple
               value={basics.jobPreferredCities}
               onChange={(event: SelectChangeEvent<string[]>) => {
@@ -605,10 +605,10 @@ const BasicInfoForm = () => {
                 <ListItemText primary="Chicago" />
               </MenuItem>
             </Select> */}
-            {renderFieldError('jobPreferredCities')}
-          </div>
+      {/* {renderFieldError('jobPreferredCities')} */}
+      {/* </div>
         </div>
-      </div>
+      </div> */}
       {/* Specialization (Drop down)
   ○ Segmented into Postgraduate and Undergraduate categories
   ● Course(List of Courses given at the end of the document) (Drop Down with Search enabled)

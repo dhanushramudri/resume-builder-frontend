@@ -8,7 +8,9 @@ import { ProfileImage } from '@/helpers/common/components/ProfileImage';
 
 export default function BlueResumeTemplate() {
   const { resumeData } = useResume();
-  const { basics, skills, work, education, certifications } = resumeData || {};
+  const { basics, skills, work, education, certifications, volunteer } = resumeData || {};
+  console.log('volunteer resume data', resumeData);
+
   console.log('basics data is :', basics);
   console.log('authority data is :', certifications);
   //   console.log('All Skills:', allSkills);
@@ -17,7 +19,7 @@ export default function BlueResumeTemplate() {
       {/* Left Column */}
       <div className="flex gap-8">
         <div className="w-2/5 bg-[#163753] text-white p-6 min-h-screen">
-          <div className="mb-8">
+          <div className="mb-8  flex items-center justify-center ">
             <ProfileImage src={basics?.image} height={'30px'} />
           </div>
 
@@ -57,9 +59,11 @@ export default function BlueResumeTemplate() {
               {education.map((edu) => (
                 <div key={edu.id} className="mb-3 last:mb-0">
                   {edu.startDate} - {edu.endDate}
-                  <h4 className="font-semibold mb-1 text-white">{edu.studyType}</h4>
+                  <h4 className="font-semibold text-xl mb-1 text-white uppercase">
+                    {edu.studyType}
+                  </h4>
                   <div className="text-sm text-white"></div>
-                  <div className="text-sm text-white">{edu.institution}</div>
+                  <div className="text-sm text-white  font-light">{edu.institution}</div>
                   {edu.score && <div className="text-sm text-white">Score: {edu.score}</div>}
                 </div>
               ))}
@@ -94,7 +98,7 @@ export default function BlueResumeTemplate() {
 
         {/* Right Column */}
         <div className="w-2/3 p-6">
-          <div className="relative pb-4 after:absolute after:bottom-0 after:left-0 after:w-full after:h-1 after:bg-gradient-to-r after:from-transparent after:from-[20px] after:via-black after:via-[20px] after:to-transparent after:to-100%">
+          <div className="relative pb-4 after:absolute after:bottom-0 after:left-[5%] after:w-[20%] after:h-1 after:bg-black">
             {basics?.name && (
               <div className="text-5xl font-mono  ml-5 w-full  uppercase">{basics.name}</div>
             )}{' '}
@@ -102,7 +106,7 @@ export default function BlueResumeTemplate() {
           </div>
           {basics?.summary && (
             <section className=" mt-16 mb-8">
-              <h3 className="text-lg font-bold mb-4  border-b-4 text-black border-black pb-2">
+              <h3 className="text-lg font-bold mb-4  border-b-4 text-[#163753]  border-black pb-2">
                 PROFILE
               </h3>
               <p className="text-sm leading-relaxed text-gray-700">{basics.summary}</p>
@@ -124,7 +128,7 @@ export default function BlueResumeTemplate() {
             ))}
           </section> */}
           <section className="mb-8 relative">
-            <h3 className="text-lg font-bold mb-4 text-black border-b-2 border-black pb-2">
+            <h3 className="text-lg font-bold mb-4 text-[#163753]  border-b-2 border-black pb-2">
               WORK EXPERIENCE
             </h3>
 
@@ -143,7 +147,7 @@ export default function BlueResumeTemplate() {
                       month: 'numeric',
                       year: 'numeric',
                     })}{' '}
-                    - {job.isWorkingHere ? 'PRESENT' : job.endDate}
+                    - {job.isWorkingHere ? job.startDate : job.endDate}
                   </span>
                 </div>
                 <h5 className="text-sm font-medium text-gray-700 mb-2">{job.position}</h5>
@@ -154,7 +158,7 @@ export default function BlueResumeTemplate() {
             ))}
           </section>
           <section>
-            <h3 className="text-lg font-bold mb-4 text-black border-b-2 border-black pb-2">
+            <h3 className="text-lg font-bold mb-4 text-[#163753] border-b-2 border-black pb-2">
               CERTIFICATIONS
             </h3>
             <div className="space-y-6">
