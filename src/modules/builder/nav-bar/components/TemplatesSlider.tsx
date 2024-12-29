@@ -96,7 +96,7 @@ export const TemplateSlide = ({
   onChangeTemplate: (id: string) => void;
 }) => {
   return (
-    <li className="splide__slide flex justify-center">
+    <li className="splide__slide flex flex-col text-sm items-center  justify-center">
       <div
         className={`h-[255px] w-[180px] rounded border hover:cursor-pointer overflow-hidden relative ${
           isActive ? 'border-resume-800' : 'border-resume-200'
@@ -113,6 +113,7 @@ export const TemplateSlide = ({
           </div>
         )}
       </div>
+      <div>{name}</div>
     </li>
   );
 };

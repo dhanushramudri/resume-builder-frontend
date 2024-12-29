@@ -112,7 +112,7 @@ function HomePage() {
   return (
     <div className="flex items-center justify-center flex-col">
       <Head>
-        <title>E-Resume: Home</title>
+        <title>Resume Builder: Home</title>
         <meta name="description" content="Single Page Resume Builder" />
         <link rel="icon" type="image/png" href="/icons/resume1-icon.png" />
       </Head>
@@ -121,7 +121,7 @@ function HomePage() {
 
       <main className="flex flex-col items-center justify-center min-h-screen bg-gray-100 pt-8 px-4 sm:px-8 w-full">
         <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 text-center">
-          Welcome to E-Resume
+          Welcome to Resume Builder
         </h1>
         <p className="mt-4 text-sm sm:text-base md:text-lg text-gray-600 text-center">
           Build your professional resume effortlessly!

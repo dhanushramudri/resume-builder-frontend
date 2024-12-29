@@ -21,7 +21,7 @@ export const ResumeLayout = () => {
   useEffect(() => {
     setInitialZoom();
     const selectedTemplateId =
-      localStorage.getItem('selectedTemplateId') || AVAILABLE_TEMPLATES['modern'].id;
+      localStorage.getItem('selectedTemplateId') || AVAILABLE_TEMPLATES['blue'].id;
     useTemplates.getState().setTemplate(AVAILABLE_TEMPLATES[selectedTemplateId]);
   }, []);
 

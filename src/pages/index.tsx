@@ -10,7 +10,7 @@ function Header() {
   return (
     <header className="w-full py-4 bg-gradient-to-r from-teal-600 to-teal-500 text-white flex justify-between items-center px-8 sticky top-0 z-10 shadow-md animate-fadeIn">
       <div className="text-2xl font-bold hover:scale-105 transition-transform duration-300">
-        E-Resume
+        Resume Builder
       </div>
       <div className="flex items-center space-x-4 sm:space-x-2">
         <SignedIn>
@@ -116,7 +116,7 @@ function HomePage() {
       className={`flex items-center justify-center flex-col transition-opacity duration-500 ${mounted ? 'opacity-100' : 'opacity-0'}`}
     >
       <Head>
-        <title>E-Resume: Home</title>
+        <title>Resume Builder: Home</title>
         <meta name="description" content="Single Page Resume Builder" />
         <link rel="icon" type="image/png" href="/icons/resume-icon.png" />
       </Head>
@@ -125,7 +125,7 @@ function HomePage() {
 
       <main className="flex flex-col items-center justify-center min-h-screen bg-gray-100 pt-8 px-4 sm:px-8 w-full">
         <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 text-center transform hover:scale-105 transition-transform duration-300 animate-slideDown">
-          Welcome to E-Resume
+          Welcome to Resume Builder
         </h1>
         <p className="mt-4 text-sm sm:text-base md:text-lg text-gray-600 text-center animate-fadeIn delay-300">
           Build your professional resume effortlessly!
