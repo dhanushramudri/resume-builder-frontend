@@ -226,11 +226,11 @@ export const ResumeProvider: React.FC<{ children: React.ReactNode; userId: strin
     }
     if (!basics?.phone?.trim()) newErrors.basics.phone = 'Phone is required';
     if (!basics?.summary?.trim()) newErrors.basics.summary = 'Summary is required';
-    if (basics?.summary?.length > 300) {
+    if (basics?.summary?.length > 500) {
       newErrors.basics.summary = 'Summary cannot exceed 300 characters';
     }
     if (!basics?.objective?.trim()) newErrors.basics.objective = 'Objective is required';
-    if (basics?.objective?.length > 300) {
+    if (basics?.objective?.length > 500) {
       newErrors.basics.objective = 'Objective cannot exceed 300 characters';
     }
     if (!basics?.location?.city?.trim()) newErrors.basics.city = 'City is required';

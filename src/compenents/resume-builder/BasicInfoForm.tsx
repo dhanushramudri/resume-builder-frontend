@@ -8,8 +8,19 @@ import type { Profile } from '../../types/resume';
 import FormNavigation from './FormNavigation';
 import CourseSelector from './CourseSelector';
 import { specializations } from '../../helpers/constants/specializations';
+import ProfessionalSummary from './ProfessionalSummary';
+
+interface SummaryData {
+  summary: string;
+  objective: string;
+}
 
 const BasicInfoForm = () => {
+  const [summaryData, setSummaryData] = useState<SummaryData>({
+    summary: '',
+    objective: '',
+  });
+
   const { resumeData, updateResumeData, errors } = useResume();
   const { basics } = resumeData;
   const formErrors = errors.basics || {};
@@ -27,6 +38,7 @@ const BasicInfoForm = () => {
       },
     },
   };
+
   const [selectedCountry, setSelectedCountry] = useState('');
   const [selectedState, setSelectedState] = useState('');
   const [selectedCity, setSelectedCity] = useState('');
@@ -210,6 +222,14 @@ const BasicInfoForm = () => {
         ...(field === 'level' && { course: '', specialization: '' }),
         ...(field === 'course' && { specialization: '' }),
       },
+    });
+  };
+
+  const handleSummaryGenerated = (data: SummaryData) => {
+    updateResumeData('basics', {
+      ...basics,
+      summary: data.summary,
+      objective: data.objective,
     });
   };
 
@@ -478,7 +498,7 @@ const BasicInfoForm = () => {
       </div>
 
       {/* Summary & Objective */}
-      <div className="space-y-4">
+      {/* <div className="space-y-4">
         <h3 className="text-lg font-medium">Professional Summary</h3>
 
         <div>
@@ -504,7 +524,21 @@ const BasicInfoForm = () => {
           />
           {renderFieldError('objective')}
         </div>
-      </div>
+      </div> */}
+      <ProfessionalSummary onSummaryGenerated={handleSummaryGenerated} />
+      {(resumeData?.basics?.summary || resumeData?.basics?.objective) && (
+        <div className="mt-8 space-y-6">
+          <div>
+            <h3 className="text-lg font-semibold mb-2">Professional Summary</h3>
+            <p className="p-4 bg-gray-50 rounded-lg">{resumeData?.basics?.summary}</p>
+          </div>
+
+          <div>
+            <h3 className="text-lg font-semibold mb-2">Career Objective</h3>
+            <p className="p-4 bg-gray-50 rounded-lg">{resumeData?.basics?.objective}</p>
+          </div>
+        </div>
+      )}
 
       {/* Job Preferences */}
       {/* <div className="space-y-4"> */}

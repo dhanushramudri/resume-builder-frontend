@@ -16,10 +16,11 @@ import { CertificationSection } from './components/Certifications';
 
 export default function MordernTemplate() {
   const { resumeData } = useResume();
+  console.log('resume data in  modern', resumeData);
   // console.log('basics data is ', resumeData?.basics);
   // const fullName = `${resumeData?.basics?.firstName ?? ''} ${resumeData?.basics?.lastName ?? ''}`;
   // console.log('full name is ', resumeData?.basics?.name);
-  console.log('resume data is modern', resumeData);
+  console.log('summary data is modern', resumeData?.basics?.objective);
 
   return (
     <div className="p-2">
