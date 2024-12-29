@@ -184,7 +184,7 @@ export const AVAILABLE_TEMPLATES: { [key: string]: ITemplate } = {
   geometric: {
     id: 'geometric',
     name: 'Geometric Resume',
-    thumbnail: '/templates/deedy.png',
+    thumbnail: '/templates/geo.png',
     component: dynamic(() => import('@/templates/geometric/GeometricTemplate'), {
       ssr: false,
     }),
@@ -192,7 +192,7 @@ export const AVAILABLE_TEMPLATES: { [key: string]: ITemplate } = {
   blue: {
     id: 'blue',
     name: 'Blue Resume',
-    thumbnail: '/templates/deedy.png',
+    thumbnail: '/templates/blue.png',
     component: dynamic(() => import('@/templates/blue/BlueResumeTemplate'), {
       ssr: false,
     }),
