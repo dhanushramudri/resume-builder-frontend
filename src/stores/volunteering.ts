@@ -16,19 +16,17 @@ const createVolunteeringStore = (
     set(
       produce((state) => {
         state.volunteeredExps.push(newVolunteering);
-      }),
-      true
+      })
     ),
 
   remove: (index: number) =>
     set(
       produce((state) => {
-        state.volunteeredExps = state.volunteeredExps.filter((_, i) => i !== index);
-      }),
-      true
+        state.volunteeredExps = state.volunteeredExps.filter((_: any, i: number) => i !== index);
+      })
     ),
 
-  reset: (values: IVolunteeringItem[]) => set({ volunteeredExps: values }, true),
+  reset: (values: IVolunteeringItem[]) => set({ volunteeredExps: values }),
 
   get: (index: number) => get().volunteeredExps[index],
 
@@ -36,8 +34,7 @@ const createVolunteeringStore = (
     set(
       produce((state) => {
         state.volunteeredExps[index] = updatedInfo;
-      }),
-      true
+      })
     ),
 
   onmoveup: (index: number) =>
@@ -49,8 +46,7 @@ const createVolunteeringStore = (
             state.volunteeredExps[index],
           ];
         }
-      }),
-      true
+      })
     ),
 
   onmovedown: (index: number) =>
@@ -62,8 +58,7 @@ const createVolunteeringStore = (
             state.volunteeredExps[index],
           ];
         }
-      }),
-      true
+      })
     ),
 });
 

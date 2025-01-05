@@ -1,5 +1,6 @@
 export interface IVolunteeringItem {
   id: string;
+  title: string;
   organization: string;
   position: string;
   url: string;

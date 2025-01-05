@@ -14,6 +14,7 @@ const NEW_VOLUNTEER_EXP: IVolunteeringItem = {
   id: '',
   url: '',
   highlights: [],
+  title: '',
 };
 
 interface AddVolunteeringExpProps {

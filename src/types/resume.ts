@@ -23,11 +23,11 @@ export interface Education {
   score: string;
   specialization: string;
   passOutYear: string;
-  courses: string | string[];
-
+  courses?: string[]; // Ensure courses is optional
   isStudyingHere: boolean;
-  level: 'secondary' | 'graduation'; // Added mandatory level field
+  level: 'secondary' | 'graduation';
 }
+
 export interface Basics {
   firstName: string;
   lastName: string;

@@ -15,7 +15,7 @@ import { useAwards } from './awards';
 import { useBasicDetails } from './basic';
 import { useEducations } from './education';
 import { useExperiences } from './experience';
-import { useVoluteeringStore } from './volunteering';
+import { useVolunteeringStore } from './volunteering';
 
 export const useResumeStore = () => {
   const userData = userDetailsData?.resumeData || ResumeData; // Use userDetailsData.resumeData as original, fallback to ResumeData
@@ -24,9 +24,9 @@ export const useResumeStore = () => {
     ...userData,
     basics: useBasicDetails((state) => state.values),
     work: useExperiences((state) => state.experiences),
-    education: useEducations((state) => state.academics),
+    education: useEducations((state) => state.educations),
     awards: useAwards((state) => state.awards),
-    volunteer: useVoluteeringStore((state) => state.volunteeredExps),
+    volunteer: useVolunteeringStore((state) => state.volunteeredExps),
     skills: {
       languages: useLanguages((state) => state.get()),
       frameworks: useFrameworks((state) => state.get()),
@@ -56,7 +56,7 @@ export const resetResumeStore = () => {
   useTools.getState().reset(userData.skills.tools);
   useExperiences.getState().reset(userData.work);
   useEducations.getState().reset(userData.education);
-  useVoluteeringStore.getState().reset(userData.volunteer);
+  useVolunteeringStore.getState().reset(userData.volunteer);
   useAwards.getState().reset(userData.awards);
   useActivity.getState().reset(userData.activities);
 };

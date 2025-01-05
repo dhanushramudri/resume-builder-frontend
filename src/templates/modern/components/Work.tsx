@@ -7,9 +7,10 @@ import { SectionTitle } from '../atoms/SectionTitle';
 import { useRef } from 'react';
 import { scrollToElement } from '../../../helpers/utils/index';
 import { useExperiences } from '@/stores/experience';
-import { IWorkItem } from '@/stores/experience.interface';
+import { IExperienceItem } from '@/stores/experience.interface';
+// import { IWorkItem } from '@/stores/experience.interface';
 
-export const WorkSection = ({ work = [] }: { work: IWorkItem[] }) => {
+export const WorkSection = ({ work = [] }: { work: IExperienceItem[] }) => {
   const workRef = useRef<null | HTMLDivElement>(null);
 
   useExperiences.subscribe(() => {

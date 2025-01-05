@@ -21,6 +21,7 @@ const VolunteeringLayout = () => {
       setExpanded(volunteeredExps[0].id);
     }
   }, [volunteeredExps]);
+  console.log('VolunteeringLayout -> volunteeredExps', volunteeredExps);
 
   const handleChange = (panel: string, isExpanded: boolean) => {
     setExpanded(isExpanded ? panel : false);
@@ -74,8 +75,11 @@ const VolunteeringLayout = () => {
       {volunteeredExps.map((volunteeringInfo, index) => (
         <MoveEditSection
           key={volunteeringInfo.id}
+          title={volunteeringInfo.title}
+          length={volunteeredExps.length}
+          index={index}
           expanded={expanded === volunteeringInfo.id}
-          onChange={() => handleChange(volunteeringInfo.id, expanded !== volunteeringInfo.id)}
+          clickHandler={() => handleChange(volunteeringInfo.id, expanded !== volunteeringInfo.id)}
           onMoveUp={() => onMoveUp(index)}
           onMoveDown={() => onMoveDown(index)}
           onDelete={() => removeVolunteering(index)}

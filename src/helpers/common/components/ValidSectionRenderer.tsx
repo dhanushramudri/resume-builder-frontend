@@ -1,5 +1,5 @@
 import { Fragment, ReactNode, useMemo } from 'react';
-import { IWorkItem } from '@/stores/experience.interface';
+import { IExperienceItem } from '@/stores/experience.interface';
 import { IEducation } from '@/stores/education.interface';
 import { IAwardItem } from '@/stores/awards.interface';
 import { IVolunteeringItem } from '@/stores/volunteering.interface';
@@ -12,7 +12,7 @@ export type ValidSectionValue =
   | string
   | string[]
   | boolean
-  | IWorkItem[]
+  | IExperienceItem[]
   | IEducation[]
   | IAwardItem[]
   | IVolunteeringItem[]
@@ -27,7 +27,7 @@ interface SectionValidatorProps {
 }
 
 export interface WorkSectionProps {
-  work: IWorkItem[];
+  work: IExperienceItem[];
 }
 // Component props interfaces
 interface EducationSectionProps {

@@ -25,3 +25,9 @@ export interface IBasicDetailsStore {
   reset: (values: IBasicDetailsItem) => void;
   updateValues: (values: IBasicDetailsItem) => void;
 }
+
+export interface IProfiles {
+  network: string; // Social network name (e.g., "LinkedIn", "GitHub")
+  url: string; // Profile URL
+  username?: string; // Optional username field
+}

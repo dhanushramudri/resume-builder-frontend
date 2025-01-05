@@ -133,7 +133,7 @@ export interface IEducation {
   startDate: string;
   endDate: string;
   score?: string;
-  courses: string[] | undefined; // Changed to match IEducation
+  courses?: string[]; // Changed to match IEducation
   isStudyingHere: boolean;
 }
 

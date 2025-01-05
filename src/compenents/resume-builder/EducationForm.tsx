@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { useResume } from '../../context/ResumeContext';
 import type { Education } from '../../types/resume';
 import FormNavigation from './FormNavigation';
+import { SectionValidator } from '@/helpers/common/components/ValidSectionRenderer';
+import { EducationSection } from '@/templates/modern/components/Education';
 
 const EducationForm = () => {
   const { resumeData, updateResumeData, errors } = useResume();
@@ -20,9 +22,11 @@ const EducationForm = () => {
           startDate: '',
           endDate: '',
           score: '',
-          courses: [],
+          courses: [], // Ensure courses is optional
           isStudyingHere: false,
           level: 'secondary',
+          specialization: '',
+          passOutYear: '',
         },
         {
           id: '2',
@@ -33,9 +37,11 @@ const EducationForm = () => {
           startDate: '',
           endDate: '',
           score: '',
-          courses: [],
+          courses: [], // Ensure courses is optional
           isStudyingHere: false,
           level: 'graduation',
+          specialization: '',
+          passOutYear: '',
         },
       ];
       updateResumeData('education', defaultEducation);
@@ -50,13 +56,18 @@ const EducationForm = () => {
 
   const addCourse = (index: number) => {
     const updatedEducation = [...education];
+    if (!Array.isArray(updatedEducation[index].courses)) {
+      updatedEducation[index].courses = [];
+    }
     updatedEducation[index].courses.push('');
     updateResumeData('education', updatedEducation);
   };
 
   const updateCourse = (eduIndex: number, courseIndex: number, value: string) => {
     const updatedEducation = [...education];
-    updatedEducation[eduIndex].courses[courseIndex] = value;
+    if (Array.isArray(updatedEducation[eduIndex].courses)) {
+      updatedEducation[eduIndex].courses[courseIndex] = value;
+    }
     updateResumeData('education', updatedEducation);
   };
 
@@ -181,16 +192,17 @@ const EducationForm = () => {
           <div>
             <label className="block text-sm font-medium mb-1">Relevant Courses</label>
             <div className="space-y-2">
-              {edu.courses.map((course, courseIndex) => (
-                <input
-                  key={courseIndex}
-                  type="text"
-                  value={course}
-                  onChange={(e) => updateCourse(index, courseIndex, e.target.value)}
-                  className="w-full p-2 border rounded"
-                  placeholder="Course name"
-                />
-              ))}
+              {Array.isArray(edu.courses) &&
+                edu.courses.map((course: string, courseIndex: number) => (
+                  <input
+                    key={courseIndex}
+                    type="text"
+                    value={course}
+                    onChange={(e) => updateCourse(index, courseIndex, e.target.value)}
+                    className="w-full p-2 border rounded"
+                    placeholder="Course name"
+                  />
+                ))}
               <button
                 onClick={() => addCourse(index)}
                 className="text-blue-500 hover:text-blue-600 mt-2"
@@ -202,6 +214,14 @@ const EducationForm = () => {
         </div>
       ))}
       <FormNavigation />
+      <SectionValidator value={education.map((edu) => edu.id)}>
+        <section className="mb-6 print:mb-4 page-break-inside-avoid">
+          <h2 className="text-xl font-semibold text-gray-800 mb-2 uppercase tracking-wider">
+            Education
+          </h2>
+          <EducationSection education={education} />
+        </section>
+      </SectionValidator>
     </div>
   );
 };

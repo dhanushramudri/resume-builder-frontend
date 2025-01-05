@@ -18,6 +18,7 @@ const NEW_EDUCATION: IEducation = {
   score: '',
   courses: [],
   id: '',
+  isStudyingHere: false,
 };
 
 const AddEducation: React.FC<AddEducationProps> = ({ handleChange, isEmpty, onAdd }) => {
