@@ -1,7 +1,3 @@
-Here's the updated version with the new contributors:
-
----
-
 # Modern Resume Builder
 
 An open-source resume builder with real-time preview, ATS optimization, and sign-in capabilities.
