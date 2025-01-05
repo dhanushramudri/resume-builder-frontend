@@ -9,7 +9,7 @@ const tabTitles = ['Contacts', 'Links', 'About'];
 const BasicLayout = () => {
   const [activeTab, setActiveTab] = React.useState(0);
   const { values, updateValues } = useBasicDetails();
-  const { updateResumeData,resumeData } = useResume();
+  const { updateResumeData, resumeData } = useResume();
 
   const changeActiveTab = (event: React.SyntheticEvent, activeTab: number) => {
     setActiveTab(activeTab);
@@ -18,7 +18,7 @@ const BasicLayout = () => {
   const handleBasicUpdate = (updatedTabs: any) => {
     // Update Zustand store
     updateValues(updatedTabs);
-    
+
     // Update Resume Context
     updateResumeData('basics', updatedTabs);
 
@@ -27,9 +27,9 @@ const BasicLayout = () => {
     if (existingData) {
       const parsedData = JSON.parse(existingData);
       console.log(parsedData);
-      console.log("basic data");
-      console.log(resumeData.basics)
-      
+      console.log('basic data');
+      console.log(resumeData.basics);
+
       // Update only the basics section while preserving all other data
       const updatedData = {
         ...parsedData,
@@ -37,10 +37,10 @@ const BasicLayout = () => {
           ...parsedData.resumeData,
           basics: {
             ...resumeData.basics,
-            ...updatedTabs
-          }
+            ...updatedTabs,
+          },
         },
-        updatedAt: new Date().toISOString()
+        updatedAt: new Date().toISOString(),
       };
 
       // Save back to localStorage

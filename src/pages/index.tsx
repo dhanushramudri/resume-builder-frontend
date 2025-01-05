@@ -113,7 +113,7 @@ function HomePage() {
 
   return (
     <div
-      className={`flex items-center justify-center flex-col transition-opacity duration-500 ${mounted ? 'opacity-100' : 'opacity-0'}`}
+      className={`flex flex-col min-h-screen transition-opacity duration-500 ${mounted ? 'opacity-100' : 'opacity-0'}`}
     >
       <Head>
         <title>Resume Builder: Home</title>
@@ -123,7 +123,7 @@ function HomePage() {
 
       <Header />
 
-      <main className="flex flex-col items-center justify-center min-h-screen bg-gray-100 pt-8 px-4 sm:px-8 w-full">
+      <main className="flex flex-col items-center justify-center flex-grow bg-gray-100 pt-8 px-4 sm:px-8 w-full">
         <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 text-center transform hover:scale-105 transition-transform duration-300 animate-slideDown">
           Welcome to Resume Builder
         </h1>
