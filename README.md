@@ -38,10 +38,6 @@ An open-source resume builder with real-time preview, ATS optimization, and sign
 
 We welcome contributions! Fork the repo, make changes, and submit a Pull Request.
 
-## 📄 License
-
-Licensed under MIT. See the [LICENSE](LICENSE) for details.
-
 ## 🔒 Privacy First
 
 All processing happens locally—no data is stored on our servers.
