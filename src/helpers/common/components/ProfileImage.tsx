@@ -8,7 +8,7 @@ const ImageWrapper = styled.div`
   overflow: hidden;
   border-radius: 50%;
   border: 5px solid white;
-  flex-shrink: 0; // Prevents shrinking
+  flex-shrink: 0;
 `;
 
 const RoundedImage = styled.img`
@@ -19,20 +19,27 @@ const RoundedImage = styled.img`
 
 export const ProfileImage = ({
   src,
-  size = '108px', // Single size prop instead of separate width/height
+  height,
+  width,
+  size = '108px',
   imageWrapperClassname = '',
 }: {
   src: string;
+  height?: string;
+  width?: string;
   size?: string;
   imageWrapperClassname?: string;
 }) => {
+  // Use height or width if provided, otherwise fall back to size
+  const finalSize = height || width || size;
+
   return (
     <div className={imageWrapperClassname}>
       <SectionValidator value={src}>
         <ImageWrapper
           style={{
-            width: size,
-            height: size,
+            width: finalSize,
+            height: finalSize,
           }}
         >
           <RoundedImage alt="Profile image" src={src} />
