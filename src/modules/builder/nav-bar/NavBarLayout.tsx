@@ -8,18 +8,22 @@ import { PrintResume } from './components/PrintResume';
 import { TemplateSelect } from './components/TemplateSelect';
 import { ThemeSelect } from './components/ThemeSelect';
 import { NavBarActions, NavBarMenu, StyledButton } from './atoms';
-import { useAuth } from '@clerk/nextjs'; // Import Clerk's useAuth hook
+import { useAuth } from '@clerk/nextjs';
 import { AVAILABLE_TEMPLATES } from '@/helpers/constants';
 
 const TOTAL_TEMPLATES_AVAILABLE = Object.keys(AVAILABLE_TEMPLATES).length;
 
 const NavBarLayout = () => {
   const [menuAnchor, setMenuAnchor] = useState<null | HTMLElement>(null);
+  const [showTemplates, setShowTemplates] = useState(false);
+  const [showColors, setShowColors] = useState(false);
   const router = useRouter();
-  const { signOut } = useAuth(); // Clerk's signOut function
+  const { signOut } = useAuth();
 
   const closeMenu = () => {
     setMenuAnchor(null);
+    setShowTemplates(false);
+    setShowColors(false);
   };
 
   return (
@@ -27,14 +31,14 @@ const NavBarLayout = () => {
       <div className="flex items-center gap-2 md:gap-4 rounded-full">
         <Link
           href="/"
-          className="flex-shrink-0 rounded-full transition-transform duration-300  hover:scale-110"
+          className="flex-shrink-0 rounded-full transition-transform duration-300 hover:scale-110"
         >
           <Image
             src="/icons/resume1-icon.png"
             alt="logo"
             height={36}
             width={36}
-            className="w-8 h-8 md:w-9  md:h-9 rounded-full animate-pulse"
+            className="w-8 h-8 md:w-9 md:h-9 rounded-full animate-pulse"
           />
         </Link>
 
@@ -75,16 +79,14 @@ const NavBarLayout = () => {
             Resume Tailor
           </StyledButton>
           <PrintResume
-            onClick={() => {
-              closeMenu();
-            }}
+            onClick={closeMenu}
             className="hover:scale-105 transition-transform duration-200"
           />
           <StyledButton
             variant="text"
             onClick={() => {
               closeMenu();
-              signOut(); // Logs out the user
+              signOut();
             }}
             className="text-red-600 hover:bg-red-600/90 hover:text-white bg-white rounded-lg transition-all duration-200 hover:scale-105"
           >
@@ -125,34 +127,75 @@ const NavBarLayout = () => {
           elevation: 0,
         }}
       >
-        <MenuItem
-          onClick={() => {
-            closeMenu();
-            router.push('/update');
-          }}
-          className="hover:bg-teal-50 transition-colors duration-200"
-        >
-          Update Details
-        </MenuItem>
-        <MenuItem
-          onClick={() => {
-            closeMenu();
-            router.push('/resumereview');
-          }}
-          className="hover:bg-teal-50 transition-colors duration-200"
-        >
-          Resume Tailor
-        </MenuItem>
-        <PrintResume isMenuButton onClick={closeMenu} />
-        <MenuItem
-          onClick={() => {
-            closeMenu();
-            signOut(); // Logs out the user
-          }}
-          className="bg-red-600 text-white transition-colors duration-200 rounded-lg mt-2 hover:bg-red-700"
-        >
-          Logout
-        </MenuItem>
+        {showTemplates ? (
+          <div className="p-4">
+            <button
+              onClick={() => setShowTemplates(false)}
+              className="mb-4 text-teal-600 hover:text-teal-700 flex items-center gap-2"
+            >
+              <span className="text-lg">←</span> Back to Menu
+            </button>
+            <div className="space-y-2">
+              <TemplateSelect />
+            </div>
+          </div>
+        ) : showColors ? (
+          <div className="p-4">
+            <button
+              onClick={() => setShowColors(false)}
+              className="mb-4 text-teal-600 hover:text-teal-700 flex items-center gap-2"
+            >
+              <span className="text-lg">←</span> Back to Menu
+            </button>
+            <div className="space-y-2">
+              <ThemeSelect />
+            </div>
+          </div>
+        ) : (
+          <div className="py-2">
+            <MenuItem
+              onClick={() => setShowTemplates(true)}
+              className="hover:bg-teal-50 transition-colors duration-200 mb-2"
+            >
+              Templates ({TOTAL_TEMPLATES_AVAILABLE})
+            </MenuItem>
+            <MenuItem
+              onClick={() => setShowColors(true)}
+              className="hover:bg-teal-50 transition-colors duration-200 mb-2"
+            >
+              Colours
+            </MenuItem>
+            <div className="h-px bg-gray-200 my-2" />
+            <MenuItem
+              onClick={() => {
+                closeMenu();
+                router.push('/update');
+              }}
+              className="hover:bg-teal-50 transition-colors duration-200 mb-2"
+            >
+              Update Details
+            </MenuItem>
+            <MenuItem
+              onClick={() => {
+                closeMenu();
+                router.push('/resumereview');
+              }}
+              className="hover:bg-teal-50 transition-colors duration-200 mb-2"
+            >
+              Resume Tailor
+            </MenuItem>
+            <PrintResume isMenuButton onClick={closeMenu} />
+            <MenuItem
+              onClick={() => {
+                closeMenu();
+                signOut();
+              }}
+              className="bg-red-600 text-white transition-colors duration-200 rounded-lg mt-2 hover:bg-red-700"
+            >
+              Logout
+            </MenuItem>
+          </div>
+        )}
       </Menu>
     </nav>
   );

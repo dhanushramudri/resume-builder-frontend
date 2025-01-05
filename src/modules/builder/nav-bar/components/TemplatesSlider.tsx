@@ -19,12 +19,18 @@ export const TemplateSlider = () => {
     const targetElement = targetElementRef.current;
     if (targetElement) {
       splideInstanceRef.current = new SplideCore(targetElement, {
-        perPage: 2,
+        perPage: 2, // Default for larger screens
         pagination: false,
         gap: '0px',
         width: '100%',
         autoHeight: true,
         perMove: 1,
+        breakpoints: {
+          768: {
+            perPage: 1, // One template per page on small screens
+            gap: '16px', // Add a gap between templates
+          },
+        },
       });
 
       splideInstanceRef.current.mount();
