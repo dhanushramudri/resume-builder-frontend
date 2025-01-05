@@ -1,10 +1,23 @@
 import styled from '@emotion/styled';
 import { SectionValidator } from './ValidSectionRenderer';
 
-const RoundedImage = styled.img`
+const ImageWrapper = styled.div`
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
   border-radius: 50%;
   border: 5px solid white;
-  items-center;
+`;
+
+const RoundedImage = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
 `;
 
 export const ProfileImage = ({
@@ -21,7 +34,18 @@ export const ProfileImage = ({
   return (
     <div className={imageWrapperClassname}>
       <SectionValidator value={src}>
-        <RoundedImage alt="Profile image" src={src} height={height} width={width} />
+        <ImageWrapper
+          style={{
+            width,
+            height,
+            minWidth: width,
+            minHeight: height,
+            maxWidth: width,
+            maxHeight: height,
+          }}
+        >
+          <RoundedImage alt="Profile image" src={src} />
+        </ImageWrapper>
       </SectionValidator>
     </div>
   );
